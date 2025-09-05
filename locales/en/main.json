@@ -1,0 +1,9 @@
+{
+  "vue-basic": {
+    "title": "Vue Basic Example",
+    "pen": "Pen",
+    "clear-canvas": "Clear Canvas",
+    "brush-size": "Brush Size",
+    "pen-tooltip": "this is a pen"
+  }
+}
