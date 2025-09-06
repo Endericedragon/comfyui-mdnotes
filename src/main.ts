@@ -37,7 +37,7 @@ comfyApp.registerExtension({
                         const modelName = this.widgets.find(w => w.name === "ckpt_name")?.value;
                         if (modelName) {
                             // 发送当前选中的模型
-                            app.api.fetchApi(Routes.sendCurrentCheckpoint, {
+                            comfyApp.api.fetchApi(Routes.sendCurrentCheckpoint, {
                                 method: "POST",
                                 headers: { "Content-Type": "application/json" },
                                 body: JSON.stringify({ ckpt_name: modelName })

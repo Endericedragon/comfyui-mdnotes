@@ -49,7 +49,7 @@ async def get_current_ckpt(request: web.Request):
             resp_json["filename"] = str(ckpt.parent / most_likely[1])
     else:
         resp_json["filename"] = str(ckpt.parent / (ckpt_name + ".md"))
-    print(resp_json)
+    # print(resp_json)
     return web.json_response(resp_json, status=200)
 
 

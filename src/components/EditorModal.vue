@@ -71,7 +71,8 @@ function handleVisibilityChange(isVisible: boolean) {
 </script>
 
 <template>
-  <BModal :title="modalTitle" @ok="handleOk" @cancel="handleCancel" @update:model-value="handleVisibilityChange">
+  <BModal size="xl" :title="modalTitle" @ok="handleOk" @cancel="handleCancel"
+    @update:model-value="handleVisibilityChange">
     <div id="mde-point"></div>
   </BModal>
 </template>
