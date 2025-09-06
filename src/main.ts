@@ -30,7 +30,7 @@ comfyApp.registerExtension({
 
                 // 添加自定义菜单项
                 options.unshift({
-                    content: "Print model filename",
+                    content: "Show model note",
                     callback: () => {
                         // 获取当前选中的模型名称
                         const modelName = this.widgets.find(w => w.name === "ckpt_name")?.value;

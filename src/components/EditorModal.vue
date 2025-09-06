@@ -1,14 +1,27 @@
 <script setup lang="ts">
+// Vue utils
 import { ref, onMounted, defineEmits } from 'vue'
 import type { Ref } from 'vue';
+// Bootstrap Vue Next utils
 import { BModal } from "bootstrap-vue-next";
+// Vditor utils
 import Vditor from "vditor";
 
+// create vditor instance to show/edit markdown notes
 let vditorInstance: Ref<Vditor | undefined> = ref();
+// mount vditor instance
 onMounted(() => {
-  vditorInstance.value = new Vditor("mde-point", {
-    minHeight: 320
+  let editor = new Vditor("mde-point", {
+    minHeight: 320,
+    cache: { enable: false },
+    theme: "dark",
+    preview: {
+      theme: {
+        current: "dark"
+      }
+    }
   });
+  vditorInstance.value = editor;
 });
 
 const emit = defineEmits(["editor-opened", "editor-closed"]);
@@ -32,8 +45,7 @@ function handleVisibilityChange(isVisible: boolean) {
 </script>
 
 <template>
-  <BModal visible teleport-disabled title="Note Editor" @ok="handleOk" @cancel="handleCancel"
-    @update:model-value="handleVisibilityChange">
+  <BModal title="Note Editor" @ok="handleOk" @cancel="handleCancel" @update:model-value="handleVisibilityChange">
     <div id="mde-point"></div>
   </BModal>
 </template>

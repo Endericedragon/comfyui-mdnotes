@@ -10606,9 +10606,17 @@ const _l = /* @__PURE__ */ Tl(Ml), xl = /* @__PURE__ */ ft({
   setup(g, { emit: u }) {
     let E = Te();
     Tt(() => {
-      E.value = new _l("mde-point", {
-        minHeight: 320
+      let p = new _l("mde-point", {
+        minHeight: 320,
+        cache: { enable: !1 },
+        theme: "dark",
+        preview: {
+          theme: {
+            current: "dark"
+          }
+        }
       });
+      E.value = p;
     });
     const k = u;
     function A() {
@@ -10621,8 +10629,6 @@ const _l = /* @__PURE__ */ Tl(Ml), xl = /* @__PURE__ */ ft({
       k(p ? "editor-opened" : "editor-closed");
     }
     return (p, w) => (Re(), Ye(Y(kl), {
-      visible: "",
-      "teleport-disabled": "",
       title: "Note Editor",
       onOk: A,
       onCancel: N,
@@ -10638,19 +10644,23 @@ const _l = /* @__PURE__ */ Tl(Ml), xl = /* @__PURE__ */ ft({
   __name: "App",
   setup(g) {
     const u = Te(!1);
-    function E() {
-      u.value = !0;
-    }
-    return Tt(() => {
+    Tt(() => {
       window.addEventListener("endericedragon-show-mdnotes", E);
     }), ar(() => {
       window.removeEventListener("endericedragon-show-mdnotes", E);
-    }), (k, A) => (Re(), Ye(xl, {
+    });
+    function E() {
+      u.value = !0;
+    }
+    function k() {
+      u.value = !1;
+    }
+    return (A, N) => (Re(), Ye(xl, {
       visible: u.value,
-      "onUpdate:visible": A[0] || (A[0] = (N) => u.value = N),
-      onKeydown: A[1] || (A[1] = Sa(() => {
+      "onUpdate:visible": N[0] || (N[0] = (D) => u.value = D),
+      onKeydown: N[1] || (N[1] = Sa(() => {
       }, ["stop"])),
-      onEditorClosed: A[2] || (A[2] = (N) => u.value = !1)
+      onEditorClosed: k
     }, null, 8, ["visible"]));
   }
 });
@@ -10669,7 +10679,7 @@ Ol.registerExtension({
       const A = g.prototype.getExtraMenuOptions;
       g.prototype.getExtraMenuOptions = function(N, D) {
         A == null || A.apply(this, arguments), D.unshift({
-          content: "Print model filename",
+          content: "Show model note",
           callback: () => {
             var w;
             const p = (w = this.widgets.find((_) => _.name === "ckpt_name")) == null ? void 0 : w.value;
