@@ -10683,7 +10683,7 @@ const Dl = /* @__PURE__ */ Al(xl), Ol = /* @__PURE__ */ ft({
     }, null, 8, ["visible"]));
   }
 });
-Wo.addStylesheet("extensions/mdnotes/assets/main.css");
+Wo.addStylesheet("extensions/comfyui-mdnotes/assets/main.css");
 const Hl = Uo;
 Hl.registerExtension({
   name: "endericedragon.mdnotes",

@@ -12,7 +12,7 @@ import "vditor/dist/index.css";
 import App from './App.vue'
 import { Routes } from './routes.js';
 // extensions/mdnotes是固定的，后续内容和/web目录有关
-utils.addStylesheet("extensions/mdnotes/assets/main.css");
+utils.addStylesheet("extensions/comfyui-mdnotes/assets/main.css");
 
 const comfyApp: ComfyApp = app;
 
