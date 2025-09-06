@@ -1,43 +1,60 @@
+import { createApp } from 'vue'
+import { createBootstrap } from 'bootstrap-vue-next/plugins/createBootstrap'
 import { app } from "../../../scripts/app.js";
-import { ComfyApp } from '@comfyorg/comfyui-frontend-types'
+import * as utils from '../../../scripts/utils.js';
+import type { ComfyApp } from '@comfyorg/comfyui-frontend-types'
 
-import { addWidget, ComponentWidgetImpl } from "../../../scripts/domWidget.js";
+// Add the necessary CSS
+import 'bootstrap/dist/css/bootstrap.css'
+import 'bootstrap-vue-next/dist/bootstrap-vue-next.css'
+import "vditor/dist/index.css";
 
-import VueExampleComponent from "@/components/VueExampleComponent.vue";
+import App from './App.vue'
+
+utils.addStylesheet("extensions/mdnotes/assets/main.css");
 
 const comfyApp: ComfyApp = app;
 
 comfyApp.registerExtension({
-    name: 'vue-basic',
-    getCustomWidgets(app) {
-        return {
-            CUSTOM_VUE_COMPONENT_BASIC(node) {
-                // Add custom vue component here
+    name: "endericedragon.mdnotes",
+    async beforeRegisterNodeDef(nodeType, nodeData, app) {
+        let targetNodeNames = new Set([
+            "CheckpointLoaderSimple", "CheckpointLoader",
+            "easy fullLoader", "easy a1111Loader", "easy comfyLoader"
+        ]);
+        if (targetNodeNames.has(nodeType.comfyClass)) {
+            const original_getExtraMenuOptions = nodeType.prototype.getExtraMenuOptions;
+            nodeType.prototype.getExtraMenuOptions = function (_, options) {
+                // 调用原始方法
+                original_getExtraMenuOptions?.apply(this, arguments);
 
-                const inputSpec = {
-                    name: 'custom_vue_component_basic',
-                    type: 'vue-basic',
-                }
-
-                const widget = new ComponentWidgetImpl({
-                    node,
-                    name: inputSpec.name,
-                    component: VueExampleComponent,
-                    inputSpec,
-                    options: {}
-                })
-
-                addWidget(node, widget)
-
-                return {widget}
+                // 添加自定义菜单项
+                options.unshift({
+                    content: "Print model filename",
+                    callback: () => {
+                        // 获取当前选中的模型名称
+                        const modelName = this.widgets.find(w => w.name === "ckpt_name")?.value;
+                        if (modelName) {
+                            console.log("Model currently selected:", modelName);
+                            // 触发自定义事件，展示编辑器
+                            window.dispatchEvent(new CustomEvent("endericedragon-show-mdnotes"));
+                        } else {
+                            console.log("No model name found");
+                        }
+                    }
+                });
             }
+            console.log(`Node ${nodeType.comfyClass} registered`);
         }
     },
-    nodeCreated(node) {
-        if (node.constructor.comfyClass !== 'vue-basic') return
+    async nodeCreated(node) {
+        console.log(node.comfyClass);
+    },
+    async setup() {
+        let mountPoint = document.createElement("div");
+        mountPoint.id = "mdnotes-ui";
+        document.body.appendChild(mountPoint);
 
-        const [oldWidth, oldHeight] = node.size
-
-        node.setSize([Math.max(oldWidth, 300), Math.max(oldHeight, 520)])
+        createApp(App).use(createBootstrap()).mount(mountPoint);
     }
 });

@@ -7,7 +7,7 @@ name = "mdnotes"
 version = "0.0.1"
 description = "Show markdown notes of checkpoints and more."
 authors = [
-  {name = "ComfyUI-MDNotes", email = "fuze1007@163.com"}
+  {name = "Endericedragon", email = "fuze1007@163.com"}
 ]
 readme = "README.md"
 license = {text = "GNU General Public License v3"}
