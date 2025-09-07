@@ -31,8 +31,8 @@ function setEditorContent(e: Event) {
   vditorInstance.value.setTheme("dark", "dark", "tokyo-night-dark")
   let detail = (e as CustomEvent<DetailMessage>).detail;
   let content = detail.content;
-  let filename = detail.filename;
-  modalTitle.value = filename;
+  let absFilePath = detail.abs_file_path;
+  modalTitle.value = absFilePath;
   if (vditorInstance.value !== undefined) {
     vditorInstance.value.setValue(content);
   }

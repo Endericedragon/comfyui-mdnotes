@@ -1,7 +1,7 @@
 import type { ComfyApp } from '@comfyorg/comfyui-frontend-types'
 
 const ROUTES = {
-    sendCurrentCheckpoint: "/mdnotes/current_ckpt",
+    sendCurrentModel: "/mdnotes/current_model",
     saveContent: "/mdnotes/save"
 };
 
@@ -10,13 +10,19 @@ const EVENTS = {
     setContent: "endericedragon-set-content"
 }
 
+enum MODEL_TYPES {
+    CKPT = "ckpt",
+    LORA = "lora",
+    UNKNOWN = "unknown"
+}
+
 class DetailMessage {
     content: string;
-    filename: string;
+    abs_file_path: string;
 
-    constructor(content: string, filename: string) {
+    constructor(content: string, abs_file_path: string) {
         this.content = content;
-        this.filename = filename;
+        this.abs_file_path = abs_file_path;
     }
 }
 
@@ -28,4 +34,4 @@ async function postJsonData(app: ComfyApp, route: string, data: any) {
     }).then(res => res.json());
 }
 
-export { ROUTES, EVENTS, DetailMessage, postJsonData };
+export { ROUTES, EVENTS, MODEL_TYPES, DetailMessage, postJsonData };

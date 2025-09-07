@@ -12,7 +12,7 @@ import 'bootstrap-vue-next/dist/bootstrap-vue-next.css'
 import "vditor/dist/index.css";
 
 // shared data types
-import { ROUTES, EVENTS, DetailMessage, postJsonData } from './constants.js';
+import { ROUTES, EVENTS, MODEL_TYPES, DetailMessage, postJsonData } from './constants.js';
 import App from './App.vue'
 
 // extensions/mdnotes是固定的，后续内容和/web目录有关
@@ -23,33 +23,51 @@ const comfyApp: ComfyApp = app;
 comfyApp.registerExtension({
     name: "endericedragon.mdnotes",
     async beforeRegisterNodeDef(nodeType, nodeData, app) {
-        let targetNodeNames = new Set([
+        let ckptNodeNames = new Set([
             "CheckpointLoaderSimple", "CheckpointLoader",
             "easy fullLoader", "easy a1111Loader", "easy comfyLoader",
             "Efficient Loader"
         ]);
-        if (targetNodeNames.has(nodeType.comfyClass)) {
-            const original_getExtraMenuOptions = nodeType.prototype.getExtraMenuOptions;
+        let loraNodeNames = new Set([
+            "LoraLoader", "Load Lora"
+        ]);
+        let isCkpt = ckptNodeNames.has(nodeType.comfyClass);
+        let isLora = loraNodeNames.has(nodeType.comfyClass);
+        let modelType = isCkpt ? MODEL_TYPES.CKPT : isLora ? MODEL_TYPES.LORA : MODEL_TYPES.UNKNOWN;
+        if (isCkpt || isLora) {
+            const originalMenuOptions = nodeType.prototype.getExtraMenuOptions;
             nodeType.prototype.getExtraMenuOptions = function (_, options) {
                 // 调用原始方法
-                original_getExtraMenuOptions?.apply(this, arguments);
+                originalMenuOptions?.apply(this, arguments);
 
                 // 添加自定义菜单项
                 options.unshift({
                     content: "Show model note",
                     callback: () => {
                         // 获取当前选中的模型名称
-                        const modelName = this.widgets.find(w => w.name === "ckpt_name")?.value;
+                        let modelNameWidget;
+                        switch (modelType) {
+                            case MODEL_TYPES.CKPT:
+                                modelNameWidget = this.widgets.find(w => w.name === "ckpt_name");
+                                break;
+                            case MODEL_TYPES.LORA:
+                                modelNameWidget = this.widgets.find(w => w.name === "lora_name");
+                                break;
+                            default:
+                                modelNameWidget = null;
+                                break;
+                        }
+                        const modelName = modelNameWidget?.value;
                         if (modelName) {
                             // 发送当前选中的模型
-                            postJsonData(comfyApp, ROUTES.sendCurrentCheckpoint, { ckpt_name: modelName })
-                                .then((data) => {
-                                    let content = data["content"];
-                                    let filename = data["filename"];
+                            postJsonData(comfyApp, ROUTES.sendCurrentModel, { model_type: modelType, model_name: modelName })
+                                .then((data: DetailMessage) => {
+                                    let content = data.content;
+                                    let absFilePath = data.abs_file_path;
                                     // 触发自定义事件，展示编辑器并设置内容
                                     window.dispatchEvent(new CustomEvent(EVENTS.showEditor));
                                     window.dispatchEvent(new CustomEvent(EVENTS.setContent, {
-                                        detail: new DetailMessage(content, filename)
+                                        detail: new DetailMessage(content, absFilePath)
                                     }))
                                 });
                         } else {

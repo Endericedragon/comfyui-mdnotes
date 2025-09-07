@@ -1,11 +1,18 @@
 import os
 import pathlib
+from typing import TypedDict
 
 # import nodes
 # from comfy_config import config_parser
 from server import PromptServer
 from aiohttp import web
 import folder_paths
+
+
+class ModelInfo(TypedDict):
+    model_type: str
+    model_name: str
+
 
 __all__ = ["NODE_CLASS_MAPPINGS", "NODE_DISPLAY_NAME_MAPPINGS", "WEB_DIRECTORY"]
 
@@ -14,7 +21,9 @@ NODE_DISPLAY_NAME_MAPPINGS = dict()
 WEB_DIRECTORY = "web"
 
 custom_node_dir = os.path.dirname(os.path.realpath(__file__))
-ckpt_base_dir = pathlib.Path(folder_paths.models_dir) / "checkpoints"
+model_base_dir = pathlib.Path(folder_paths.models_dir)
+ckpt_base_dir = model_base_dir / "checkpoints"
+lora_base_dir = model_base_dir / "loras"
 
 
 def get_bigram(txt: str) -> set[str]:
@@ -30,37 +39,42 @@ def get_dice_similiarity(t1: str, t2: str) -> float:
     return 2 * len(b1 & b2) / (len(b1) + len(b2))
 
 
-@PromptServer.instance.routes.post("/mdnotes/current_ckpt")
-async def get_current_ckpt(request: web.Request):
-    data: dict[str, str] = await request.json()
-    ckpt = pathlib.Path(data["ckpt_name"])
-    ckpt_name = ckpt.stem
-    ckpt_dir = ckpt_base_dir / ckpt.parent
+@PromptServer.instance.routes.post("/mdnotes/current_model")
+async def get_current_model(request: web.Request):
+    data: ModelInfo = await request.json()
+    match data["model_type"]:
+        case "ckpt":
+            model_path = ckpt_base_dir / pathlib.Path(data["model_name"])
+        case "lora":
+            model_path = lora_base_dir / pathlib.Path(data["model_name"])
+    model_dir = model_path.parent
+    model_name = model_path.stem
+    model_type: str = data["model_type"]
     similarities = [
-        (get_dice_similiarity(ckpt_name, each.stem), each.name)
-        for each in filter(lambda x: x.suffix == ".md", ckpt_dir.iterdir())
+        (get_dice_similiarity(model_name, each.stem), each)
+        for each in filter(lambda x: x.suffix == ".md", model_dir.iterdir())
     ]
-    most_likely = max(similarities, key=lambda x: x[0])
-    resp_json = {"content": "", "filename": ""}
-    if most_likely[0] >= 0.5:
-        with open(ckpt_dir / most_likely[1], "r", encoding="utf-8") as f:
+    likelihood, most_likely_md_path = max(similarities, key=lambda x: x[0])
+    resp_json = {"content": "", "abs_file_path": ""}
+    if likelihood >= 0.5:
+        with open(most_likely_md_path, "r", encoding="utf-8") as f:
             content = f.read()
             resp_json["content"] = content
-            resp_json["filename"] = str(ckpt.parent / most_likely[1])
+            resp_json["abs_file_path"] = str(most_likely_md_path)
     else:
-        resp_json["filename"] = str(ckpt.parent / (ckpt_name + ".md"))
+        resp_json["abs_file_path"] = str(model_dir / (model_name + ".md"))
     # print(resp_json)
     return web.json_response(resp_json, status=200)
 
 
-@PromptServer.instance.routes.post("/mdnotes/save")
-async def save_note(request: web.Request):
-    data: dict[str, str] = await request.json()
-    content = data["content"]
-    filename = data["filename"]
-    note_path = ckpt_base_dir / filename
-    if not note_path.parent.exists():
-        note_path.parent.mkdir(parents=True)
-    with open(note_path, "w", encoding="utf-8") as f:
-        f.write(content)
-    return web.json_response({"status": "ok"}, status=200)
+# @PromptServer.instance.routes.post("/mdnotes/save")
+# async def save_note(request: web.Request):
+#     data: dict[str, str] = await request.json()
+#     content = data["content"]
+#     filename = data["filename"]
+#     note_path = ckpt_base_dir / filename
+#     if not note_path.parent.exists():
+#         note_path.parent.mkdir(parents=True)
+#     with open(note_path, "w", encoding="utf-8") as f:
+#         f.write(content)
+#     return web.json_response({"status": "ok"}, status=200)
