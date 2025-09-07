@@ -1,10 +1,10 @@
 # ComfyUI-MDNotes
 
-该自定义节点可根据checkpoints名称自动寻找对应的markdown笔记文件并呈现给用户；用户在编辑器中完成修改后，可回存至硬盘中。
+该自定义节点可根据checkpoints / lora名称自动寻找对应的markdown笔记文件并呈现给用户；用户在编辑器中完成修改后，可回存至硬盘中。
 
 ## 概述
 
-ComfyUI-MDNotes在Comfy Core、Easy Use的CheckpointLoader等节点上注册了Show model note右键菜单。点击该菜单即会弹出如下对话框，用户可随意读取/修改笔记文件。滚动至页面底端后，点击Ok保存修改；点击Cancel、点击对话框周围区域或按Esc键取消修改。
+ComfyUI-MDNotes在Comfy Core、Easy Use的CheckpointLoader等节点上注册了Show checkpoint note与/或Show lora note右键菜单。点击该菜单即会弹出如下对话框，用户可随意读取/修改笔记文件。滚动至页面底端后，点击Ok保存修改；点击Cancel、点击对话框周围区域或按Esc键取消修改。
 ![image1](doc/image.png)
 
 ## 技术栈
@@ -112,6 +112,26 @@ comfyApp.registerExtension({
 >
 > 1. 添加CSS的方法，就是 `utils.addStylesheet` 函数；其用法和参数在注释里写得很清楚了。
 > 2. 添加其他自定义文件的办法，例如 `.json` 文件，放在项目根目录的 `public` 目录中，这样Vite在编译时就会把他们原封不动地复制到 `web` 目录下。再用 `utils.uploadFile` 即可上传该文件供其他代码使用。
+
+注册右键菜单的方法如下：
+
+```typescript
+comfyApp.registerExtension({
+    name: "endericedragon.mdnotes",
+    async beforeRegisterNodeDef(nodeType, nodeData, app) {
+        let originalMenuOptions = nodeType.prototype.getExtraMenuOptions;
+        nodeType.prototype.getExtraMenuOptions = function (_, options) {
+            // 调用原始方法
+            originalMenuOptions?.apply(this, arguments);
+            // 新增菜单项
+            options.unshift({
+                    content: "Show lora note",
+                    callback: () => { ... }
+            });
+        }
+    }
+});
+```
 
 此外，为了实现灵活的信息传递，本项目大量使用事件监听器实现跨组件通信，如下：
 
