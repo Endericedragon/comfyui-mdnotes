@@ -129,4 +129,29 @@ window.dispatchEvent(
 
 ### 编写后端
 
-本仓库的后端全部写在 `__init__.py` 中，具体编写方法较为简单，自行查阅即可。此处仅介绍一下前后端通信的写法。
+本仓库的后端全部写在 `__init__.py` 中，具体编写方法较为简单，自行查阅即可。此处仅介绍一下前后端通信（确切地说是前发后收）的写法。
+
+从前端发送消息到后端比较简单。本仓库已经将这个过程封装到 `constants.ts` 的 `postJsonData` 函数中，观察其实现不难发现，就是对ComfyUI的 `app.api.fetchApi` 函数的封装：
+
+```ts
+import type { ComfyApp } from '@comfyorg/comfyui-frontend-types'
+
+async function postJsonData(app: ComfyApp, route: string, data: any) {
+    return app.api.fetchApi(route, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(data)
+    }).then(res => res.json());
+}
+```
+
+后端通过给 `server.PromptServer` 配置路由来接收前端的消息：
+
+```py
+# 此处的路径 /path/to/sth 需要和调用 postJsonData 时的 route 匹配
+@PromptServer.instance.routes.post("/path/to/sth")
+async def do_sth(request: web.Request):
+    data: dict[str, str] = await request.json()
+    # -- snip --
+    return web.json_response({"status": "ok"}, status=200)
+```
