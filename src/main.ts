@@ -1,6 +1,7 @@
-// vue & bootstrap utils
+// vue & primevue & bootstrap utils
 import { createApp } from 'vue'
-import { createBootstrap } from 'bootstrap-vue-next/plugins/createBootstrap'
+import { createBootstrap } from 'bootstrap-vue-next/plugins/createBootstrap';
+import PrimeVue from "primevue/config";
 // COmfyUI utils
 import { app } from "../../../scripts/app.js";
 import * as utils from '../../../scripts/utils.js';
@@ -23,44 +24,26 @@ const comfyApp: ComfyApp = app;
 comfyApp.registerExtension({
     name: "endericedragon.mdnotes",
     async beforeRegisterNodeDef(nodeType, nodeData, app) {
-        let ckptNodeNames = new Set([
-            "CheckpointLoaderSimple", "CheckpointLoader",
-            "easy fullLoader", "easy a1111Loader", "easy comfyLoader",
-            "Efficient Loader"
-        ]);
-        let loraNodeNames = new Set([
-            "LoraLoader", "Load Lora"
-        ]);
-        let isCkpt = ckptNodeNames.has(nodeType.comfyClass);
-        let isLora = loraNodeNames.has(nodeType.comfyClass);
-        let modelType = isCkpt ? MODEL_TYPES.CKPT : isLora ? MODEL_TYPES.LORA : MODEL_TYPES.UNKNOWN;
-        if (isCkpt || isLora) {
-            const originalMenuOptions = nodeType.prototype.getExtraMenuOptions;
-            nodeType.prototype.getExtraMenuOptions = function (_, options) {
-                // 调用原始方法
-                originalMenuOptions?.apply(this, arguments);
+        let originalMenuOptions = nodeType.prototype.getExtraMenuOptions;
+        nodeType.prototype.getExtraMenuOptions = function (_, options) {
+            // 调用原始方法
+            originalMenuOptions?.apply(this, arguments);
+
+            let nodeWithCkpt = this.widgets.find(w => w.name === "ckpt_name");
+            let nodeWithLora = this.widgets.find(w => w.name === "lora_name");
+
+            if (nodeWithLora) {
+                let modelType = MODEL_TYPES.LORA;
 
                 // 添加自定义菜单项
                 options.unshift({
-                    content: "Show model note",
+                    content: "Show lora note",
                     callback: () => {
                         // 获取当前选中的模型名称
-                        let modelNameWidget;
-                        switch (modelType) {
-                            case MODEL_TYPES.CKPT:
-                                modelNameWidget = this.widgets.find(w => w.name === "ckpt_name");
-                                break;
-                            case MODEL_TYPES.LORA:
-                                modelNameWidget = this.widgets.find(w => w.name === "lora_name");
-                                break;
-                            default:
-                                modelNameWidget = null;
-                                break;
-                        }
-                        const modelName = modelNameWidget?.value;
-                        if (modelName) {
+                        const loraName = nodeWithLora.value;
+                        if (loraName !== "None") {
                             // 发送当前选中的模型
-                            postJsonData(comfyApp, ROUTES.sendCurrentModel, { model_type: modelType, model_name: modelName })
+                            postJsonData(comfyApp, ROUTES.sendCurrentModel, { model_type: modelType, model_name: loraName })
                                 .then((data: DetailMessage) => {
                                     let content = data.content;
                                     let relFilePath = data.rel_file_path;
@@ -71,12 +54,39 @@ comfyApp.registerExtension({
                                     }))
                                 });
                         } else {
-                            console.error("No model name found");
+                            comfyApp.extensionManager.toast.add({
+                                severity: "warn",
+                                life: 3000,
+                                summary: "MDNotes提示",
+                                detail: "您似乎未选择有效的Lora模型..."
+                            });
                         }
                     }
                 });
             }
-            console.log(`[mdnotes] ${nodeType.comfyClass} registered`);
+
+            if (nodeWithCkpt) {
+                let modelType = MODEL_TYPES.CKPT;
+                // 添加自定义菜单项
+                options.unshift({
+                    content: "Show checkpoint note",
+                    callback: () => {
+                        // 获取当前选中的模型名称
+                        const ckptName = nodeWithCkpt.value;
+                        // 发送当前选中的模型
+                        postJsonData(comfyApp, ROUTES.sendCurrentModel, { model_type: modelType, model_name: ckptName })
+                            .then((data: DetailMessage) => {
+                                let content = data.content;
+                                let relFilePath = data.rel_file_path;
+                                // 触发自定义事件，展示编辑器并设置内容
+                                window.dispatchEvent(new CustomEvent(EVENTS.showEditor));
+                                window.dispatchEvent(new CustomEvent(EVENTS.setContent, {
+                                    detail: new DetailMessage(content, relFilePath)
+                                }))
+                            });
+                    }
+                });
+            }
         }
     },
     async nodeCreated(node: any) {
@@ -87,6 +97,6 @@ comfyApp.registerExtension({
         mountPoint.id = "mdnotes-ui";
         document.body.appendChild(mountPoint);
 
-        createApp(App).use(createBootstrap()).mount(mountPoint);
+        createApp(App).use(PrimeVue).use(createBootstrap()).mount(mountPoint);
     }
 });
