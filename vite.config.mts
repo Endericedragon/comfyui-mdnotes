@@ -3,6 +3,8 @@ import { defineConfig } from 'vite'
 import vue from '@vitejs/plugin-vue'
 import vueDevTools from 'vite-plugin-vue-devtools'
 
+const outputDirectory = "web";
+
 export default defineConfig({
     plugins: [
         vue(),
@@ -31,12 +33,12 @@ export default defineConfig({
                 /^@primevue\/themes\/?.*/,
             ],
             output: {
-                dir: 'js',
+                dir: outputDirectory,
                 assetFileNames: 'assets/[name].[ext]',
                 entryFileNames: 'main.js'
             }
         },
-        outDir: 'js',
+        outDir: outputDirectory,
         sourcemap: false,
         assetsInlineLimit: 0,
         cssCodeSplit: false

@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { Routes } from '../routes.js';
+import { ROUTES, EVENTS, DetailMessage, postJsonData } from '../constants.js';
 // Vue utils
 import { ref, onMounted, defineEmits } from 'vue'
 import type { Ref } from 'vue';
@@ -18,24 +18,20 @@ onMounted(() => {
   let editor = new Vditor("mde-point", {
     minHeight: 320,
     cache: { enable: false },
-    theme: "dark",
-    preview: {
-      theme: {
-        current: "dark"
-      }
-    }
   });
   vditorInstance.value = editor;
 
-  window.addEventListener("endericedragon-set-content", setEditorContent);
+  window.addEventListener(EVENTS.setContent, setEditorContent);
 });
 
 const emit = defineEmits(["editor-opened", "editor-closed"]);
 
 function setEditorContent(e: Event) {
-  let detail = (e as CustomEvent).detail;
-  let content = detail["content"];
-  let filename = detail["filename"];
+  // 每次打开编辑器时都设置一次颜色主题
+  vditorInstance.value.setTheme("dark", "dark", "tokyo-night-dark")
+  let detail = (e as CustomEvent<DetailMessage>).detail;
+  let content = detail.content;
+  let filename = detail.filename;
   modalTitle.value = filename;
   if (vditorInstance.value !== undefined) {
     vditorInstance.value.setValue(content);
@@ -48,13 +44,9 @@ function handleOk() {
     let filename = modalTitle.value;
 
     let comfyApp: ComfyApp = app;
-    comfyApp.api.fetchApi(Routes.saveContent, {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({
-        filename: filename,
-        content: content
-      })
+    postJsonData(comfyApp, ROUTES.saveContent, {
+      filename: filename,
+      content: content
     });
   }
 }
@@ -71,7 +63,8 @@ function handleVisibilityChange(isVisible: boolean) {
 </script>
 
 <template>
-  <BModal size="xl" :title="modalTitle" @ok="handleOk" @cancel="handleCancel"
+  <BModal header-variant="secondary" footer-variant="secondary" body-variant="secondary" cancel-variant="dark"
+    scrollable size="xl" :title="modalTitle" @ok="handleOk" @cancel="handleCancel"
     @update:model-value="handleVisibilityChange">
     <div id="mde-point"></div>
   </BModal>

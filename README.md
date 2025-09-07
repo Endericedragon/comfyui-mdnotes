@@ -11,7 +11,7 @@ ComfyUI-MDNotes在Comfy Core、Easy Use的CheckpointLoader等节点上注册了S
 
 - **[Vue.js](https://vuejs.org/)** - 超棒的前端框架
 - Vditor - 所见即所得的markdown编辑器
-- Bootstrap - 超棒的
+- Bootstrap - 超棒的前端库，虽然理论上可以用ComfyUI提供的primevue替代...
 
 ## 安装
 
@@ -61,11 +61,15 @@ comfy node scaffold
 接下来使用VS Code打开模板。此时Code会给.py文件里的大量内容标红线表示找不到，此时做两件事情：
 
 1. 将解释器设置成ComfyUI所使用的那个Python解释器。
-2. 在 `.vscode/settings.json` 中，设置 `"python.analysis.extraPaths"`和 `"python.autoComplete.extraPaths"`为ComfyUI的根目录，即`server.py`, `nodes.py`等文件所在的那个目录
+2. 在 `.vscode/settings.json` 中，设置 `"python.analysis.extraPaths"`和 `"python.autoComplete.extraPaths"`为ComfyUI的根目录，即 `server.py`, `nodes.py`等文件所在的那个目录
 
-此时.py文件中的红线会消失大半，.ts, .vue文件中的红线可能还有，这个就得碰运气了，有时候Code连`import {...} from 'vue'`也会标红线，此时建议重新运行`npm i`然后重启Code，有可能就好了。计算机，很神奇吧~
+此时.py文件中的红线会消失大半，.ts, .vue文件中的红线可能还有，这个就得碰运气了，有时候Code连 `import {...} from 'vue'`也会标红线，此时建议重新运行 `npm i`然后重启Code，有可能就好了。计算机，很神奇吧~
 
 至于前端文件中把 `../../../scripts/app.js` 等内容标红，目前尚无解决办法。
+
+> 观察 `package.json` 会发现，其中的依赖项有 `dependencies` 和 `peerDependendies` 两项。它们的区别在于：NPM假设宿主机已经安装了 `peerDependencies` ，故不会主动安装这些包。在ComfyUI自定义节点的开发环境中，诸如 `vue-i18n, vue, primevue` 等组件已经由ComfyUI提供，故无需额外安装，且在 `vite.config.mts` 中还需要将它们列为 `externel` 。
+>
+> 注：笔者直至撰写文档时才发现ComfyUI内置了PrimeVue，因此理论上引入BootstrapVueNext做前端设计完全是出于习惯，实际上根本没必要...
 
 ### 编写前端
 
@@ -85,6 +89,8 @@ import * as utils from '../../../scripts/utils.js';
 // extensions是固定的
 // comfyui-mdnotes是自定义节点的目录名字
 // 后续内容和/js目录有关，而js目录结构取决于vite.config.mts
+// 具体来说是取决于build.rollupOptions.output以及build.outDir
+// 建议把build.rollupOptions.output.dir和build.outDir设置成一样的
 utils.addStylesheet("extensions/comfyui-mdnotes/assets/main.css");
 
 // -- snip --
@@ -123,4 +129,4 @@ window.dispatchEvent(
 
 ### 编写后端
 
-本仓库的后端全部写在 `__init__.py` 中，具体编写方法较为简单，自行查阅即可~
+本仓库的后端全部写在 `__init__.py` 中，具体编写方法较为简单，自行查阅即可。此处仅介绍一下前后端通信的写法。

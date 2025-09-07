@@ -1,7 +1,8 @@
 import os
 import pathlib
-import nodes
-from comfy_config import config_parser
+
+# import nodes
+# from comfy_config import config_parser
 from server import PromptServer
 from aiohttp import web
 import folder_paths
@@ -10,10 +11,9 @@ __all__ = ["NODE_CLASS_MAPPINGS", "NODE_DISPLAY_NAME_MAPPINGS", "WEB_DIRECTORY"]
 
 NODE_CLASS_MAPPINGS = dict()
 NODE_DISPLAY_NAME_MAPPINGS = dict()
-WEB_DIRECTORY = "js"
+WEB_DIRECTORY = "web"
 
 custom_node_dir = os.path.dirname(os.path.realpath(__file__))
-
 ckpt_base_dir = pathlib.Path(folder_paths.models_dir) / "checkpoints"
 
 

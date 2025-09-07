@@ -1,14 +1,15 @@
 <script setup lang="ts">
 import { ref, onMounted, onUnmounted, Ref } from 'vue';
 import EditorModal from '@/components/EditorModal.vue';
+import { EVENTS } from './constants';
 
 const isModalShown = ref(false);
 
 onMounted(() => {
-  window.addEventListener("endericedragon-show-mdnotes", showModal);
+  window.addEventListener(EVENTS.showEditor, showModal);
 });
 onUnmounted(() => {
-  window.removeEventListener("endericedragon-show-mdnotes", showModal);
+  window.removeEventListener(EVENTS.showEditor, showModal);
 });
 
 function showModal() {
