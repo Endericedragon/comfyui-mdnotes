@@ -18,11 +18,18 @@ enum MODEL_TYPES {
 
 class DetailMessage {
     content: string;
-    abs_file_path: string;
+    rel_file_path: string;
 
-    constructor(content: string, abs_file_path: string) {
+    constructor(content: string, rel_file_path: string) {
         this.content = content;
-        this.abs_file_path = abs_file_path;
+        this.rel_file_path = rel_file_path;
+    }
+
+    toJSON() {
+        return {
+            content: this.content,
+            rel_file_path: this.rel_file_path
+        }
     }
 }
 

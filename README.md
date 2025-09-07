@@ -108,6 +108,11 @@ comfyApp.registerExtension({
 });
 ```
 
+> 这儿有两个点需要注意：
+>
+> 1. 添加CSS的方法，就是 `utils.addStylesheet` 函数；其用法和参数在注释里写得很清楚了。
+> 2. 添加其他自定义文件的办法，例如 `.json` 文件，放在项目根目录的 `public` 目录中，这样Vite在编译时就会把他们原封不动地复制到 `web` 目录下。再用 `utils.uploadFile` 即可上传该文件供其他代码使用。
+
 此外，为了实现灵活的信息传递，本项目大量使用事件监听器实现跨组件通信，如下：
 
 ```typescript

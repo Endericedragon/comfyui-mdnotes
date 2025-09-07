@@ -1,3 +1,5 @@
+from asyncio.base_subprocess import ReadSubprocessPipeProto
+import json
 import os
 import pathlib
 from typing import TypedDict
@@ -13,6 +15,18 @@ class ModelInfo(TypedDict):
     model_type: str
     model_name: str
 
+
+class RouteInfo(TypedDict):
+    sendCurrentModel: str
+    saveContent: str
+
+
+class ContentNPath(TypedDict):
+    content: str
+    rel_file_path: str
+
+
+BASE_DIR = pathlib.Path(__file__).parent
 
 __all__ = ["NODE_CLASS_MAPPINGS", "NODE_DISPLAY_NAME_MAPPINGS", "WEB_DIRECTORY"]
 
@@ -49,32 +63,34 @@ async def get_current_model(request: web.Request):
             model_path = lora_base_dir / pathlib.Path(data["model_name"])
     model_dir = model_path.parent
     model_name = model_path.stem
-    model_type: str = data["model_type"]
     similarities = [
         (get_dice_similiarity(model_name, each.stem), each)
         for each in filter(lambda x: x.suffix == ".md", model_dir.iterdir())
     ]
     likelihood, most_likely_md_path = max(similarities, key=lambda x: x[0])
-    resp_json = {"content": "", "abs_file_path": ""}
+    resp_json: ContentNPath = {"content": "", "rel_file_path": ""}
     if likelihood >= 0.5:
         with open(most_likely_md_path, "r", encoding="utf-8") as f:
             content = f.read()
             resp_json["content"] = content
-            resp_json["abs_file_path"] = str(most_likely_md_path)
+            resp_json["rel_file_path"] = str(
+                most_likely_md_path.relative_to(model_base_dir)
+            )
     else:
-        resp_json["abs_file_path"] = str(model_dir / (model_name + ".md"))
+        resp_json["rel_file_path"] = str(
+            model_dir.relative_to(model_base_dir) / (model_name + ".md")
+        )
     # print(resp_json)
     return web.json_response(resp_json, status=200)
 
 
-# @PromptServer.instance.routes.post("/mdnotes/save")
-# async def save_note(request: web.Request):
-#     data: dict[str, str] = await request.json()
-#     content = data["content"]
-#     filename = data["filename"]
-#     note_path = ckpt_base_dir / filename
-#     if not note_path.parent.exists():
-#         note_path.parent.mkdir(parents=True)
-#     with open(note_path, "w", encoding="utf-8") as f:
-#         f.write(content)
-#     return web.json_response({"status": "ok"}, status=200)
+@PromptServer.instance.routes.post("/mdnotes/save")
+async def save_note(request: web.Request):
+    data: ContentNPath = await request.json()
+    content = data["content"]
+    note_path = model_base_dir / data["rel_file_path"]
+    if not note_path.parent.exists():
+        note_path.parent.mkdir(parents=True)
+    with open(note_path, "w", encoding="utf-8") as f:
+        f.write(content)
+    return web.json_response({"status": "ok"}, status=200)

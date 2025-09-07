@@ -63,11 +63,11 @@ comfyApp.registerExtension({
                             postJsonData(comfyApp, ROUTES.sendCurrentModel, { model_type: modelType, model_name: modelName })
                                 .then((data: DetailMessage) => {
                                     let content = data.content;
-                                    let absFilePath = data.abs_file_path;
+                                    let relFilePath = data.rel_file_path;
                                     // 触发自定义事件，展示编辑器并设置内容
                                     window.dispatchEvent(new CustomEvent(EVENTS.showEditor));
                                     window.dispatchEvent(new CustomEvent(EVENTS.setContent, {
-                                        detail: new DetailMessage(content, absFilePath)
+                                        detail: new DetailMessage(content, relFilePath)
                                     }))
                                 });
                         } else {
