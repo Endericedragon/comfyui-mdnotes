@@ -30,7 +30,8 @@ comfyApp.registerExtension({
 
             let nodeWithCkpt = this.widgets.find(w => w.name === "ckpt_name");
             let nodesWithLora = this.widgets.filter(w => w.name === "lora_name");
-            let newMenuOptions = [];
+            type DeducedContextMenuValue = typeof options[0];
+            let newMenuOptions: DeducedContextMenuValue[] = [];
 
             if (nodeWithCkpt) {
                 let modelType = MODEL_TYPES.CKPT;
