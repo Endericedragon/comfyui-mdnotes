@@ -1,9 +1,6 @@
-// vue & primevue & bootstrap utils
+// vue & bootstrap utils
 import { createApp } from 'vue'
 import { createBootstrap } from 'bootstrap-vue-next/plugins/createBootstrap';
-import PrimeVue from "primevue/config";
-import Aura from "@primeuix/themes/aura";
-import { DialogService } from 'primevue';
 // ComfyUI utils
 import { app } from "../../../scripts/app.js";
 import * as utils from '../../../scripts/utils.js';
@@ -38,25 +35,28 @@ comfyApp.registerExtension({
             type DeducedContextMenuValue = typeof options[0];
             let newMenuOptions: DeducedContextMenuValue[] = [];
 
+            function genCallback(modelName: string, modelType: MODEL_TYPES) {
+                // 发送当前选中的模型
+                postJsonData(comfyApp, ROUTES.sendCurrentModel, { model_type: modelType, model_name: modelName })
+                    .then((data: DetailMessage) => {
+                        let content = data.content;
+                        let relFilePath = data.rel_file_path;
+                        // 触发自定义事件，展示编辑器并设置内容
+                        window.dispatchEvent(new CustomEvent(EVENTS.showEditor, {
+                            detail: new DetailMessage(content, relFilePath)
+                        }));
+                    });
+            }
+
             if (nodeWithCkpt) {
                 let modelType = MODEL_TYPES.CKPT;
+                // 获取当前选中的模型名称
+                const ckptName = nodeWithCkpt.value as string;
                 // 添加自定义菜单项
                 newMenuOptions.push({
                     content: "Show note of checkpoint",
                     callback: () => {
-                        // 获取当前选中的模型名称
-                        const ckptName = nodeWithCkpt.value;
-                        // 发送当前选中的模型
-                        postJsonData(comfyApp, ROUTES.sendCurrentModel, { model_type: modelType, model_name: ckptName })
-                            .then((data: DetailMessage) => {
-                                let content = data.content;
-                                let relFilePath = data.rel_file_path;
-                                // 触发自定义事件，展示编辑器并设置内容
-                                window.dispatchEvent(new CustomEvent(EVENTS.showEditor));
-                                window.dispatchEvent(new CustomEvent(EVENTS.setContent, {
-                                    detail: new DetailMessage(content, relFilePath)
-                                }))
-                            });
+                        genCallback(ckptName, modelType);
                     }
                 });
             }
@@ -66,24 +66,14 @@ comfyApp.registerExtension({
                 // 添加自定义菜单项
                 for (let [idx, each] of nodesWithLora.entries()) {
                     // 获取当前选中的模型名称
-                    const loraName = each.value;
+                    const loraName = each.value as string;
                     if (loraName === "None") {
                         continue;
                     }
                     newMenuOptions.push({
                         content: `Show note of lora${idx + 1}`,
                         callback: () => {
-                            // 发送当前选中的模型
-                            postJsonData(comfyApp, ROUTES.sendCurrentModel, { model_type: modelType, model_name: loraName })
-                                .then((data: DetailMessage) => {
-                                    let content = data.content;
-                                    let relFilePath = data.rel_file_path;
-                                    // 触发自定义事件，展示编辑器并设置内容
-                                    window.dispatchEvent(new CustomEvent(EVENTS.showEditor));
-                                    window.dispatchEvent(new CustomEvent(EVENTS.setContent, {
-                                        detail: new DetailMessage(content, relFilePath)
-                                    }))
-                                });
+                            genCallback(loraName, modelType);
                         }
                     });
                 }
@@ -100,10 +90,6 @@ comfyApp.registerExtension({
         mountPoint.id = "mdnotes-ui";
         document.body.appendChild(mountPoint);
 
-        createApp(App).use(createBootstrap()).use(PrimeVue, {
-            theme: {
-                preset: Aura
-            }
-        }).use(DialogService).mount(mountPoint);
+        createApp(App).use(createBootstrap()).mount(mountPoint);
     }
 });

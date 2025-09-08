@@ -29,8 +29,8 @@ export default defineConfig({
                 '../../../scripts/utils.js',
                 'vue',
                 'vue-i18n',
-                /^primevue\/?.*/,
-                /^@primevue\/themes\/?.*/,
+                // /^primevue\/?.*/,
+                // /^@primevue\/themes\/?.*/,
             ],
             output: {
                 dir: outputDirectory,

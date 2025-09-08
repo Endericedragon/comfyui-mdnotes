@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { ROUTES, EVENTS, DetailMessage, postJsonData } from '../constants.js';
 // Vue utils
-import { onMounted, ref, type Ref, inject } from 'vue'
+import { onMounted, ref, type Ref, onUnmounted } from 'vue'
 // Bootstrap Vue Next utils
 import { BModal } from "bootstrap-vue-next";
 // Vditor utils
@@ -10,8 +10,8 @@ import { app } from "../../../scripts/app.js";
 import type { ComfyApp } from '@comfyorg/comfyui-frontend-types';
 
 const notePath = ref("");
-const modalTitle = ref("mdnotes-editor");
-const isModalShown: Ref<boolean> = inject("isModalShown");
+const modalTitle = ref("");
+const isModalShown = ref(false);
 
 // create vditor instance to show/edit markdown notes
 let vditorInstance: Ref<Vditor | undefined> = ref();
@@ -29,11 +29,15 @@ onMounted(() => {
     }
   });
   // 监听事件，当打开编辑器时，设置内容
-  window.addEventListener(EVENTS.setContent, setEditorContent);
+  window.addEventListener(EVENTS.showEditor, openNSetContent);
+});
+onUnmounted(() => {
+  window.removeEventListener(EVENTS.showEditor, openNSetContent);
 });
 
-// 设置编辑器主题和内容
-function setEditorContent(e: Event) {
+// 设置编辑器内容
+function openNSetContent(e: Event) {
+  isModalShown.value = true;
   let detail = (e as CustomEvent<DetailMessage>).detail;
   let content = detail.content;
   let relFilePath = detail.rel_file_path;
@@ -45,7 +49,6 @@ function setEditorContent(e: Event) {
 }
 // 保存内容
 function handleOk() {
-  console.log("Wohooo~!");
   if (vditorInstance.value !== undefined) {
     let content = vditorInstance.value.getValue();
     let comfyApp: ComfyApp = app;
@@ -53,18 +56,16 @@ function handleOk() {
   }
 }
 // 舍弃修改
-function handleCancel() {
-  console.error("Bruh...");
-}
-// 检查编辑器状态，并发送相应事件
+function handleCancel() { }
+// 检查编辑器状态，并相应修改状态变量
 function handleVisibilityChange(isVisible: boolean) {
   isModalShown.value = isVisible;
 }
 </script>
 
 <template>
-  <BModal header-variant="secondary" footer-variant="secondary" body-variant="secondary" cancel-variant="dark"
-    scrollable size="xl" :title="modalTitle" @ok="handleOk" @cancel="handleCancel" v-model:visible="isModalShown"
+  <BModal centered header-variant="secondary" footer-variant="secondary" body-variant="secondary" cancel-variant="dark"
+    size="xl" :title="modalTitle" @ok="handleOk" @cancel="handleCancel" v-model:visible="isModalShown"
     @update:model-value="handleVisibilityChange">
     <div id="mde-point"></div>
   </BModal>

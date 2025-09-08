@@ -6,8 +6,7 @@ const ROUTES = {
 };
 
 const EVENTS = {
-    showEditor: "endericedragon-show-editor",
-    setContent: "endericedragon-set-content"
+    showEditor: "endericedragon-show-editor"
 }
 
 enum MODEL_TYPES {

@@ -11,7 +11,7 @@ ComfyUI-MDNotes在Comfy Core、Easy Use的CheckpointLoader等节点上注册了S
 
 - **[Vue.js](https://vuejs.org/)** - 超棒的前端框架
 - Vditor - 所见即所得的markdown编辑器
-- Bootstrap - 超棒的前端库，虽然理论上可以用ComfyUI提供的primevue替代...
+- Bootstrap - 超棒的前端UI组件库
 
 ## 安装
 
@@ -69,7 +69,7 @@ comfy node scaffold
 
 > 观察 `package.json` 会发现，其中的依赖项有 `dependencies` 和 `peerDependendies` 两项。它们的区别在于：NPM假设宿主机已经安装了 `peerDependencies` ，故不会主动安装这些包。在ComfyUI自定义节点的开发环境中，诸如 `vue-i18n, vue, primevue` 等组件已经由ComfyUI提供，故无需额外安装，且在 `vite.config.mts` 中还需要将它们列为 `externel` 。
 >
-> 注：笔者直至撰写文档时才发现ComfyUI内置了PrimeVue，因此理论上引入BootstrapVueNext做前端设计完全是出于习惯，实际上根本没必要...
+> 注：引入BootstrapVueNext做前端设计完全是出于笔者习惯。实际上，笔者直至撰写文档时才发现ComfyUI内置了PrimeVue。
 
 ### 编写前端
 
