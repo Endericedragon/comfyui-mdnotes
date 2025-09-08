@@ -20,6 +20,11 @@ onMounted(() => {
   vditorInstance.value = new Vditor("mde-point", {
     minHeight: 320,
     mode: "wysiwyg",
+    preview: {
+      hljs: {
+        lineNumber: true
+      }
+    },
     toolbarConfig: {
       pin: true
     },

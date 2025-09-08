@@ -10636,6 +10636,11 @@ const Rl = /* @__PURE__ */ Ol(Nl), Pl = /* @__PURE__ */ ft({
       A.value = new Rl("mde-point", {
         minHeight: 320,
         mode: "wysiwyg",
+        preview: {
+          hljs: {
+            lineNumber: !0
+          }
+        },
         toolbarConfig: {
           pin: !0
         },
