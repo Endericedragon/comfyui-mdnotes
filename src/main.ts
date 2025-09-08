@@ -1,7 +1,10 @@
 // vue & primevue & bootstrap utils
 import { createApp } from 'vue'
 import { createBootstrap } from 'bootstrap-vue-next/plugins/createBootstrap';
-// COmfyUI utils
+import PrimeVue from "primevue/config";
+import Aura from "@primeuix/themes/aura";
+import { DialogService } from 'primevue';
+// ComfyUI utils
 import { app } from "../../../scripts/app.js";
 import * as utils from '../../../scripts/utils.js';
 import type { ComfyApp } from '@comfyorg/comfyui-frontend-types'
@@ -25,11 +28,13 @@ comfyApp.registerExtension({
     async beforeRegisterNodeDef(nodeType, nodeData, app) {
         let originalMenuOptions = nodeType.prototype.getExtraMenuOptions;
         nodeType.prototype.getExtraMenuOptions = function (_, options) {
+            // 每次点击右键都会触发这个回调函数
             // 调用原始方法
             originalMenuOptions?.apply(this, arguments);
 
             let nodeWithCkpt = this.widgets.find(w => w.name === "ckpt_name");
-            let nodesWithLora = this.widgets.filter(w => w.name === "lora_name");
+            let nodesWithLora =
+                this.widgets.filter(w => w.name.includes("lora") && w.name.includes("name"));
             type DeducedContextMenuValue = typeof options[0];
             let newMenuOptions: DeducedContextMenuValue[] = [];
 
@@ -60,31 +65,25 @@ comfyApp.registerExtension({
                 let modelType = MODEL_TYPES.LORA;
                 // 添加自定义菜单项
                 for (let [idx, each] of nodesWithLora.entries()) {
+                    // 获取当前选中的模型名称
+                    const loraName = each.value;
+                    if (loraName === "None") {
+                        continue;
+                    }
                     newMenuOptions.push({
                         content: `Show note of lora${idx + 1}`,
                         callback: () => {
-                            // 获取当前选中的模型名称
-                            const loraName = each.value;
-                            if (loraName !== "None") {
-                                // 发送当前选中的模型
-                                postJsonData(comfyApp, ROUTES.sendCurrentModel, { model_type: modelType, model_name: loraName })
-                                    .then((data: DetailMessage) => {
-                                        let content = data.content;
-                                        let relFilePath = data.rel_file_path;
-                                        // 触发自定义事件，展示编辑器并设置内容
-                                        window.dispatchEvent(new CustomEvent(EVENTS.showEditor));
-                                        window.dispatchEvent(new CustomEvent(EVENTS.setContent, {
-                                            detail: new DetailMessage(content, relFilePath)
-                                        }))
-                                    });
-                            } else {
-                                comfyApp.extensionManager.toast.add({
-                                    severity: "warn",
-                                    life: 3000,
-                                    summary: "MDNotes",
-                                    detail: "Lora model seems not selected correctly..."
+                            // 发送当前选中的模型
+                            postJsonData(comfyApp, ROUTES.sendCurrentModel, { model_type: modelType, model_name: loraName })
+                                .then((data: DetailMessage) => {
+                                    let content = data.content;
+                                    let relFilePath = data.rel_file_path;
+                                    // 触发自定义事件，展示编辑器并设置内容
+                                    window.dispatchEvent(new CustomEvent(EVENTS.showEditor));
+                                    window.dispatchEvent(new CustomEvent(EVENTS.setContent, {
+                                        detail: new DetailMessage(content, relFilePath)
+                                    }))
                                 });
-                            }
                         }
                     });
                 }
@@ -101,6 +100,10 @@ comfyApp.registerExtension({
         mountPoint.id = "mdnotes-ui";
         document.body.appendChild(mountPoint);
 
-        createApp(App).use(createBootstrap()).mount(mountPoint);
+        createApp(App).use(createBootstrap()).use(PrimeVue, {
+            theme: {
+                preset: Aura
+            }
+        }).use(DialogService).mount(mountPoint);
     }
 });

@@ -1,8 +1,7 @@
 <script setup lang="ts">
 import { ROUTES, EVENTS, DetailMessage, postJsonData } from '../constants.js';
 // Vue utils
-import { ref, onMounted, defineEmits } from 'vue'
-import type { Ref } from 'vue';
+import { onMounted, ref, type Ref, inject } from 'vue'
 // Bootstrap Vue Next utils
 import { BModal } from "bootstrap-vue-next";
 // Vditor utils
@@ -12,26 +11,29 @@ import type { ComfyApp } from '@comfyorg/comfyui-frontend-types';
 
 const notePath = ref("");
 const modalTitle = ref("mdnotes-editor");
+const isModalShown: Ref<boolean> = inject("isModalShown");
+
 // create vditor instance to show/edit markdown notes
 let vditorInstance: Ref<Vditor | undefined> = ref();
 // mount vditor instance
 onMounted(() => {
-  let editor = new Vditor("mde-point", {
+  vditorInstance.value = new Vditor("mde-point", {
     minHeight: 320,
-    cache: { enable: false },
+    mode: "wysiwyg",
+    toolbarConfig: {
+      pin: true
+    },
+    after: () => {
+      // 渲染完成后方可设置颜色主题
+      vditorInstance.value.setTheme("dark", "dark", "tokyo-night-dark")
+    }
   });
-  vditorInstance.value = editor;
   // 监听事件，当打开编辑器时，设置内容
   window.addEventListener(EVENTS.setContent, setEditorContent);
 });
 
-// 定义编辑器事件
-const emit = defineEmits(["editor-opened", "editor-closed"]);
-
 // 设置编辑器主题和内容
 function setEditorContent(e: Event) {
-  // 每次打开编辑器时都设置一次颜色主题
-  vditorInstance.value.setTheme("dark", "dark", "tokyo-night-dark")
   let detail = (e as CustomEvent<DetailMessage>).detail;
   let content = detail.content;
   let relFilePath = detail.rel_file_path;
@@ -56,17 +58,13 @@ function handleCancel() {
 }
 // 检查编辑器状态，并发送相应事件
 function handleVisibilityChange(isVisible: boolean) {
-  if (isVisible) {
-    emit("editor-opened");
-  } else {
-    emit("editor-closed");
-  }
+  isModalShown.value = isVisible;
 }
 </script>
 
 <template>
   <BModal header-variant="secondary" footer-variant="secondary" body-variant="secondary" cancel-variant="dark"
-    scrollable size="xl" :title="modalTitle" @ok="handleOk" @cancel="handleCancel"
+    scrollable size="xl" :title="modalTitle" @ok="handleOk" @cancel="handleCancel" v-model:visible="isModalShown"
     @update:model-value="handleVisibilityChange">
     <div id="mde-point"></div>
   </BModal>
