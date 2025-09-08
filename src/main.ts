@@ -1,7 +1,6 @@
 // vue & primevue & bootstrap utils
 import { createApp } from 'vue'
 import { createBootstrap } from 'bootstrap-vue-next/plugins/createBootstrap';
-import PrimeVue from "primevue/config";
 // COmfyUI utils
 import { app } from "../../../scripts/app.js";
 import * as utils from '../../../scripts/utils.js';
@@ -30,46 +29,14 @@ comfyApp.registerExtension({
             originalMenuOptions?.apply(this, arguments);
 
             let nodeWithCkpt = this.widgets.find(w => w.name === "ckpt_name");
-            let nodeWithLora = this.widgets.find(w => w.name === "lora_name");
-
-            if (nodeWithLora) {
-                let modelType = MODEL_TYPES.LORA;
-
-                // 添加自定义菜单项
-                options.unshift({
-                    content: "Show lora note",
-                    callback: () => {
-                        // 获取当前选中的模型名称
-                        const loraName = nodeWithLora.value;
-                        if (loraName !== "None") {
-                            // 发送当前选中的模型
-                            postJsonData(comfyApp, ROUTES.sendCurrentModel, { model_type: modelType, model_name: loraName })
-                                .then((data: DetailMessage) => {
-                                    let content = data.content;
-                                    let relFilePath = data.rel_file_path;
-                                    // 触发自定义事件，展示编辑器并设置内容
-                                    window.dispatchEvent(new CustomEvent(EVENTS.showEditor));
-                                    window.dispatchEvent(new CustomEvent(EVENTS.setContent, {
-                                        detail: new DetailMessage(content, relFilePath)
-                                    }))
-                                });
-                        } else {
-                            comfyApp.extensionManager.toast.add({
-                                severity: "warn",
-                                life: 3000,
-                                summary: "MDNotes提示",
-                                detail: "您似乎未选择有效的Lora模型..."
-                            });
-                        }
-                    }
-                });
-            }
+            let nodesWithLora = this.widgets.filter(w => w.name === "lora_name");
+            let newMenuOptions = [];
 
             if (nodeWithCkpt) {
                 let modelType = MODEL_TYPES.CKPT;
                 // 添加自定义菜单项
-                options.unshift({
-                    content: "Show checkpoint note",
+                newMenuOptions.push({
+                    content: "Show note of checkpoint",
                     callback: () => {
                         // 获取当前选中的模型名称
                         const ckptName = nodeWithCkpt.value;
@@ -87,6 +54,42 @@ comfyApp.registerExtension({
                     }
                 });
             }
+
+            if (nodesWithLora) {
+                let modelType = MODEL_TYPES.LORA;
+                // 添加自定义菜单项
+                for (let [idx, each] of nodesWithLora.entries()) {
+                    newMenuOptions.push({
+                        content: `Show note of lora${idx + 1}`,
+                        callback: () => {
+                            // 获取当前选中的模型名称
+                            const loraName = each.value;
+                            if (loraName !== "None") {
+                                // 发送当前选中的模型
+                                postJsonData(comfyApp, ROUTES.sendCurrentModel, { model_type: modelType, model_name: loraName })
+                                    .then((data: DetailMessage) => {
+                                        let content = data.content;
+                                        let relFilePath = data.rel_file_path;
+                                        // 触发自定义事件，展示编辑器并设置内容
+                                        window.dispatchEvent(new CustomEvent(EVENTS.showEditor));
+                                        window.dispatchEvent(new CustomEvent(EVENTS.setContent, {
+                                            detail: new DetailMessage(content, relFilePath)
+                                        }))
+                                    });
+                            } else {
+                                comfyApp.extensionManager.toast.add({
+                                    severity: "warn",
+                                    life: 3000,
+                                    summary: "MDNotes",
+                                    detail: "Lora model seems not selected correctly..."
+                                });
+                            }
+                        }
+                    });
+                }
+            }
+
+            options.unshift(...newMenuOptions);
         }
     },
     async nodeCreated(node: any) {
@@ -97,6 +100,6 @@ comfyApp.registerExtension({
         mountPoint.id = "mdnotes-ui";
         document.body.appendChild(mountPoint);
 
-        createApp(App).use(PrimeVue).use(createBootstrap()).mount(mountPoint);
+        createApp(App).use(createBootstrap()).mount(mountPoint);
     }
 });

@@ -24,25 +24,25 @@ This demonstration node is not designed to be installed directly via **git clone
 
 ## 开发配置步骤
 
-If you want to learn how to develop this custom node or modify it, you can set up a local development environment. Follow these steps:
+若想尝试修改该自定义节点，或以该自定义节点为基础做二次开发，请按如下步骤配置开发环境。强烈推荐使用fnm来管理node.js版本，真的很好使！
 
-1. Clone the repository in your ComfyUI custom nodes directory:
+1. 将本仓库克隆到ComfyUI的自定义节点目录中（一般位于 `ComfyUI/custom_nodes` ）：
    ```bash
-   git clone https://atomgit.com/qq_39710999/comfyui-mdnotes
+   git clone https://codeberg.org/endericedragon/comfyui-mdnotes.git
    ```
-2. Navigate to the project directory:
+2. 导航到仓库根目录：
    ```bash
-   cd ComfyUI_frontend_vue_basic
+   cd comfyui-mdnotes
    ```
-3. Install dependencies:
+3. 安装依赖NPM包：
    ```bash
     npm install
    ```
-4. Build the project:
+4. 构建项目，vite会把构建产物放到 `web` 目录中：
    ```bash
    npm run build
    ```
-5. Refresh ComfyUI to load.
+5. 启动 / 刷新ComfyUI网页端界面，即可载入更改。
 
 ## 开发日志
 
@@ -111,7 +111,7 @@ comfyApp.registerExtension({
 > 这儿有两个点需要注意：
 >
 > 1. 添加CSS的方法，就是 `utils.addStylesheet` 函数；其用法和参数在注释里写得很清楚了。
-> 2. 添加其他自定义文件的办法，例如 `.json` 文件，放在项目根目录的 `public` 目录中，这样Vite在编译时就会把他们原封不动地复制到 `web` 目录下。再用 `utils.uploadFile` 即可上传该文件供其他代码使用。
+> 2. （不稳定，存疑）添加其他自定义文件的办法，例如 `.json` 文件，放在项目根目录的 `public` 目录中，这样Vite在编译时就会把他们原封不动地复制到 `web` 目录下。再用 `utils.uploadFile` 即可上传该文件供其他代码使用。
 
 注册右键菜单的方法如下：
 
