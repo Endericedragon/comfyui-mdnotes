@@ -15,6 +15,7 @@
   "dependencies": {
     "@types/node": "^24.3.1",
     "bootstrap": "^5.3.8",
+    "bootstrap-icons": "^1.13.1",
     "bootstrap-vue-next": "^0.40.1",
     "vditor": "^3.11.2"
   }

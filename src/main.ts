@@ -1,14 +1,15 @@
-// vue & bootstrap utils
-import { createApp } from 'vue'
+// vue
+import { createApp } from "vue"
+// bootstrap
 import { createBootstrap } from 'bootstrap-vue-next/plugins/createBootstrap';
+import 'bootstrap/dist/css/bootstrap.css'
+import 'bootstrap-vue-next/dist/bootstrap-vue-next.css'
+import "bootstrap-icons/font/bootstrap-icons.min.css";
 // ComfyUI utils
 import { app } from "../../../scripts/app.js";
 import * as utils from '../../../scripts/utils.js';
 import type { ComfyApp } from '@comfyorg/comfyui-frontend-types'
-
-// Add the necessary CSS
-import 'bootstrap/dist/css/bootstrap.css'
-import 'bootstrap-vue-next/dist/bootstrap-vue-next.css'
+// vditor
 import "vditor/dist/index.css";
 
 // shared data types
@@ -45,7 +46,15 @@ comfyApp.registerExtension({
                         window.dispatchEvent(new CustomEvent(EVENTS.showEditor, {
                             detail: new DetailMessage(content, relFilePath)
                         }));
+                    },
+                (_: number) => {
+                    comfyApp.extensionManager.toast.add({
+                        severity: "error",
+                        summary: "MDNotes Error",
+                        detail: `Directory of <${modelName}> not found`,
+                        life: 3000
                     });
+                });
             }
 
             if (nodeWithCkpt) {

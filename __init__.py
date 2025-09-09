@@ -62,6 +62,9 @@ async def get_current_model(request: web.Request):
         case "lora":
             model_path = lora_base_dir / pathlib.Path(data["model_name"])
     model_dir = model_path.parent
+    # 检查model_dir是否存在
+    if not model_dir.exists():
+        return web.json_response(None, status=404)
     model_name = model_path.stem
     similarities = [
         (get_dice_similiarity(model_name, each.stem), each)

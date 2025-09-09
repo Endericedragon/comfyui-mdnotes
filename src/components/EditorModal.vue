@@ -3,7 +3,7 @@ import { ROUTES, EVENTS, DetailMessage, postJsonData } from '../constants.js';
 // Vue utils
 import { onMounted, ref, type Ref, onUnmounted } from 'vue'
 // Bootstrap Vue Next utils
-import { BModal } from "bootstrap-vue-next";
+import { BModal, BButton } from "bootstrap-vue-next";
 // Vditor utils
 import Vditor from "vditor";
 import { app } from "../../../scripts/app.js";
@@ -48,32 +48,45 @@ function openNSetContent(e: Event) {
   let relFilePath = detail.rel_file_path;
   notePath.value = relFilePath;
   modalTitle.value = relFilePath;
-  if (vditorInstance.value !== undefined) {
-    vditorInstance.value.setValue(content);
-  }
+  vditorInstance.value.setValue(content);
 }
 // 保存内容
 function handleOk() {
-  if (vditorInstance.value !== undefined) {
-    let content = vditorInstance.value.getValue();
-    let comfyApp: ComfyApp = app;
-    postJsonData(comfyApp, ROUTES.saveContent, new DetailMessage(content, notePath.value));
-  }
-}
-// 舍弃修改
-function handleCancel() { }
-// 检查编辑器状态，并相应修改状态变量
-function handleVisibilityChange(isVisible: boolean) {
-  isModalShown.value = isVisible;
+  let content = vditorInstance.value.getValue();
+  let comfyApp: ComfyApp = app;
+  postJsonData(comfyApp, ROUTES.saveContent, new DetailMessage(content, notePath.value));
+  isModalShown.value = false;
 }
 </script>
 
 <template>
-  <BModal centered header-variant="secondary" footer-variant="secondary" body-variant="secondary" cancel-variant="dark"
-    size="xl" :title="modalTitle" @ok="handleOk" @cancel="handleCancel" v-model:visible="isModalShown"
-    @update:model-value="handleVisibilityChange">
+  <BModal centered header-variant="secondary" footer-variant="secondary" body-variant="secondary" no-footer size="xl"
+    :title="modalTitle" @ok="handleOk" v-model="isModalShown">
     <div id="mde-point"></div>
+    <hr class="my-divider">
+    <div class="floating-btns">
+      <BButton variant="warning" @click="isModalShown = false;">
+        <i class="bi bi-x-circle"></i>
+      </BButton>
+      <BButton variant="info" @click="handleOk">
+        <i class="bi bi-check2-circle"></i>
+      </BButton>
+    </div>
   </BModal>
 </template>
 
-<style scoped></style>
+<style scoped>
+.floating-btns {
+  position: sticky;
+  display: flex;
+  justify-content: flex-end;
+  flex-direction: row;
+  bottom: 0.5em;
+  margin: 0 0.5em;
+  gap: 0.5em;
+}
+
+.my-divider {
+  margin: 1rem 0;
+}
+</style>

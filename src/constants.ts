@@ -16,10 +16,12 @@ enum MODEL_TYPES {
 }
 
 class DetailMessage {
+    status: string;
     content: string;
     rel_file_path: string;
 
     constructor(content: string, rel_file_path: string) {
+        this.status = "ok";
         this.content = content;
         this.rel_file_path = rel_file_path;
     }
@@ -37,7 +39,13 @@ async function postJsonData(app: ComfyApp, route: string, data: any) {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(data)
-    }).then(res => res.json());
+    }).then(resp => {
+        if (resp.status === 200) {
+            return resp.json();
+        } else {
+            return Promise.reject(resp.status);
+        }
+    });
 }
 
 export { ROUTES, EVENTS, MODEL_TYPES, DetailMessage, postJsonData };
