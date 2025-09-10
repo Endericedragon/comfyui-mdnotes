@@ -10,7 +10,7 @@ ComfyUI-MDNotes在Comfy Core、Easy Use的CheckpointLoader等节点上注册了S
 ## 技术栈
 
 - [Vue.js](https://vuejs.org/) - 超棒的前端框架
-- [Vditor]([text](https://b3log.org/vditor/)) - 所见即所得的markdown编辑器
+- [Vditor](https://b3log.org/vditor/) - 所见即所得的markdown编辑器
 - [PrimeVue](https://primevue.org/) - ComfyUI原生提供的前端UI组件库
 - [Bootstrap Icons](https://icons.getbootstrap.com/) - 超棒的前端图标库
 
