@@ -2,16 +2,12 @@
 import { createApp } from "vue"
 // primevue
 import PrimeVue from "primevue/config";
-// // ComfyUI utils
-// import { app } from "../../../scripts/app.js";
-// import * as utils from '../../../scripts/utils.js';
-// import type { ComfyApp } from '@comfyorg/comfyui-frontend-types'
 
 // shared data types
 import { ROUTES, EVENTS, MODEL_TYPES, DetailMessage, postJsonData, comfyApp, utils } from './constants.js';
 import App from './App.vue'
 
-// extensions/mdnotes是固定的，后续内容和/web目录有关
+// extensions/comfyui-mdnotes是固定的，后续内容和/web目录有关
 const CSS_PATH = "extensions/comfyui-mdnotes/assets/main.css";
 utils.addStylesheet(CSS_PATH);
 
@@ -50,39 +46,36 @@ comfyApp.registerExtension({
                             });
                         });
             }
-
+            
+            // 若组件包含ckpt_name，添加自定义菜单项
             if (nodeWithCkpt) {
-                let modelType = MODEL_TYPES.CKPT;
                 // 获取当前选中的模型名称
                 const ckptName = nodeWithCkpt.value as string;
                 // 添加自定义菜单项
                 newMenuOptions.push({
                     content: "Show note of checkpoint",
                     callback: () => {
-                        genCallback(ckptName, modelType);
+                        genCallback(ckptName, MODEL_TYPES.CKPT);
+                    }
+                });
+            }
+            // 若组件包含lora_name，添加自定义菜单项
+            for (let [idx, each] of nodesWithLora.entries()) {
+                // 获取当前选中的模型名称
+                const loraName = each.value as string;
+                if (loraName === "None") {
+                    continue;
+                }
+                newMenuOptions.push({
+                    content: `Show note of lora${idx + 1}`,
+                    callback: () => {
+                        genCallback(loraName, MODEL_TYPES.LORA);
                     }
                 });
             }
 
-            if (nodesWithLora) {
-                let modelType = MODEL_TYPES.LORA;
-                // 添加自定义菜单项
-                for (let [idx, each] of nodesWithLora.entries()) {
-                    // 获取当前选中的模型名称
-                    const loraName = each.value as string;
-                    if (loraName === "None") {
-                        continue;
-                    }
-                    newMenuOptions.push({
-                        content: `Show note of lora${idx + 1}`,
-                        callback: () => {
-                            genCallback(loraName, modelType);
-                        }
-                    });
-                }
-            }
-
             options.unshift(...newMenuOptions);
+            return options; // 让Linting满意
         }
     },
     async nodeCreated(node: any) {
