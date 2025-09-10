@@ -81,7 +81,7 @@ function handleHide() {
 </script>
 
 <template>
-  <Dialog v-model:visible="isModalShown" modal @show="handleShow" @after-hide="handleHide" :header="modalTitle">
+  <Dialog v-model:visible="isModalShown" modal @show="handleShow" @after-hide="handleHide" :header="modalTitle" close-on-escape>
     <div id="mde-point"></div>
     <div class="endericedragon-sticky-buttons">
       <Button severity="danger" @click="ButtonControl.cancel">
