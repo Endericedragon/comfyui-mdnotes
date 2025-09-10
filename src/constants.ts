@@ -1,4 +1,9 @@
+// ComfyUI utils
+import { app } from "../../../scripts/app.js";
+import * as utils from '../../../scripts/utils.js';
 import type { ComfyApp } from '@comfyorg/comfyui-frontend-types'
+
+const comfyApp: ComfyApp = app;
 
 const ROUTES = {
     sendCurrentModel: "/mdnotes/current_model",
@@ -48,4 +53,4 @@ async function postJsonData(app: ComfyApp, route: string, data: any) {
     });
 }
 
-export { ROUTES, EVENTS, MODEL_TYPES, DetailMessage, postJsonData };
+export { ROUTES, EVENTS, MODEL_TYPES, DetailMessage, postJsonData, comfyApp, utils };

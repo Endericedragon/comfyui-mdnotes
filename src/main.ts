@@ -1,25 +1,19 @@
 // vue
 import { createApp } from "vue"
-// bootstrap
-import { createBootstrap } from 'bootstrap-vue-next/plugins/createBootstrap';
-import 'bootstrap/dist/css/bootstrap.css'
-import 'bootstrap-vue-next/dist/bootstrap-vue-next.css'
-import "bootstrap-icons/font/bootstrap-icons.min.css";
-// ComfyUI utils
-import { app } from "../../../scripts/app.js";
-import * as utils from '../../../scripts/utils.js';
-import type { ComfyApp } from '@comfyorg/comfyui-frontend-types'
-// vditor
-import "vditor/dist/index.css";
+// primevue
+import PrimeVue from "primevue/config";
+// // ComfyUI utils
+// import { app } from "../../../scripts/app.js";
+// import * as utils from '../../../scripts/utils.js';
+// import type { ComfyApp } from '@comfyorg/comfyui-frontend-types'
 
 // shared data types
-import { ROUTES, EVENTS, MODEL_TYPES, DetailMessage, postJsonData } from './constants.js';
+import { ROUTES, EVENTS, MODEL_TYPES, DetailMessage, postJsonData, comfyApp, utils } from './constants.js';
 import App from './App.vue'
 
 // extensions/mdnotes是固定的，后续内容和/web目录有关
-utils.addStylesheet("extensions/comfyui-mdnotes/assets/main.css");
-
-const comfyApp: ComfyApp = app;
+const CSS_PATH = "extensions/comfyui-mdnotes/assets/main.css";
+utils.addStylesheet(CSS_PATH);
 
 comfyApp.registerExtension({
     name: "endericedragon.mdnotes",
@@ -47,14 +41,14 @@ comfyApp.registerExtension({
                             detail: new DetailMessage(content, relFilePath)
                         }));
                     },
-                (_: number) => {
-                    comfyApp.extensionManager.toast.add({
-                        severity: "error",
-                        summary: "MDNotes Error",
-                        detail: `Directory of <${modelName}> not found`,
-                        life: 3000
-                    });
-                });
+                        (_: number) => {
+                            comfyApp.extensionManager.toast.add({
+                                severity: "error",
+                                summary: "MDNotes Error",
+                                detail: `Directory of <${modelName}> not found`,
+                                life: 3000
+                            });
+                        });
             }
 
             if (nodeWithCkpt) {
@@ -95,10 +89,11 @@ comfyApp.registerExtension({
         console.info(`[mdnotes] nodeCreated: ${node.comfyClass}`);
     },
     async setup() {
-        let mountPoint = document.createElement("div");
-        mountPoint.id = "mdnotes-ui";
-        document.body.appendChild(mountPoint);
-
-        createApp(App).use(createBootstrap()).mount(mountPoint);
+        let dummy = document.createElement("div");
+        dummy.id = "mdnotes-ui";
+        document.body.appendChild(dummy);
+        createApp(App)
+            .use(PrimeVue)
+            .mount(dummy);
     }
 });
