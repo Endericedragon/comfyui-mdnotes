@@ -8154,7 +8154,7 @@ const $i = /* @__PURE__ */ Ji(Qi), ea = { class: "endericedragon-sticky-buttons"
   for (const [_e, Y] of ye)
     ge[_e] = Y;
   return ge;
-}, ra = /* @__PURE__ */ na(ta, [["__scopeId", "data-v-2c921d60"]]), ia = /* @__PURE__ */ Xn({
+}, ra = /* @__PURE__ */ na(ta, [["__scopeId", "data-v-95019359"]]), ia = /* @__PURE__ */ Xn({
   __name: "App",
   setup(ne) {
     return (ye, ge) => (Qn(), Yn(ra, {

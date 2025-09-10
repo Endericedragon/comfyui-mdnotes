@@ -96,7 +96,7 @@ function handleHide() {
 
 <style scoped>
 #mde-point {
-  max-width: 85vw;
+  max-width: 75vw;
 }
 
 .endericedragon-sticky-buttons {
