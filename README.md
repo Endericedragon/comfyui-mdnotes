@@ -4,7 +4,8 @@
 
 ## 概述
 
-ComfyUI-MDNotes在Comfy Core、Easy Use的CheckpointLoader等节点上注册了Show checkpoint note与/或Show lora note右键菜单。点击该菜单即会弹出如下对话框，用户可随意读取/修改笔记文件。滚动至页面底端后，点击Ok保存修改；点击Cancel、点击对话框周围区域或按Esc键取消修改。
+ComfyUI-MDNotes在Comfy Core、Easy Use的CheckpointLoader等节点上注册了Show checkpoint note与/或Show lora note右键菜单。点击该菜单即会弹出如下对话框，用户可随意读取/修改笔记文件。
+
 ![image1](doc/image.png)
 
 ## 技术栈
