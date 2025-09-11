@@ -11,7 +11,6 @@ import Vditor from "vditor";
 import "vditor/dist/index.css";
 
 const notePath = ref("");
-const modalTitle = ref("");
 const mdContent = ref("");
 const isModalShown = ref(false);
 
@@ -33,7 +32,6 @@ function openNSetContent(e: Event) {
   let content = detail.content;
   let relFilePath = detail.rel_file_path;
   notePath.value = relFilePath;
-  modalTitle.value = relFilePath;
   mdContent.value = content;
   // 设置对话框可见性
   isModalShown.value = true;
@@ -41,8 +39,14 @@ function openNSetContent(e: Event) {
 // 按钮行为控制
 class ButtonControl {
   static ok() {
-    let mdContent = editorInstance.value?.getValue();
-    postJsonData(comfyApp, ROUTES.saveContent, new DetailMessage(mdContent, notePath.value));
+    postJsonData(
+      comfyApp,
+      ROUTES.saveContent,
+      new DetailMessage(
+        editorInstance.value.getValue(), 
+        notePath.value
+      )
+    );
     isModalShown.value = false;
   }
   static cancel() {
@@ -60,7 +64,7 @@ function handleShow() {
       hljs: {
         lineNumber: true
       },
-      maxWidth: 99999 // 具体的宽度是由Dialog说了算
+      maxWidth: 2147483647 // 具体的宽度由Dialog说了算
     },
     after: () => {
       editorInstance.value?.setTheme(
@@ -70,7 +74,7 @@ function handleShow() {
       );
       // 装入数据
       editorInstance.value?.setValue(mdContent.value);
-      modalTitle.value = notePath.value;
+      mdContent.value = "";
     }
   });
 }
@@ -81,7 +85,8 @@ function handleHide() {
 </script>
 
 <template>
-  <Dialog v-model:visible="isModalShown" modal @show="handleShow" @after-hide="handleHide" :header="modalTitle" close-on-escape>
+  <Dialog v-model:visible="isModalShown" modal @show="handleShow" @after-hide="handleHide" :header="notePath"
+    close-on-escape>
     <div id="mde-point"></div>
     <div class="endericedragon-sticky-buttons">
       <Button severity="danger" @click="ButtonControl.cancel">

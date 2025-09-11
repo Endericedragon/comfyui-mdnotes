@@ -21,12 +21,10 @@ enum MODEL_TYPES {
 }
 
 class DetailMessage {
-    status: string;
     content: string;
     rel_file_path: string;
 
     constructor(content: string, rel_file_path: string) {
-        this.status = "ok";
         this.content = content;
         this.rel_file_path = rel_file_path;
     }

@@ -29,14 +29,15 @@ comfyApp.registerExtension({
             function genCallback(modelName: string, modelType: MODEL_TYPES) {
                 // 发送当前选中的模型
                 postJsonData(comfyApp, ROUTES.sendCurrentModel, { model_type: modelType, model_name: modelName })
-                    .then((data: DetailMessage) => {
-                        let content = data.content;
-                        let relFilePath = data.rel_file_path;
-                        // 触发自定义事件，展示编辑器并设置内容
-                        window.dispatchEvent(new CustomEvent(EVENTS.showEditor, {
-                            detail: new DetailMessage(content, relFilePath)
-                        }));
-                    },
+                    .then(
+                        (data: DetailMessage) => {
+                            let content = data.content;
+                            let relFilePath = data.rel_file_path;
+                            // 触发自定义事件，展示编辑器并设置内容
+                            window.dispatchEvent(new CustomEvent(EVENTS.showEditor, {
+                                detail: new DetailMessage(content, relFilePath)
+                            }));
+                        },
                         (_: number) => {
                             comfyApp.extensionManager.toast.add({
                                 severity: "error",
@@ -44,9 +45,10 @@ comfyApp.registerExtension({
                                 detail: `Directory of <${modelName}> not found`,
                                 life: 3000
                             });
-                        });
+                        }
+                    );
             }
-            
+
             // 若组件包含ckpt_name，添加自定义菜单项
             if (nodeWithCkpt) {
                 // 获取当前选中的模型名称
@@ -78,15 +80,12 @@ comfyApp.registerExtension({
             return options; // 让Linting满意
         }
     },
-    async nodeCreated(node: any) {
-        console.info(`[mdnotes] nodeCreated: ${node.comfyClass}`);
-    },
     async setup() {
-        let dummy = document.createElement("div");
-        dummy.id = "mdnotes-ui";
-        document.body.appendChild(dummy);
+        let mountPoint = document.createElement("div");
+        mountPoint.id = "mdnotes-ui";
+        document.body.appendChild(mountPoint);
         createApp(App)
             .use(PrimeVue)
-            .mount(dummy);
+            .mount(mountPoint);
     }
 });
