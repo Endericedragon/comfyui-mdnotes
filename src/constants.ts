@@ -45,7 +45,21 @@ async function postJsonData(app: ComfyApp, route: string, data: any) {
     }).then(resp => {
         if (resp.status === 200) {
             return resp.json();
+        } else if (resp.status === 201) {
+            comfyApp.extensionManager.toast.add({
+                severity: "warn",
+                summary: "MDNotes Warning",
+                detail: "Note not found, ready to create one",
+                life: 3000
+            });
+            return resp.json();
         } else {
+            comfyApp.extensionManager.toast.add({
+                severity: "error",
+                summary: "MDNotes Error",
+                detail: `Path of model not found`,
+                life: 3000
+            });
             return Promise.reject(resp.status);
         }
     });

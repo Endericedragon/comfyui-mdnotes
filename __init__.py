@@ -72,6 +72,7 @@ async def get_current_model(request: web.Request):
     ]
     likelihood, most_likely_md_path = max(similarities, key=lambda x: x[0])
     resp_json: ContentNPath = {"content": "", "rel_file_path": ""}
+    status_code: int = 200
     if likelihood >= 0.5:
         with open(most_likely_md_path, "r", encoding="utf-8") as f:
             content = f.read()
@@ -80,11 +81,12 @@ async def get_current_model(request: web.Request):
                 most_likely_md_path.relative_to(model_base_dir)
             )
     else:
+        status_code = 201  # Created
         resp_json["rel_file_path"] = str(
             model_dir.relative_to(model_base_dir) / (model_name + ".md")
         )
     # print(resp_json)
-    return web.json_response(resp_json, status=200)
+    return web.json_response(resp_json, status=status_code)
 
 
 @PromptServer.instance.routes.post("/mdnotes/save")

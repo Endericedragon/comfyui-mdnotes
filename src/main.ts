@@ -29,24 +29,14 @@ comfyApp.registerExtension({
             function genCallback(modelName: string, modelType: MODEL_TYPES) {
                 // 发送当前选中的模型
                 postJsonData(comfyApp, ROUTES.sendCurrentModel, { model_type: modelType, model_name: modelName })
-                    .then(
-                        (data: DetailMessage) => {
-                            let content = data.content;
-                            let relFilePath = data.rel_file_path;
-                            // 触发自定义事件，展示编辑器并设置内容
-                            window.dispatchEvent(new CustomEvent(EVENTS.showEditor, {
-                                detail: new DetailMessage(content, relFilePath)
-                            }));
-                        },
-                        (_: number) => {
-                            comfyApp.extensionManager.toast.add({
-                                severity: "error",
-                                summary: "MDNotes Error",
-                                detail: `Directory of <${modelName}> not found`,
-                                life: 3000
-                            });
-                        }
-                    );
+                    .then((data: DetailMessage) => {
+                        let content = data.content;
+                        let relFilePath = data.rel_file_path;
+                        // 触发自定义事件，展示编辑器并设置内容
+                        window.dispatchEvent(new CustomEvent(EVENTS.showEditor, {
+                            detail: new DetailMessage(content, relFilePath)
+                        }));
+                    });
             }
 
             // 若组件包含ckpt_name，添加自定义菜单项
