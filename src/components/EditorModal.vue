@@ -13,7 +13,6 @@ import "vditor/dist/index.css";
 const notePath = ref("");
 const mdContent = ref("");
 const isModalShown = ref(false);
-const stopTrackingScroll = ref(new AbortController());
 const scrollTopVal = ref(0);
 
 // create vditor instance to show/edit markdown notes
@@ -62,8 +61,6 @@ class ButtonControl {
 function handleShow() {
   let mountPoint = document.getElementById("mde-point");
   let dialogContainer = mountPoint.parentElement;
-  // 重置终止信号，允许新的监听器工作
-  stopTrackingScroll.value = new AbortController();
 
   editorInstance.value = new Vditor("mde-point", {
     minHeight: 320,
@@ -94,27 +91,21 @@ function handleShow() {
       });
     }
   });
-  // 监听滚动事件，记录滚动位置
-  dialogContainer.addEventListener(
-    "scroll",
-    _ => {
-      // console.log("Scrolling to ", dialogContainer.scrollTop);
-      scrollTopVal.value = dialogContainer.scrollTop;
-    },
-    {
-      signal: stopTrackingScroll.value.signal
-    }
-  );
 }
 // 隐藏对话框后，销毁编辑器实例
 function handleHide() {
   editorInstance.value?.destroy();
-  stopTrackingScroll.value.abort();
+}
+// 对话框隐藏时，记录滚动位置
+function rememberScrollValue() {
+  let dialogContainer = document.getElementById("mde-point").parentElement;
+  console.log("[mdnotes] Scrolled to ", dialogContainer.scrollTop);
+  scrollTopVal.value = dialogContainer.scrollTop;
 }
 </script>
 
 <template>
-  <Dialog v-model:visible="isModalShown" modal @show="handleShow" @after-hide="handleHide" :header="notePath"
+  <Dialog v-model:visible="isModalShown" modal @show="handleShow" @hide="rememberScrollValue" @after-hide="handleHide" :header="notePath"
     close-on-escape>
     <div id="mde-point"></div>
     <div class="endericedragon-sticky-buttons">

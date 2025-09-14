@@ -1,7 +1,7 @@
 var Bi = Object.defineProperty;
 var Ui = (ne, ye, ge) => ye in ne ? Bi(ne, ye, { enumerable: !0, configurable: !0, writable: !0, value: ge }) : ne[ye] = ge;
 var Qt = (ne, ye, ge) => Ui(ne, typeof ye != "symbol" ? ye + "" : ye, ge);
-import { defineComponent as Xn, ref as at, onMounted as Vi, onUnmounted as Wi, createBlock as Yn, openBlock as Qn, unref as $t, withCtx as en, createElementVNode as At, createVNode as Gn, withModifiers as Fi, createApp as Ki } from "vue";
+import { defineComponent as Xn, ref as ht, onMounted as Vi, onUnmounted as Wi, createBlock as Yn, openBlock as Qn, unref as $t, withCtx as en, createElementVNode as At, createVNode as Gn, withModifiers as Fi, createApp as Ki } from "vue";
 import qi from "primevue/config";
 import { app as zi } from "../../../scripts/app.js";
 import * as Gi from "../../../scripts/utils.js";
@@ -698,8 +698,8 @@ function Yi() {
                   if (ie === void 0 && (ie = "zh_CN"), !(typeof speechSynthesis > "u" || typeof SpeechSynthesisUtterance > "u")) {
                     var W = function() {
                       var Te = speechSynthesis.getVoices(), X, pe;
-                      return Te.forEach(function(Oe) {
-                        Oe.lang === ie.replace("_", "-") && (X = Oe), Oe.default && (pe = Oe);
+                      return Te.forEach(function(Ne) {
+                        Ne.lang === ie.replace("_", "-") && (X = Ne), Ne.default && (pe = Ne);
                       }), X || (X = pe), X;
                     }, j = '<svg><use xlink:href="#vditor-icon-play"></use></svg>', he = '<svg><use xlink:href="#vditor-icon-pause"></use></svg>';
                     document.getElementById("vditorIconScript") || (j = '<svg viewBox="0 0 32 32"><path d="M3.436 0l25.128 16-25.128 16v-32z"></path></svg>', he = '<svg viewBox="0 0 32 32"><path d="M20.617 0h9.128v32h-9.128v-32zM2.255 32v-32h9.128v32h-9.128z"></path></svg>');
@@ -715,11 +715,11 @@ function Yi() {
                         return;
                       }
                       if (q.style.display = "none", speechSynthesis.cancel(), q.classList.remove("vditor-speech--current"), q.innerHTML = j, getSelection().rangeCount !== 0) {
-                        var pe = getSelection().getRangeAt(0), Oe = pe.toString().trim();
-                        if (Oe) {
+                        var pe = getSelection().getRangeAt(0), Ne = pe.toString().trim();
+                        if (Ne) {
                           window.vditorSpeechRange = pe.cloneRange();
                           var Pe = pe.getBoundingClientRect();
-                          q.innerHTML = j, q.style.display = "block", q.style.top = Pe.top + Pe.height + document.querySelector("html").scrollTop - 20 + "px", window.ontouchstart !== void 0 ? q.style.left = Te.changedTouches[Te.changedTouches.length - 1].pageX + 2 + "px" : q.style.left = Te.clientX + 2 + "px", q.setAttribute("data-text", Oe);
+                          q.innerHTML = j, q.style.display = "block", q.style.top = Pe.top + Pe.height + document.querySelector("html").scrollTop - 20 + "px", window.ontouchstart !== void 0 ? q.style.left = Te.changedTouches[Te.changedTouches.length - 1].pageX + 2 + "px" : q.style.left = Te.clientX + 2 + "px", q.setAttribute("data-text", Ne);
                         }
                       }
                     });
@@ -734,15 +734,15 @@ function Yi() {
                     function ae(pe) {
                       try {
                         X(j.next(pe));
-                      } catch (Oe) {
-                        we(Oe);
+                      } catch (Ne) {
+                        we(Ne);
                       }
                     }
                     function Te(pe) {
                       try {
                         X(j.throw(pe));
-                      } catch (Oe) {
-                        we(Oe);
+                      } catch (Ne) {
+                        we(Ne);
                       }
                     }
                     function X(pe) {
@@ -2874,9 +2874,9 @@ onclick="event.stopPropagation();this.previousElementSibling.select();document.e
           }, Y.o = (Z, v) => Object.prototype.hasOwnProperty.call(Z, v), Y.r = (Z) => {
             typeof Symbol < "u" && Symbol.toStringTag && Object.defineProperty(Z, Symbol.toStringTag, { value: "Module" }), Object.defineProperty(Z, "__esModule", { value: !0 });
           };
-          var Ie = {};
+          var Oe = {};
           return (() => {
-            Y.d(Ie, {
+            Y.d(Oe, {
               default: () => (
                 /* binding */
                 ji
@@ -3078,7 +3078,7 @@ onclick="event.stopPropagation();this.previousElementSibling.select();document.e
               if (e.nextElementSibling && e.nextElementSibling.classList.contains("vditor-toc")) {
                 if (n.key === "Delete" && (0, M.im)(e, t[t.currentMode].element, r).start >= e.textContent.trimRight().length)
                   return e.nextElementSibling.remove(), ee(t), !0;
-                if (ft(t, n, r, e, e.nextElementSibling))
+                if (ut(t, n, r, e, e.nextElementSibling))
                   return !0;
               }
               if (n.key === "Backspace" || n.key === "Delete") {
@@ -3247,7 +3247,7 @@ onclick="event.stopPropagation();this.previousElementSibling.select();document.e
               var h = (0, s.fb)(r, "vditor-ir__marker--pre");
               if (h && h.tagName === "PRE") {
                 var f = h.firstChild;
-                if (An(e, t, h, n) || (f.getAttribute("data-type") === "math-block" || f.getAttribute("data-type") === "html-block") && tt(e, t, n, f, h.parentElement) || ft(e, t, n, f, h.parentElement))
+                if (An(e, t, h, n) || (f.getAttribute("data-type") === "math-block" || f.getAttribute("data-type") === "html-block") && tt(e, t, n, f, h.parentElement) || ut(e, t, n, f, h.parentElement))
                   return !0;
               }
               var S = (0, s.a1)(r, "data-type", "code-block-info");
@@ -3267,7 +3267,7 @@ onclick="event.stopPropagation();this.previousElementSibling.select();document.e
                 if (R && tt(e, t, n, N, R))
                   return !0;
                 var H = Sr(N);
-                if (H && ft(e, t, n, N, H))
+                if (H && ut(e, t, n, N, H))
                   return !0;
               }
               if (_n(e, t, n) || Dn(e, n, t) || zt(e, n, t))
@@ -3276,11 +3276,11 @@ onclick="event.stopPropagation();this.previousElementSibling.select();document.e
               if (U) {
                 if (I("⌘=", t)) {
                   var B = U.querySelector(".vditor-ir__marker--heading");
-                  return B && B.textContent.trim().length > 1 && dt(e, B.textContent.substr(1)), t.preventDefault(), !0;
+                  return B && B.textContent.trim().length > 1 && ft(e, B.textContent.substr(1)), t.preventDefault(), !0;
                 }
                 if (I("⌘-", t)) {
                   var B = U.querySelector(".vditor-ir__marker--heading");
-                  return B && B.textContent.trim().length < 6 && dt(e, B.textContent.trim() + "# "), t.preventDefault(), !0;
+                  return B && B.textContent.trim().length < 6 && ft(e, B.textContent.trim() + "# "), t.preventDefault(), !0;
                 }
               }
               var O = (0, s.F9)(r);
@@ -3451,7 +3451,7 @@ onclick="event.stopPropagation();this.previousElementSibling.select();document.e
               return !1;
             }, X = Y(538), pe = function(e) {
               e.options.theme === "dark" ? e.element.classList.add("vditor--dark") : e.element.classList.remove("vditor--dark");
-            }, Oe = function(e) {
+            }, Ne = function(e) {
               e.element.innerHTML = "", e.element.classList.add("vditor"), e.options.rtl && e.element.setAttribute("dir", "rtl"), pe(e), (0, X.Z)(e.options.preview.theme.current, e.options.preview.theme.path), typeof e.options.height == "number" ? e.element.style.height = e.options.height + "px" : e.element.style.height = e.options.height, typeof e.options.minHeight == "number" && (e.element.style.minHeight = e.options.minHeight + "px"), typeof e.options.width == "number" ? e.element.style.width = e.options.width + "px" : e.element.style.width = e.options.width, e.element.appendChild(e.toolbar.element);
               var t = document.createElement("div");
               if (t.className = "vditor-content", e.options.outline.position === "left" && t.appendChild(e.outline.element), t.appendChild(e.wysiwyg.element.parentElement), t.appendChild(e.sv.element), t.appendChild(e.ir.element.parentElement), t.appendChild(e.preview.element), e.toolbar.elements.devtools && t.appendChild(e.devtools.element), e.options.outline.position === "right" && (e.outline.element.classList.add("vditor-outline--right"), t.appendChild(e.outline.element)), e.upload && t.appendChild(e.upload.element), e.options.resize.enable && t.appendChild(e.resize.element), t.appendChild(e.hint.element), t.appendChild(e.tip.element), e.element.appendChild(t), t.addEventListener("click", function() {
@@ -3492,7 +3492,7 @@ onclick="event.stopPropagation();this.previousElementSibling.select();document.e
               });
               var t = (0, l.pK)() && localStorage.getItem(e.options.cache.id);
               return (!e.options.cache.enable || !t) && (e.options.value ? t = e.options.value : e.originalInnerHTML ? t = e.lute.HTML2Md(e.originalInnerHTML) : e.options.cache.enable || (t = "")), t || "";
-            }, ot = function(e) {
+            }, at = function(e) {
               clearTimeout(e[e.currentMode].hlToolbarTimeoutId), e[e.currentMode].hlToolbarTimeoutId = window.setTimeout(function() {
                 if (e[e.currentMode].element.getAttribute("contenteditable") !== "false" && (0, M.Gb)(e[e.currentMode].element)) {
                   m(e.toolbar.elements, v.g.EDIT_TOOLBARS), g(e.toolbar.elements, v.g.EDIT_TOOLBARS);
@@ -3616,7 +3616,7 @@ onclick="event.stopPropagation();this.previousElementSibling.select();document.e
             }, Ht = function(e) {
               var t = getSelection().getRangeAt(0), n = (0, s.F9)(t.startContainer);
               n || (n = t.startContainer.childNodes[t.startOffset]), n && (t.insertNode(document.createElement("wbr")), n.outerHTML = '<p data-block="0">'.concat(n.innerHTML, "</p>"), (0, M.ib)(e.wysiwyg.element, t)), e.wysiwyg.popover.style.display = "none";
-            }, st = function(e, t, n) {
+            }, ot = function(e, t, n) {
               n === void 0 && (n = !0);
               var r = e.previousElementSibling, i = r.ownerDocument.createRange();
               r.tagName === "CODE" ? (r.style.display = "inline-block", n ? i.setStart(r.firstChild, 1) : i.selectNodeContents(r)) : (r.style.display = "block", r.firstChild.firstChild || r.firstChild.appendChild(document.createTextNode("")), i.selectNodeContents(r.firstChild)), n ? i.collapse(!0) : i.collapse(!1), (0, M.Hc)(i), !e.firstElementChild.classList.contains("language-mindmap") && ve(t);
@@ -3638,7 +3638,7 @@ onclick="event.stopPropagation();this.previousElementSibling.select();document.e
                   var u = e.wysiwyg.popover.querySelector(".vditor-input");
                   return u.focus(), u.select(), t.preventDefault(), !0;
                 }
-                if (o.getAttribute("data-block") === "0" && (An(e, t, o.firstElementChild, n) || ft(e, t, n, o.firstElementChild, o) || o.getAttribute("data-type") !== "yaml-front-matter" && tt(e, t, n, o.firstElementChild, o)))
+                if (o.getAttribute("data-block") === "0" && (An(e, t, o.firstElementChild, n) || ut(e, t, n, o.firstElementChild, o) || o.getAttribute("data-type") !== "yaml-front-matter" && tt(e, t, n, o.firstElementChild, o)))
                   return !0;
               }
               if (xn(e, n, t, a))
@@ -3702,7 +3702,7 @@ onclick="event.stopPropagation();this.previousElementSibling.select();document.e
                     var G = (0, M.im)(i, e.wysiwyg.element, n).start;
                     if (G === 0 && n.startOffset === 0 || // https://github.com/Vanessa219/vditor/issues/894
                     G === 1 && i.innerText.startsWith(v.g.ZWSP))
-                      return st(i.previousElementSibling.lastElementChild, e, !1), i.innerHTML.trim().replace(v.g.ZWSP, "") === "" && (i.remove(), ue(e)), t.preventDefault(), !0;
+                      return ot(i.previousElementSibling.lastElementChild, e, !1), i.innerHTML.trim().replace(v.g.ZWSP, "") === "" && (i.remove(), ue(e)), t.preventDefault(), !0;
                   }
                   var V = n.startOffset;
                   if (n.toString() === "" && r.nodeType === 3 && r.textContent.charAt(V - 2) === `
@@ -3737,7 +3737,7 @@ onclick="event.stopPropagation();this.previousElementSibling.select();document.e
                   t.startContainer.nodeType === 3 ? n = t.startContainer.parentElement : n = n.childNodes[t.startOffset >= n.childNodes.length ? n.childNodes.length - 1 : t.startOffset];
                   var r = (0, s.a1)(n, "data-type", "footnotes-block");
                   if (r) {
-                    e.wysiwyg.popover.innerHTML = "", Be(r, e), Ne(e, "footnotes-block"), je(e, r);
+                    e.wysiwyg.popover.innerHTML = "", Be(r, e), Re(e, "footnotes-block"), je(e, r);
                     return;
                   }
                   var i = (0, s.lG)(n, "LI");
@@ -3795,19 +3795,19 @@ onclick="event.stopPropagation();this.previousElementSibling.select();document.e
                   ]), p(e.toolbar.elements, ["inline-code"])) : S ? (d(e.toolbar.elements, ["bold"]), p(e.toolbar.elements, ["headings"])) : f && d(e.toolbar.elements, ["table"]);
                   var T = (0, s.fb)(n, "vditor-toc");
                   if (T) {
-                    e.wysiwyg.popover.innerHTML = "", Be(T, e), Ne(e, "vditor-toc"), je(e, T);
+                    e.wysiwyg.popover.innerHTML = "", Be(T, e), Re(e, "vditor-toc"), je(e, T);
                     return;
                   }
                   var N = (0, C.S)(n, "BLOCKQUOTE");
-                  if (N && (e.wysiwyg.popover.innerHTML = "", Qe(t, N, e), $e(t, N, e), Be(N, e), Ne(e, "blockquote"), je(e, N)), i && (e.wysiwyg.popover.innerHTML = "", Qe(t, i, e), $e(t, i, e), Be(i, e), Ne(e, "li"), je(e, i)), f) {
+                  if (N && (e.wysiwyg.popover.innerHTML = "", Qe(t, N, e), $e(t, N, e), Be(N, e), Re(e, "blockquote"), je(e, N)), i && (e.wysiwyg.popover.innerHTML = "", Qe(t, i, e), $e(t, i, e), Be(i, e), Re(e, "li"), je(e, i)), f) {
                     e.options.lang, e.options, e.wysiwyg.popover.innerHTML = "";
                     var R = function() {
-                      var K = f.rows.length, te = f.rows[0].cells.length, Ze = parseInt(Ee.value, 10) || K, Je = parseInt(Re.value, 10) || te;
+                      var K = f.rows.length, te = f.rows[0].cells.length, Ze = parseInt(Ee.value, 10) || K, Je = parseInt(Ie.value, 10) || te;
                       if (!(Ze === K && te === Je)) {
                         if (te !== Je)
-                          for (var ht = Je - te, Fe = 0; Fe < f.rows.length; Fe++)
-                            if (ht > 0)
-                              for (var Kn = 0; Kn < ht; Kn++)
+                          for (var pt = Je - te, Fe = 0; Fe < f.rows.length; Fe++)
+                            if (pt > 0)
+                              for (var Kn = 0; Kn < pt; Kn++)
                                 Fe === 0 ? f.rows[Fe].lastElementChild.insertAdjacentHTML("afterend", "<th> </th>") : f.rows[Fe].lastElementChild.insertAdjacentHTML("afterend", "<td> </td>");
                             else
                               for (var Xt = te - 1; Xt >= Je; Xt--)
@@ -3879,7 +3879,7 @@ onclick="event.stopPropagation();this.previousElementSibling.select();document.e
                     }, Ee.onkeydown = function(K) {
                       if (!K.isComposing) {
                         if (K.key === "Tab") {
-                          Re.focus(), Re.select(), K.preventDefault();
+                          Ie.focus(), Ie.select(), K.preventDefault();
                           return;
                         }
                         xe(e, K) || We(K, t);
@@ -3887,10 +3887,10 @@ onclick="event.stopPropagation();this.previousElementSibling.select();document.e
                     };
                     var Tt = document.createElement("span");
                     Tt.setAttribute("aria-label", window.VditorI18n.column), Tt.className = "vditor-tooltipped vditor-tooltipped__n";
-                    var Re = document.createElement("input");
-                    Tt.appendChild(Re), Re.type = "number", Re.min = "1", Re.className = "vditor-input", Re.style.width = "42px", Re.style.textAlign = "center", Re.setAttribute("placeholder", window.VditorI18n.column), Re.value = f.rows[0].cells.length.toString(), Re.oninput = function() {
+                    var Ie = document.createElement("input");
+                    Tt.appendChild(Ie), Ie.type = "number", Ie.min = "1", Ie.className = "vditor-input", Ie.style.width = "42px", Ie.style.textAlign = "center", Ie.setAttribute("placeholder", window.VditorI18n.column), Ie.value = f.rows[0].cells.length.toString(), Ie.oninput = function() {
                       R();
-                    }, Re.onkeydown = function(K) {
+                    }, Ie.onkeydown = function(K) {
                       if (!K.isComposing) {
                         if (K.key === "Tab") {
                           Ee.focus(), Ee.select(), K.preventDefault();
@@ -3898,7 +3898,7 @@ onclick="event.stopPropagation();this.previousElementSibling.select();document.e
                         }
                         xe(e, K) || We(K, t);
                       }
-                    }, Qe(t, f, e), $e(t, f, e), Be(f, e), e.wysiwyg.popover.insertAdjacentElement("beforeend", G), e.wysiwyg.popover.insertAdjacentElement("beforeend", V), e.wysiwyg.popover.insertAdjacentElement("beforeend", J), e.wysiwyg.popover.insertAdjacentElement("beforeend", oe), e.wysiwyg.popover.insertAdjacentElement("beforeend", le), e.wysiwyg.popover.insertAdjacentElement("beforeend", De), e.wysiwyg.popover.insertAdjacentElement("beforeend", fe), e.wysiwyg.popover.insertAdjacentElement("beforeend", _e), e.wysiwyg.popover.insertAdjacentElement("beforeend", He), e.wysiwyg.popover.insertAdjacentElement("beforeend", Q), e.wysiwyg.popover.insertAdjacentHTML("beforeend", " x "), e.wysiwyg.popover.insertAdjacentElement("beforeend", Tt), Ne(e, "table"), je(e, f);
+                    }, Qe(t, f, e), $e(t, f, e), Be(f, e), e.wysiwyg.popover.insertAdjacentElement("beforeend", G), e.wysiwyg.popover.insertAdjacentElement("beforeend", V), e.wysiwyg.popover.insertAdjacentElement("beforeend", J), e.wysiwyg.popover.insertAdjacentElement("beforeend", oe), e.wysiwyg.popover.insertAdjacentElement("beforeend", le), e.wysiwyg.popover.insertAdjacentElement("beforeend", De), e.wysiwyg.popover.insertAdjacentElement("beforeend", fe), e.wysiwyg.popover.insertAdjacentElement("beforeend", _e), e.wysiwyg.popover.insertAdjacentElement("beforeend", He), e.wysiwyg.popover.insertAdjacentElement("beforeend", Q), e.wysiwyg.popover.insertAdjacentHTML("beforeend", " x "), e.wysiwyg.popover.insertAdjacentElement("beforeend", Tt), Re(e, "table"), je(e, f);
                   }
                   var Jt = (0, s.a1)(n, "data-type", "link-ref");
                   Jt && ln(e, Jt, t);
@@ -3912,7 +3912,7 @@ onclick="event.stopPropagation();this.previousElementSibling.select();document.e
                       qe.value.trim() !== "" && nt.setAttribute("data-footnotes-label", qe.value), typeof e.options.input == "function" && e.options.input(x(e));
                     }, qe.onkeydown = function(te) {
                       te.isComposing || xe(e, te) || We(te, t);
-                    }, Be(nt, e), e.wysiwyg.popover.insertAdjacentElement("beforeend", Q), Ne(e, "footnotes-ref"), je(e, nt);
+                    }, Be(nt, e), e.wysiwyg.popover.insertAdjacentElement("beforeend", Q), Re(e, "footnotes-ref"), je(e, nt);
                   }
                   var Me = (0, s.fb)(n, "vditor-wysiwyg__block"), Wn = Me ? Me.getAttribute("data-type").indexOf("block") > -1 : !1;
                   if (e.wysiwyg.element.querySelectorAll(".vditor-wysiwyg__preview").forEach(function(K) {
@@ -3926,9 +3926,9 @@ onclick="event.stopPropagation();this.previousElementSibling.select();document.e
                       _t.setAttribute("aria-label", window.VditorI18n.language + "<" + (0, l.ns)("⌥Enter") + ">"), _t.className = "vditor-tooltipped vditor-tooltipped__n";
                       var Ue = document.createElement("input");
                       _t.appendChild(Ue);
-                      var pt = Me.firstElementChild.firstElementChild;
-                      Ue.className = "vditor-input", Ue.setAttribute("placeholder", window.VditorI18n.language + "<" + (0, l.ns)("⌥Enter") + ">"), Ue.value = pt.className.indexOf("language-") > -1 ? pt.className.split("-")[1].split(" ")[0] : "", Ue.oninput = function(K) {
-                        Ue.value.trim() !== "" ? pt.className = "language-".concat(Ue.value) : (pt.className = "", e.hint.recentLanguage = ""), Me.lastElementChild.classList.contains("vditor-wysiwyg__preview") && (Me.lastElementChild.innerHTML = Me.firstElementChild.innerHTML, Le(Me.lastElementChild, e)), ue(e), K.detail === 1 && (t.setStart(pt.firstChild, 0), t.collapse(!0), (0, M.Hc)(t));
+                      var dt = Me.firstElementChild.firstElementChild;
+                      Ue.className = "vditor-input", Ue.setAttribute("placeholder", window.VditorI18n.language + "<" + (0, l.ns)("⌥Enter") + ">"), Ue.value = dt.className.indexOf("language-") > -1 ? dt.className.split("-")[1].split(" ")[0] : "", Ue.oninput = function(K) {
+                        Ue.value.trim() !== "" ? dt.className = "language-".concat(Ue.value) : (dt.className = "", e.hint.recentLanguage = ""), Me.lastElementChild.classList.contains("vditor-wysiwyg__preview") && (Me.lastElementChild.innerHTML = Me.firstElementChild.innerHTML, Le(Me.lastElementChild, e)), ue(e), K.detail === 1 && (t.setStart(dt.firstChild, 0), t.collapse(!0), (0, M.Hc)(t));
                       }, Ue.onkeydown = function(K) {
                         if (!K.isComposing && !xe(e, K)) {
                           if (K.key === "Escape" && e.hint.element.style.display === "block") {
@@ -3940,17 +3940,17 @@ onclick="event.stopPropagation();this.previousElementSibling.select();document.e
                       }, Ue.onkeyup = function(K) {
                         var te, Ze;
                         if (!(K.isComposing || K.key === "Enter" || K.key === "ArrowUp" || K.key === "Escape" || K.key === "ArrowDown")) {
-                          var Je = [], ht = Ue.value.substring(0, Ue.selectionStart);
+                          var Je = [], pt = Ue.value.substring(0, Ue.selectionStart);
                           (e.options.preview.hljs.langs || v.g.ALIAS_CODE_LANGUAGES.concat(((Ze = (te = window.hljs) === null || te === void 0 ? void 0 : te.listLanguages()) !== null && Ze !== void 0 ? Ze : []).sort())).forEach(function(Fe) {
-                            Fe.indexOf(ht.toLowerCase()) > -1 && Je.push({
+                            Fe.indexOf(pt.toLowerCase()) > -1 && Je.push({
                               html: Fe,
                               value: Fe
                             });
-                          }), e.hint.genHTML(Je, ht, e), K.preventDefault();
+                          }), e.hint.genHTML(Je, pt, e), K.preventDefault();
                         }
-                      }, e.wysiwyg.popover.insertAdjacentElement("beforeend", _t), Ne(e, "code-block");
+                      }, e.wysiwyg.popover.insertAdjacentElement("beforeend", _t), Re(e, "code-block");
                     } else
-                      Ne(e, "block");
+                      Re(e, "block");
                     je(e, Me);
                   } else
                     Me = void 0;
@@ -3963,11 +3963,11 @@ onclick="event.stopPropagation();this.previousElementSibling.select();document.e
                       S.setAttribute("data-id", Ge.value), typeof e.options.input == "function" && e.options.input(x(e));
                     }, Ge.onkeydown = function(te) {
                       te.isComposing || xe(e, te) || We(te, t);
-                    }, Qe(t, S, e), $e(t, S, e), Be(S, e), e.wysiwyg.popover.insertAdjacentElement("beforeend", Q), Ne(e, "heading"), je(e, S);
+                    }, Qe(t, S, e), $e(t, S, e), Be(S, e), e.wysiwyg.popover.insertAdjacentElement("beforeend", Q), Re(e, "heading"), je(e, S);
                   }
                   if (h && Ot(e, h, t), !N && !i && !f && !Me && !h && !Jt && !nt && !S && !T) {
                     var rt = (0, s.a1)(n, "data-block", "0");
-                    rt && rt.parentElement.isEqualNode(e.wysiwyg.element) ? (e.wysiwyg.popover.innerHTML = "", Qe(t, rt, e), $e(t, rt, e), Be(rt, e), Ne(e, "block"), je(e, rt)) : e.wysiwyg.popover.style.display = "none";
+                    rt && rt.parentElement.isEqualNode(e.wysiwyg.element) ? (e.wysiwyg.popover.innerHTML = "", Qe(t, rt, e), $e(t, rt, e), Be(rt, e), Re(e, "block"), je(e, rt)) : e.wysiwyg.popover.style.display = "none";
                   }
                   e.wysiwyg.element.querySelectorAll('span[data-type="backslash"] > span').forEach(function(K) {
                     K.style.display = "none";
@@ -3989,7 +3989,7 @@ onclick="event.stopPropagation();this.previousElementSibling.select();document.e
               i.appendChild(a), a.className = "vditor-input", a.setAttribute("placeholder", window.VditorI18n.textIsNotEmpty), a.style.width = "120px", a.value = t.getAttribute("alt") || t.textContent, a.oninput = function() {
                 r();
               }, a.onkeydown = function(h) {
-                xe(e, h) || We(h, n) || lt(e, t, h, u);
+                xe(e, h) || We(h, n) || st(e, t, h, u);
               };
               var o = document.createElement("span");
               o.setAttribute("aria-label", window.VditorI18n.linkRef), o.className = "vditor-tooltipped vditor-tooltipped__n";
@@ -3997,8 +3997,8 @@ onclick="event.stopPropagation();this.previousElementSibling.select();document.e
               o.appendChild(u), u.className = "vditor-input", u.setAttribute("placeholder", window.VditorI18n.linkRef), u.value = t.getAttribute("data-link-label"), u.oninput = function() {
                 r();
               }, u.onkeydown = function(h) {
-                xe(e, h) || We(h, n) || lt(e, t, h, a);
-              }, Be(t, e), e.wysiwyg.popover.insertAdjacentElement("beforeend", i), e.wysiwyg.popover.insertAdjacentElement("beforeend", o), Ne(e, "link-ref"), je(e, t);
+                xe(e, h) || We(h, n) || st(e, t, h, a);
+              }, Be(t, e), e.wysiwyg.popover.insertAdjacentElement("beforeend", i), e.wysiwyg.popover.insertAdjacentElement("beforeend", o), Re(e, "link-ref"), je(e, t);
             }, Qe = function(e, t, n) {
               var r = t.previousElementSibling;
               if (!(!r || !t.parentElement.isEqualNode(n.wysiwyg.element) && t.tagName !== "LI")) {
@@ -4021,7 +4021,7 @@ onclick="event.stopPropagation();this.previousElementSibling.select();document.e
                 var r = (0, M.zh)(t);
                 r.setStartAfter(e), (0, M.Hc)(r), e.remove(), ue(t), Xe(t), ["H1", "H2", "H3", "H4", "H5", "H6"].includes(e.tagName) && Ve(t);
               }, t.wysiwyg.popover.insertAdjacentElement("beforeend", n);
-            }, lt = function(e, t, n, r) {
+            }, st = function(e, t, n, r) {
               if (!n.isComposing) {
                 if (n.key === "Tab") {
                   r.focus(), r.select(), n.preventDefault();
@@ -4046,7 +4046,7 @@ onclick="event.stopPropagation();this.previousElementSibling.select();document.e
               i.appendChild(a), a.className = "vditor-input", a.setAttribute("placeholder", window.VditorI18n.textIsNotEmpty), a.style.width = "120px", a.value = t.innerHTML || "", a.oninput = function() {
                 r();
               }, a.onkeydown = function(S) {
-                xe(e, S) || We(S, n) || lt(e, t, S, u);
+                xe(e, S) || We(S, n) || st(e, t, S, u);
               };
               var o = document.createElement("span");
               o.setAttribute("aria-label", window.VditorI18n.link), o.className = "vditor-tooltipped vditor-tooltipped__n";
@@ -4054,7 +4054,7 @@ onclick="event.stopPropagation();this.previousElementSibling.select();document.e
               o.appendChild(u), u.className = "vditor-input", u.setAttribute("placeholder", window.VditorI18n.link), u.value = t.getAttribute("href") || "", u.oninput = function() {
                 r();
               }, u.onkeydown = function(S) {
-                xe(e, S) || We(S, n) || lt(e, t, S, f);
+                xe(e, S) || We(S, n) || st(e, t, S, f);
               };
               var h = document.createElement("span");
               h.setAttribute("aria-label", window.VditorI18n.tooltipText), h.className = "vditor-tooltipped vditor-tooltipped__n";
@@ -4062,8 +4062,8 @@ onclick="event.stopPropagation();this.previousElementSibling.select();document.e
               h.appendChild(f), f.className = "vditor-input", f.setAttribute("placeholder", window.VditorI18n.tooltipText), f.style.width = "60px", f.value = t.getAttribute("title") || "", f.oninput = function() {
                 r();
               }, f.onkeydown = function(S) {
-                xe(e, S) || We(S, n) || lt(e, t, S, a);
-              }, Be(t, e), e.wysiwyg.popover.insertAdjacentElement("beforeend", i), e.wysiwyg.popover.insertAdjacentElement("beforeend", o), e.wysiwyg.popover.insertAdjacentElement("beforeend", h), Ne(e, "a"), je(e, t);
+                xe(e, S) || We(S, n) || st(e, t, S, a);
+              }, Be(t, e), e.wysiwyg.popover.insertAdjacentElement("beforeend", i), e.wysiwyg.popover.insertAdjacentElement("beforeend", o), e.wysiwyg.popover.insertAdjacentElement("beforeend", h), Re(e, "a"), je(e, t);
             }, lr = function(e, t) {
               var n = e.target;
               t.wysiwyg.popover.innerHTML = "";
@@ -4092,14 +4092,14 @@ onclick="event.stopPropagation();this.previousElementSibling.select();document.e
                 r();
               }, f.onkeydown = function(S) {
                 xe(t, S);
-              }, Be(n, t), t.wysiwyg.popover.insertAdjacentElement("beforeend", i), t.wysiwyg.popover.insertAdjacentElement("beforeend", o), t.wysiwyg.popover.insertAdjacentElement("beforeend", h), Ne(t, "image"), je(t, n);
+              }, Be(n, t), t.wysiwyg.popover.insertAdjacentElement("beforeend", i), t.wysiwyg.popover.insertAdjacentElement("beforeend", o), t.wysiwyg.popover.insertAdjacentElement("beforeend", h), Re(t, "image"), je(t, n);
             }, We = function(e, t) {
               if (!(0, l.yl)(e) && !e.shiftKey && e.key === "Enter" || e.key === "Escape")
                 return t && (0, M.Hc)(t), e.preventDefault(), e.stopPropagation(), !0;
-            }, Ne = function(e, t) {
+            }, Re = function(e, t) {
               e.options.customWysiwygToolbar(t, e.wysiwyg.popover);
             }, et = function(e) {
-              e.currentMode === "wysiwyg" ? Xe(e) : e.currentMode === "ir" && ot(e);
+              e.currentMode === "wysiwyg" ? Xe(e) : e.currentMode === "ir" && at(e);
             }, cn = function(e, t, n) {
               n === void 0 && (n = {
                 enableAddUndoStack: !0,
@@ -4305,7 +4305,7 @@ onclick="event.stopPropagation();this.previousElementSibling.select();document.e
                   });
                 }, t;
               }(me)
-            ), ct = function(e, t) {
+            ), lt = function(e, t) {
               return (0, M.Gb)(e, t) ? getSelection().toString() : "";
             }, Nt = function(e, t) {
               t.addEventListener("focus", function() {
@@ -4377,7 +4377,7 @@ onclick="event.stopPropagation();this.previousElementSibling.select();document.e
                     if (e.currentMode === "wysiwyg") {
                       var r = n.code.replace("Digit", "H");
                       (0, s.lG)(getSelection().getRangeAt(0).startContainer, r) ? Ht(e) : wt(e, r), ue(e);
-                    } else e.currentMode === "sv" ? dn(e, "#".repeat(parseInt(n.code.replace("Digit", ""), 10)) + " ") : e.currentMode === "ir" && dt(e, "#".repeat(parseInt(n.code.replace("Digit", ""), 10)) + " ");
+                    } else e.currentMode === "sv" ? dn(e, "#".repeat(parseInt(n.code.replace("Digit", ""), 10)) + " ") : e.currentMode === "ir" && ft(e, "#".repeat(parseInt(n.code.replace("Digit", ""), 10)) + " ");
                     return n.preventDefault(), !0;
                   }
                   if ((0, l.yl)(n) && n.altKey && !n.shiftKey && /^Digit[7-9]$/.test(n.code))
@@ -4404,7 +4404,7 @@ onclick="event.stopPropagation();this.previousElementSibling.select();document.e
               t.addEventListener("selectstart", function(n) {
                 t.onmouseup = function() {
                   setTimeout(function() {
-                    var r = ct(e[e.currentMode].element);
+                    var r = lt(e[e.currentMode].element);
                     r.trim() ? (e.currentMode === "wysiwyg" && e.options.comment.enable && (!(0, s.a1)(n.target, "data-type", "footnotes-block") && !(0, s.a1)(n.target, "data-type", "link-ref-defs-block") ? e.wysiwyg.showComment() : e.wysiwyg.hideComment()), e.options.select && e.options.select(r)) : (e.currentMode === "wysiwyg" && e.options.comment.enable && e.wysiwyg.hideComment(), typeof e.options.unSelect == "function" && e.options.unSelect());
                   });
                 };
@@ -4882,7 +4882,7 @@ onclick="event.stopPropagation();this.previousElementSibling.select();document.e
                 var n = (0, s.a1)(e.startContainer, "data-type", "math-inline") || (0, s.a1)(e.startContainer, "data-type", "html-entity") || (0, s.a1)(e.startContainer, "data-type", "html-inline");
                 n && (t === "ArrowDown" && e.setStartAfter(n.parentElement), t === "ArrowUp" && e.setStartBefore(n.parentElement));
               }
-            }, ut = function(e, t) {
+            }, ct = function(e, t) {
               var n = (0, M.zh)(e), r = (0, s.F9)(n.startContainer);
               r && (r.insertAdjacentHTML(t, '<p data-block="0">'.concat(v.g.ZWSP, `<wbr>
 </p>`)), (0, M.ib)(e[e.currentMode].element, n), et(e), ee(e));
@@ -4896,7 +4896,7 @@ onclick="event.stopPropagation();this.previousElementSibling.select();document.e
               n === void 0 && (n = !0);
               var r = e.previousElementSibling;
               return r || (e.parentElement.previousElementSibling ? r = e.parentElement.previousElementSibling.lastElementChild : e.parentElement.parentElement.tagName === "TBODY" && e.parentElement.parentElement.previousElementSibling ? r = e.parentElement.parentElement.previousElementSibling.lastElementChild.lastElementChild : r = null), r && (t.selectNodeContents(r), n || t.collapse(!1), (0, M.Hc)(t)), r;
-            }, ft = function(e, t, n, r, i) {
+            }, ut = function(e, t, n, r, i) {
               var a = (0, M.im)(r, e[e.currentMode].element, n);
               if (t.key === "ArrowDown" && r.textContent.trimRight().substr(a.start).indexOf(`
 `) === -1 || t.key === "ArrowRight" && a.start >= r.textContent.trimRight().length) {
@@ -5120,7 +5120,7 @@ onclick="event.stopPropagation();this.previousElementSibling.select();document.e
                 var u = i.parentElement.parentElement.parentElement;
                 if (t.key === "ArrowUp") {
                   if (t.preventDefault(), i.tagName === "TH")
-                    return u.previousElementSibling ? (n.selectNodeContents(u.previousElementSibling), n.collapse(!1), (0, M.Hc)(n)) : ut(e, "beforebegin"), !0;
+                    return u.previousElementSibling ? (n.selectNodeContents(u.previousElementSibling), n.collapse(!1), (0, M.Hc)(n)) : ct(e, "beforebegin"), !0;
                   for (var h = 0, f = i.parentElement; h < f.cells.length && !f.cells[h].isSameNode(i); h++)
                     ;
                   var S = f.previousElementSibling;
@@ -5130,7 +5130,7 @@ onclick="event.stopPropagation();this.previousElementSibling.select();document.e
                   t.preventDefault();
                   var f = i.parentElement;
                   if (!f.nextElementSibling && i.tagName === "TD")
-                    return u.nextElementSibling ? (n.selectNodeContents(u.nextElementSibling), n.collapse(!0), (0, M.Hc)(n)) : ut(e, "afterend"), !0;
+                    return u.nextElementSibling ? (n.selectNodeContents(u.nextElementSibling), n.collapse(!0), (0, M.Hc)(n)) : ct(e, "afterend"), !0;
                   for (var h = 0; h < f.cells.length && !f.cells[h].isSameNode(i); h++)
                     ;
                   var o = f.nextElementSibling;
@@ -5212,7 +5212,7 @@ onclick="event.stopPropagation();this.previousElementSibling.select();document.e
                 var u = (0, s.F9)(i);
                 if (e.currentMode === "wysiwyg" && u && I("⇧⌘;", n))
                   return t.insertNode(document.createElement("wbr")), u.outerHTML = '<blockquote data-block="0">'.concat(u.outerHTML, "</blockquote>"), (0, M.ib)(e.wysiwyg.element, t), ue(e), n.preventDefault(), !0;
-                if (ft(e, n, t, a, a) || tt(e, n, t, a, a))
+                if (ut(e, n, t, a, a) || tt(e, n, t, a, a))
                   return !0;
               }
               return !1;
@@ -5443,11 +5443,11 @@ onclick="event.stopPropagation();this.previousElementSibling.select();document.e
                   typeof e.options.input == "function" && t.enableInput && e.options.input(n), e.options.counter.enable && e.counter.render(e, n), e.options.cache.enable && (0, l.pK)() && (localStorage.setItem(e.options.cache.id, n), e.options.cache.after && e.options.cache.after(n)), e.devtools && e.devtools.renderEchart(e), t.enableAddUndoStack && e.undo.addToUndoStack(e);
                 }
               }, e.options.undoDelay);
-            }, dt = function(e, t) {
+            }, ft = function(e, t) {
               var n = (0, M.zh)(e), r = (0, s.F9)(n.startContainer) || n.startContainer;
               if (r) {
                 var i = r.querySelector(".vditor-ir__marker--heading");
-                i ? i.innerHTML = t : (r.insertAdjacentText("afterbegin", t), n.selectNodeContents(r), n.collapse(!1)), ze(e, n.cloneRange()), ot(e);
+                i ? i.innerHTML = t : (r.insertAdjacentText("afterbegin", t), n.selectNodeContents(r), n.collapse(!1)), ze(e, n.cloneRange()), at(e);
               }
             }, Mt = function(e, t, n) {
               var r = (0, s.a1)(e.startContainer, "data-type", n);
@@ -5496,7 +5496,7 @@ onclick="event.stopPropagation();this.previousElementSibling.select();document.e
                   H.innerHTML = R, i.insertNode(H), ze(e, i), a === "table" && (i.selectNodeContents(getSelection().getRangeAt(0).startContainer.parentElement), (0, M.Hc)(i));
                 } else (a === "check" || a === "list" || a === "ordered-list") && (St(e, i, a, !1), u = !1, m(e.toolbar.elements, ["check", "list", "ordered-list"]), t.classList.add("vditor-menu--current"));
               }
-              (0, M.ib)(e.ir.element, i), Ke(e), u && ot(e);
+              (0, M.ib)(e.ir.element, i), Ke(e), u && at(e);
             }, kr = function(e, t, n, r) {
               function i(a) {
                 return a instanceof n ? a : new n(function(o) {
@@ -5779,10 +5779,10 @@ onclick="event.stopPropagation();this.previousElementSibling.select();document.e
                     }
                     i.toString() === "" ? j(i, t) : setTimeout(function() {
                       j((0, M.zh)(t), t);
-                    }), gt(r, t), ot(t);
+                    }), gt(r, t), at(t);
                   }), this.element.addEventListener("keyup", function(r) {
                     if (!(r.isComposing || (0, l.yl)(r))) {
-                      if (r.key === "Enter" && ve(t), ot(t), (r.key === "Backspace" || r.key === "Delete") && t.ir.element.innerHTML !== "" && t.ir.element.childNodes.length === 1 && t.ir.element.firstElementChild && t.ir.element.firstElementChild.tagName === "P" && t.ir.element.firstElementChild.childElementCount === 0 && (t.ir.element.textContent === "" || t.ir.element.textContent === `
+                      if (r.key === "Enter" && ve(t), at(t), (r.key === "Backspace" || r.key === "Delete") && t.ir.element.innerHTML !== "" && t.ir.element.childNodes.length === 1 && t.ir.element.firstElementChild && t.ir.element.firstElementChild.tagName === "P" && t.ir.element.firstElementChild.childElementCount === 0 && (t.ir.element.textContent === "" || t.ir.element.textContent === `
 `)) {
                         t.ir.element.innerHTML = "";
                         return;
@@ -5998,7 +5998,7 @@ onclick="event.stopPropagation();this.previousElementSibling.select();document.e
                   this.composingLock = !1, this.element = document.createElement("pre"), this.element.className = "vditor-sv vditor-reset", this.element.setAttribute("placeholder", t.options.placeholder), this.element.setAttribute("contenteditable", "true"), this.element.setAttribute("spellcheck", "false"), this.bindEvent(t), Nt(t, this.element), Rt(t, this.element), Bt(t, this.element), Ut(t, this.element), It(t, this.element), Pt(t, this.element, this.copy), jt(t, this.element, this.copy);
                 }
                 return e.prototype.copy = function(t, n) {
-                  t.stopPropagation(), t.preventDefault(), t.clipboardData.setData("text/plain", ct(n[n.currentMode].element));
+                  t.stopPropagation(), t.preventDefault(), t.clipboardData.setData("text/plain", lt(n[n.currentMode].element));
                 }, e.prototype.bindEvent = function(t) {
                   var n = this;
                   this.element.addEventListener("paste", function(r) {
@@ -6497,11 +6497,11 @@ window.addEventListener("message", (e) => {
                 return t.prototype._bindEvent = function(n, r) {
                   var i = this.element.children[0];
                   i.addEventListener((0, l.Le)(), function(o) {
-                    o.preventDefault(), clearTimeout(n.wysiwyg.afterRenderTimeoutId), clearTimeout(n.ir.processTimeoutId), clearTimeout(n.sv.processTimeoutId), !i.classList.contains(v.g.CLASS_MENU_DISABLED) && (i.blur(), i.classList.contains("vditor-menu--current") ? (n.currentMode === "wysiwyg" ? (Ht(n), ue(n)) : n.currentMode === "ir" && dt(n, ""), i.classList.remove("vditor-menu--current")) : (b(n, ["subToolbar"]), r.style.display = "block"));
+                    o.preventDefault(), clearTimeout(n.wysiwyg.afterRenderTimeoutId), clearTimeout(n.ir.processTimeoutId), clearTimeout(n.sv.processTimeoutId), !i.classList.contains(v.g.CLASS_MENU_DISABLED) && (i.blur(), i.classList.contains("vditor-menu--current") ? (n.currentMode === "wysiwyg" ? (Ht(n), ue(n)) : n.currentMode === "ir" && ft(n, ""), i.classList.remove("vditor-menu--current")) : (b(n, ["subToolbar"]), r.style.display = "block"));
                   });
                   for (var a = 0; a < 6; a++)
                     r.children.item(a).addEventListener((0, l.Le)(), function(o) {
-                      o.preventDefault(), n.currentMode === "wysiwyg" ? (wt(n, o.target.getAttribute("data-tag")), ue(n), i.classList.add("vditor-menu--current")) : n.currentMode === "ir" ? (dt(n, o.target.getAttribute("data-value")), i.classList.add("vditor-menu--current")) : dn(n, o.target.getAttribute("data-value")), r.style.display = "none";
+                      o.preventDefault(), n.currentMode === "wysiwyg" ? (wt(n, o.target.getAttribute("data-tag")), ue(n), i.classList.add("vditor-menu--current")) : n.currentMode === "ir" ? (ft(n, o.target.getAttribute("data-value")), i.classList.add("vditor-menu--current")) : dn(n, o.target.getAttribute("data-value")), r.style.display = "none";
                     });
                 }, t;
               }(me)
@@ -6667,7 +6667,7 @@ window.addEventListener("message", (e) => {
                 function t(n, r) {
                   var i = e.call(this, n, r) || this;
                   return i.element.children[0].addEventListener((0, l.Le)(), function(a) {
-                    a.preventDefault(), !(i.element.firstElementChild.classList.contains(v.g.CLASS_MENU_DISABLED) || n.currentMode === "sv") && ut(n, "afterend");
+                    a.preventDefault(), !(i.element.firstElementChild.classList.contains(v.g.CLASS_MENU_DISABLED) || n.currentMode === "sv") && ct(n, "afterend");
                   }), i;
                 }
                 return t;
@@ -6696,7 +6696,7 @@ window.addEventListener("message", (e) => {
                 function t(n, r) {
                   var i = e.call(this, n, r) || this;
                   return i.element.children[0].addEventListener((0, l.Le)(), function(a) {
-                    a.preventDefault(), !(i.element.firstElementChild.classList.contains(v.g.CLASS_MENU_DISABLED) || n.currentMode === "sv") && ut(n, "beforebegin");
+                    a.preventDefault(), !(i.element.firstElementChild.classList.contains(v.g.CLASS_MENU_DISABLED) || n.currentMode === "sv") && ct(n, "beforebegin");
                   }), i;
                 }
                 return t;
@@ -7810,7 +7810,7 @@ window.addEventListener("message", (e) => {
                     }
                     Xe(t);
                     var h = (0, s.fb)(r.target, "vditor-wysiwyg__preview");
-                    h || (h = (0, s.fb)((0, M.zh)(t).startContainer, "vditor-wysiwyg__preview")), h && st(h, t), gt(r, t);
+                    h || (h = (0, s.fb)((0, M.zh)(t).startContainer, "vditor-wysiwyg__preview")), h && ot(h, t), gt(r, t);
                   }), this.element.addEventListener("keyup", function(r) {
                     if (!(r.isComposing || (0, l.yl)(r))) {
                       r.key === "Enter" && ve(t), (r.key === "Backspace" || r.key === "Delete") && t.wysiwyg.element.innerHTML !== "" && t.wysiwyg.element.childNodes.length === 1 && t.wysiwyg.element.firstElementChild && t.wysiwyg.element.firstElementChild.tagName === "P" && t.wysiwyg.element.firstElementChild.childElementCount === 0 && (t.wysiwyg.element.textContent === "" || t.wysiwyg.element.textContent === `
@@ -7827,7 +7827,7 @@ window.addEventListener("message", (e) => {
                         if (a) {
                           var u = a.previousElementSibling;
                           if (u.style.display === "none") {
-                            r.key === "ArrowDown" || r.key === "ArrowRight" ? st(a, t) : st(a, t, !1);
+                            r.key === "ArrowDown" || r.key === "ArrowRight" ? ot(a, t) : ot(a, t, !1);
                             return;
                           }
                           var h = a.previousElementSibling;
@@ -7836,7 +7836,7 @@ window.addEventListener("message", (e) => {
                             if (f && f.nodeType !== 3) {
                               var S = f.querySelector(".vditor-wysiwyg__preview");
                               if (S) {
-                                st(S, t);
+                                ot(S, t);
                                 return;
                               }
                             }
@@ -7923,11 +7923,11 @@ window.addEventListener("message", (e) => {
                   g(this.vditor.toolbar.elements, v.g.EDIT_TOOLBARS.concat(["undo", "redo", "fullscreen", "edit-mode"])), this.vditor.undo.resetIcon(this.vditor), this.vditor[this.vditor.currentMode].element.setAttribute("contenteditable", "true");
                 }, t.prototype.getSelection = function() {
                   if (this.vditor.currentMode === "wysiwyg")
-                    return ct(this.vditor.wysiwyg.element);
+                    return lt(this.vditor.wysiwyg.element);
                   if (this.vditor.currentMode === "sv")
-                    return ct(this.vditor.sv.element);
+                    return lt(this.vditor.sv.element);
                   if (this.vditor.currentMode === "ir")
-                    return ct(this.vditor.ir.element);
+                    return lt(this.vditor.ir.element);
                 }, t.prototype.renderPreview = function(n) {
                   this.vditor.preview.render(this.vditor, n);
                 }, t.prototype.getCursorPosition = function() {
@@ -7982,7 +7982,7 @@ window.addEventListener("message", (e) => {
                     enableInput: !1
                   })), this.vditor.outline.render(this.vditor), n || (b(this.vditor, ["emoji", "headings", "submenu", "hint"]), this.vditor.wysiwyg.popover && (this.vditor.wysiwyg.popover.style.display = "none"), this.clearCache()), r && this.clearStack();
                 }, t.prototype.insertEmptyBlock = function(n) {
-                  ut(this.vditor, n);
+                  ct(this.vditor, n);
                 }, t.prototype.clearStack = function() {
                   this.vditor.undo.clearStack(this.vditor), this.vditor.undo.addToUndoStack(this.vditor);
                 }, t.prototype.destroy = function() {
@@ -8069,13 +8069,13 @@ window.addEventListener("message", (e) => {
                       paragraphBeginningSpace: i.vditor.options.preview.markdown.paragraphBeginningSpace,
                       sanitize: i.vditor.options.preview.markdown.sanitize,
                       toc: i.vditor.options.preview.markdown.toc
-                    }), i.vditor.preview = new Hr(i.vditor), Oe(i.vditor), r.after && r.after(), r.icon && (0, _.J)("".concat(r.cdn, "/dist/js/icons/").concat(r.icon, ".js"), "vditorIconScript");
+                    }), i.vditor.preview = new Hr(i.vditor), Ne(i.vditor), r.after && r.after(), r.icon && (0, _.J)("".concat(r.cdn, "/dist/js/icons/").concat(r.icon, ".js"), "vditorIconScript");
                   }));
                 }, t;
               }(Z.default)
             );
             const ji = Pi;
-          })(), Ie = Ie.default, Ie;
+          })(), Oe = Oe.default, Oe;
         })()
       );
     });
@@ -8085,24 +8085,24 @@ var Qi = Yi();
 const $i = /* @__PURE__ */ Ji(Qi), ea = { class: "endericedragon-sticky-buttons" }, ta = /* @__PURE__ */ Xn({
   __name: "EditorModal",
   setup(ne) {
-    const ye = at(""), ge = at(""), Se = at(!1), Y = at(new AbortController()), Ie = at(0);
-    let Z = at();
+    const ye = ht(""), ge = ht(""), Se = ht(!1), Y = ht(0);
+    let Oe = ht();
     Vi(() => {
-      window.addEventListener(tn.showEditor, v);
+      window.addEventListener(tn.showEditor, Z);
     }), Wi(() => {
-      window.removeEventListener(tn.showEditor, v);
+      window.removeEventListener(tn.showEditor, Z);
     });
-    function v(c) {
+    function Z(c) {
       let l = c.detail, m = l.content, p = l.rel_file_path;
-      ye.value !== p && (ye.value = p, Ie.value = 0), ge.value = m, Se.value = !0;
+      ye.value !== p && (ye.value = p, Y.value = 0), ge.value = m, Se.value = !0;
     }
-    class L {
+    class v {
       static ok() {
         tr(
           mt,
           $n.saveContent,
           new er(
-            Z.value.getValue(),
+            Oe.value.getValue(),
             ye.value
           )
         ), Se.value = !1;
@@ -8111,9 +8111,9 @@ const $i = /* @__PURE__ */ Ji(Qi), ea = { class: "endericedragon-sticky-buttons"
         Se.value = !1;
       }
     }
-    function x() {
+    function L() {
       let l = document.getElementById("mde-point").parentElement;
-      Y.value = new AbortController(), Z.value = new $i("mde-point", {
+      Oe.value = new $i("mde-point", {
         minHeight: 320,
         toolbarConfig: {
           pin: !0
@@ -8127,36 +8127,33 @@ const $i = /* @__PURE__ */ Ji(Qi), ea = { class: "endericedragon-sticky-buttons"
         },
         after: () => {
           var m, p;
-          (m = Z.value) == null || m.setTheme(
+          (m = Oe.value) == null || m.setTheme(
             "dark",
             "dark",
             "atom-one-dark"
-          ), (p = Z.value) == null || p.setValue(ge.value), ge.value = "", console.log("[mdnotes] Setting scrollTop value to ", Ie.value), l.scrollTo({
-            top: Ie.value,
+          ), (p = Oe.value) == null || p.setValue(ge.value), ge.value = "", console.log("[mdnotes] Setting scrollTop value to ", Y.value), l.scrollTo({
+            top: Y.value,
             left: 0,
             behavior: "smooth"
           });
         }
-      }), l.addEventListener(
-        "scroll",
-        (m) => {
-          Ie.value = l.scrollTop;
-        },
-        {
-          signal: Y.value.signal
-        }
-      );
+      });
+    }
+    function x() {
+      var c;
+      (c = Oe.value) == null || c.destroy();
     }
     function _() {
-      var c;
-      (c = Z.value) == null || c.destroy(), Y.value.abort();
+      let c = document.getElementById("mde-point").parentElement;
+      console.log("[mdnotes] Scrolled to ", c.scrollTop), Y.value = c.scrollTop;
     }
     return (c, l) => (Qn(), Yn($t(Zi), {
       visible: Se.value,
       "onUpdate:visible": l[0] || (l[0] = (m) => Se.value = m),
       modal: "",
-      onShow: x,
-      onAfterHide: _,
+      onShow: L,
+      onHide: _,
+      onAfterHide: x,
       header: ye.value,
       "close-on-escape": ""
     }, {
@@ -8165,7 +8162,7 @@ const $i = /* @__PURE__ */ Ji(Qi), ea = { class: "endericedragon-sticky-buttons"
         At("div", ea, [
           Gn($t(Zn), {
             severity: "danger",
-            onClick: L.cancel
+            onClick: v.cancel
           }, {
             default: en(() => [...l[1] || (l[1] = [
               At("i", { class: "bi bi-x-circle" }, null, -1)
@@ -8174,7 +8171,7 @@ const $i = /* @__PURE__ */ Ji(Qi), ea = { class: "endericedragon-sticky-buttons"
           }, 8, ["onClick"]),
           Gn($t(Zn), {
             severity: "success",
-            onClick: L.ok
+            onClick: v.ok
           }, {
             default: en(() => [...l[2] || (l[2] = [
               At("i", { class: "bi bi-check2-circle" }, null, -1)
@@ -8191,7 +8188,7 @@ const $i = /* @__PURE__ */ Ji(Qi), ea = { class: "endericedragon-sticky-buttons"
   for (const [Se, Y] of ye)
     ge[Se] = Y;
   return ge;
-}, ra = /* @__PURE__ */ na(ta, [["__scopeId", "data-v-e0527009"]]), ia = /* @__PURE__ */ Xn({
+}, ra = /* @__PURE__ */ na(ta, [["__scopeId", "data-v-7d32cce4"]]), ia = /* @__PURE__ */ Xn({
   __name: "App",
   setup(ne) {
     return (ye, ge) => (Qn(), Yn(ra, {
@@ -8205,7 +8202,7 @@ mt.registerExtension({
   name: "endericedragon.mdnotes",
   async beforeRegisterNodeDef(ne, ye, ge) {
     let Se = ne.prototype.getExtraMenuOptions;
-    ne.prototype.getExtraMenuOptions = function(Y, Ie) {
+    ne.prototype.getExtraMenuOptions = function(Y, Oe) {
       Se == null || Se.apply(this, arguments);
       let Z = this.widgets.find((_) => _.name === "ckpt_name"), v = this.widgets.filter((_) => _.name.includes("lora") && _.name.includes("name")), L = [];
       function x(_, c) {
@@ -8234,7 +8231,7 @@ mt.registerExtension({
           }
         });
       }
-      return Ie.unshift(...L), Ie;
+      return Oe.unshift(...L), Oe;
     };
   },
   async setup() {
