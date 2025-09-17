@@ -28,7 +28,7 @@ Documentation = "https://codeberg.org/endericedragon/comfyui-mdnotes/wiki"
 "Bug Tracker" = "https://codeberg.org/endericedragon/comfyui-mdnotes/issues"
 
 [tool.comfy]
-PublisherId = "TreasureHeapKey"
+PublisherId = "endericedragon"
 DisplayName = "comfyui-mdnotes"
 Icon = ""
 includes = [] 
