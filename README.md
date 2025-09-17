@@ -2,51 +2,48 @@
 
 该自定义节点可根据checkpoints / lora名称自动寻找对应的markdown笔记文件并呈现给用户；用户在编辑器中完成修改后，可回存至硬盘中。
 
-## 概述
+Find, display and save markdown notes from/to hard drive of checkpoints and loras according to the name of them.
+
+## 概述 - Overview
 
 ComfyUI-MDNotes在Comfy Core、Easy Use的CheckpointLoader等节点上注册了Show checkpoint note与/或Show lora note右键菜单。点击该菜单即会弹出如下对话框，用户可随意读取/修改笔记文件。
 
+ComfyUI-MDNotes registers new right-click menu items called "Show checkpoint note" and "Show lora note" while the checkpoint or lora selection widget is available. Clicking on these menu items will open a dialog box where users can read and edit the corresponding markdown notes.
+
 ![image1](doc/image.png)
 
-## 技术栈
+## 技术栈 - Technology Stack
 
-- [Vue.js](https://vuejs.org/) - 超棒的前端框架
-- [Vditor](https://b3log.org/vditor/) - 所见即所得的markdown编辑器
-- [PrimeVue](https://primevue.org/) - ComfyUI原生提供的前端UI组件库
-- [Bootstrap Icons](https://icons.getbootstrap.com/) - 超棒的前端图标库
+- [Vue.js](https://vuejs.org/) - 超棒的JavaScript框架 (A fascinating JavaScript framework)
+- [Vditor](https://b3log.org/vditor/) - 所见即所得的markdown编辑器 (A WYSIWYG markdown editor)
+- [PrimeVue](https://primevue.org/) - ComfyUI原生提供的前端UI组件库 (A front-end UI component library provided by ComfyUI)
+- [Bootstrap Icons](https://icons.getbootstrap.com/) - 超棒的前端图标 库 (A hyper-awesome front-end icon library)
 
-## 安装
-
-⚠️ **Important** ⚠️
-
-This demonstration node is not designed to be installed directly via **git clone**. For proper functionality, please install through:
-
-- [ComfyUI Manager]()
-- [ComfyUI Registry]()
-
-## 开发配置步骤
+## 开发配置步骤 - Development Configuration Steps
 
 若想尝试修改该自定义节点，或以该自定义节点为基础做二次开发，请按如下步骤配置开发环境。强烈推荐使用fnm来管理node.js版本，真的很好使！
 
-1. 将本仓库克隆到ComfyUI的自定义节点目录中（一般位于 `ComfyUI/custom_nodes` ）：
+To modify this custom node, please consider following the steps below (fnm is recommended to manage multiple versions of node.js):
+
+1. 将本仓库克隆到ComfyUI的自定义节点目录中（一般位于 `ComfyUI/custom_nodes` ）(Clone this repo into the `custom_nodes` directory of your ComfyUI installation)：
    ```bash
    git clone https://codeberg.org/endericedragon/comfyui-mdnotes.git
    ```
-2. 导航到仓库根目录：
+2. 导航到仓库根目录 (Navigate to the root directory of the repository)：
    ```bash
    cd comfyui-mdnotes
    ```
-3. 安装依赖NPM包：
+3. 安装依赖NPM包 (Install dependencies using NPM)：
    ```bash
     npm install
    ```
-4. 构建项目，vite会把构建产物放到 `web` 目录中：
+4. 构建项目，vite会把构建产物放到 `web` 目录中 (Build the project using Vite, which will put the build artifacts into the `web` directory)：
    ```bash
    npm run build
    ```
-5. 启动 / 刷新ComfyUI网页端界面，即可载入更改。
+5. 启动 / 刷新ComfyUI网页端界面，即可载入更改 (Start / refresh the ComfyUI web interface to load the changes)。
 
-## 开发日志
+## 开发日志 - Development Log
 
 ComfyUI关于自定义节点开发的文档质量一言难尽，官方文档内容不全，网络上的教程质量亦参差不齐，故将笔者开发该节点的过程分享于此，有需自取即可，欢迎指正与PR。
 
