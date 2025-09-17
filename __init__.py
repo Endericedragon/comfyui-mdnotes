@@ -56,11 +56,10 @@ def get_dice_similiarity(t1: str, t2: str) -> float:
 @PromptServer.instance.routes.post("/mdnotes/current_model")
 async def get_current_model(request: web.Request):
     data: ModelInfo = await request.json()
-    match data["model_type"]:
-        case "ckpt":
-            model_path = ckpt_base_dir / pathlib.Path(data["model_name"])
-        case "lora":
-            model_path = lora_base_dir / pathlib.Path(data["model_name"])
+    if data["model_type"] == "ckpt":
+        model_path = ckpt_base_dir / pathlib.Path(data["model_name"])
+    elif data["model_type"] == "lora":
+        model_path = lora_base_dir / pathlib.Path(data["model_name"])
     model_dir = model_path.parent
     # 检查model_dir是否存在
     if not model_dir.exists():
