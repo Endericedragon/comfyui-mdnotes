@@ -1,6 +1,6 @@
 var Ui = Object.defineProperty;
-var Vi = (ne, ye, ge) => ye in ne ? Ui(ne, ye, { enumerable: !0, configurable: !0, writable: !0, value: ge }) : ne[ye] = ge;
-var $t = (ne, ye, ge) => Vi(ne, typeof ye != "symbol" ? ye + "" : ye, ge);
+var Vi = (ne, ye, pe) => ye in ne ? Ui(ne, ye, { enumerable: !0, configurable: !0, writable: !0, value: pe }) : ne[ye] = pe;
+var $t = (ne, ye, pe) => Vi(ne, typeof ye != "symbol" ? ye + "" : ye, pe);
 import { defineComponent as Yn, ref as ot, onMounted as Wi, onUnmounted as Fi, createBlock as Qn, openBlock as $n, unref as en, withCtx as tn, createElementVNode as At, createVNode as Zn, withModifiers as Ki, createApp as qi } from "vue";
 import zi from "primevue/config";
 import { app as Gi } from "../../../scripts/app.js";
@@ -17,10 +17,10 @@ const Xe = Gi, er = {
 };
 var rn = /* @__PURE__ */ ((ne) => (ne.CKPT = "ckpt", ne.LORA = "lora", ne.UNKNOWN = "unknown", ne))(rn || {});
 class tr {
-  constructor(ye, ge) {
+  constructor(ye, pe) {
     $t(this, "content");
     $t(this, "rel_file_path");
-    this.content = ye, this.rel_file_path = ge;
+    this.content = ye, this.rel_file_path = pe;
   }
   toJSON() {
     return {
@@ -29,11 +29,11 @@ class tr {
     };
   }
 }
-async function nr(ne, ye, ge) {
+async function nr(ne, ye, pe) {
   return ne.api.fetchApi(ye, {
     method: "POST",
     headers: { "Content-Type": "application/json" },
-    body: JSON.stringify(ge)
+    body: JSON.stringify(pe)
   }).then((be) => {
     switch (be.status) {
       case 201:
@@ -94,7 +94,7 @@ function Qi() {
       return (
         /******/
         (() => {
-          var ge = {
+          var pe = {
             /***/
             173: (
               /***/
@@ -700,12 +700,12 @@ function Qi() {
                 }, se = L(214), we = L(810), de = function(I, ie) {
                   if (ie === void 0 && (ie = "zh_CN"), !(typeof speechSynthesis > "u" || typeof SpeechSynthesisUtterance > "u")) {
                     var W = function() {
-                      var Te = speechSynthesis.getVoices(), X, pe;
+                      var Te = speechSynthesis.getVoices(), X, he;
                       return Te.forEach(function(Oe) {
-                        Oe.lang === ie.replace("_", "-") && (X = Oe), Oe.default && (pe = Oe);
-                      }), X || (X = pe), X;
-                    }, j = '<svg><use xlink:href="#vditor-icon-play"></use></svg>', he = '<svg><use xlink:href="#vditor-icon-pause"></use></svg>';
-                    document.getElementById("vditorIconScript") || (j = '<svg viewBox="0 0 32 32"><path d="M3.436 0l25.128 16-25.128 16v-32z"></path></svg>', he = '<svg viewBox="0 0 32 32"><path d="M20.617 0h9.128v32h-9.128v-32zM2.255 32v-32h9.128v32h-9.128z"></path></svg>');
+                        Oe.lang === ie.replace("_", "-") && (X = Oe), Oe.default && (he = Oe);
+                      }), X || (X = he), X;
+                    }, j = '<svg><use xlink:href="#vditor-icon-play"></use></svg>', me = '<svg><use xlink:href="#vditor-icon-pause"></use></svg>';
+                    document.getElementById("vditorIconScript") || (j = '<svg viewBox="0 0 32 32"><path d="M3.436 0l25.128 16-25.128 16v-32z"></path></svg>', me = '<svg viewBox="0 0 32 32"><path d="M20.617 0h9.128v32h-9.128v-32zM2.255 32v-32h9.128v32h-9.128z"></path></svg>');
                     var q = document.querySelector(".vditor-speech");
                     q || (q = document.createElement("button"), q.className = "vditor-speech", I.insertAdjacentElement("beforeend", q), speechSynthesis.onvoiceschanged !== void 0 && (speechSynthesis.onvoiceschanged = W));
                     var ve = W(), ae = new SpeechSynthesisUtterance();
@@ -714,42 +714,42 @@ function Qi() {
                     }, I.addEventListener(window.ontouchstart !== void 0 ? "touchend" : "click", function(Te) {
                       var X = Te.target;
                       if (X.classList.contains("vditor-speech") || X.parentElement.classList.contains("vditor-speech")) {
-                        q.classList.contains("vditor-speech--current") ? speechSynthesis.speaking && (speechSynthesis.paused ? (speechSynthesis.resume(), q.innerHTML = he) : (speechSynthesis.pause(), q.innerHTML = j)) : (ae.text = q.getAttribute("data-text"), speechSynthesis.speak(ae), q.classList.add("vditor-speech--current"), q.innerHTML = he), (0, we.Hc)(window.vditorSpeechRange), I.focus();
+                        q.classList.contains("vditor-speech--current") ? speechSynthesis.speaking && (speechSynthesis.paused ? (speechSynthesis.resume(), q.innerHTML = me) : (speechSynthesis.pause(), q.innerHTML = j)) : (ae.text = q.getAttribute("data-text"), speechSynthesis.speak(ae), q.classList.add("vditor-speech--current"), q.innerHTML = me), (0, we.Hc)(window.vditorSpeechRange), I.focus();
                         return;
                       }
                       if (q.style.display = "none", speechSynthesis.cancel(), q.classList.remove("vditor-speech--current"), q.innerHTML = j, getSelection().rangeCount !== 0) {
-                        var pe = getSelection().getRangeAt(0), Oe = pe.toString().trim();
+                        var he = getSelection().getRangeAt(0), Oe = he.toString().trim();
                         if (Oe) {
-                          window.vditorSpeechRange = pe.cloneRange();
-                          var Ie = pe.getBoundingClientRect();
+                          window.vditorSpeechRange = he.cloneRange();
+                          var Ie = he.getBoundingClientRect();
                           q.innerHTML = j, q.style.display = "block", q.style.top = Ie.top + Ie.height + document.querySelector("html").scrollTop - 20 + "px", window.ontouchstart !== void 0 ? q.style.left = Te.changedTouches[Te.changedTouches.length - 1].pageX + 2 + "px" : q.style.left = Te.clientX + 2 + "px", q.setAttribute("data-text", Oe);
                         }
                       }
                     });
                   }
                 }, ce = function(I, ie, W, j) {
-                  function he(q) {
+                  function me(q) {
                     return q instanceof W ? q : new W(function(ve) {
                       ve(q);
                     });
                   }
                   return new (W || (W = Promise))(function(q, ve) {
-                    function ae(pe) {
+                    function ae(he) {
                       try {
-                        X(j.next(pe));
+                        X(j.next(he));
                       } catch (Oe) {
                         ve(Oe);
                       }
                     }
-                    function Te(pe) {
+                    function Te(he) {
                       try {
-                        X(j.throw(pe));
+                        X(j.throw(he));
                       } catch (Oe) {
                         ve(Oe);
                       }
                     }
-                    function X(pe) {
-                      pe.done ? q(pe.value) : he(pe.value).then(ae, Te);
+                    function X(he) {
+                      he.done ? q(he.value) : me(he.value).then(ae, Te);
                     }
                     X((j = j.apply(I, ie || [])).next());
                   });
@@ -757,20 +757,20 @@ function Qi() {
                   var W = { label: 0, sent: function() {
                     if (q[0] & 1) throw q[1];
                     return q[1];
-                  }, trys: [], ops: [] }, j, he, q, ve;
+                  }, trys: [], ops: [] }, j, me, q, ve;
                   return ve = { next: ae(0), throw: ae(1), return: ae(2) }, typeof Symbol == "function" && (ve[Symbol.iterator] = function() {
                     return this;
                   }), ve;
                   function ae(X) {
-                    return function(pe) {
-                      return Te([X, pe]);
+                    return function(he) {
+                      return Te([X, he]);
                     };
                   }
                   function Te(X) {
                     if (j) throw new TypeError("Generator is already executing.");
                     for (; ve && (ve = 0, X[0] && (W = 0)), W; ) try {
-                      if (j = 1, he && (q = X[0] & 2 ? he.return : X[0] ? he.throw || ((q = he.return) && q.call(he), 0) : he.next) && !(q = q.call(he, X[1])).done) return q;
-                      switch (he = 0, q && (X = [X[0] & 2, q.value]), X[0]) {
+                      if (j = 1, me && (q = X[0] & 2 ? me.return : X[0] ? me.throw || ((q = me.return) && q.call(me), 0) : me.next) && !(q = q.call(me, X[1])).done) return q;
+                      switch (me = 0, q && (X = [X[0] & 2, q.value]), X[0]) {
                         case 0:
                         case 1:
                           q = X;
@@ -778,7 +778,7 @@ function Qi() {
                         case 4:
                           return W.label++, { value: X[1], done: !1 };
                         case 5:
-                          W.label++, he = X[1], X = [0];
+                          W.label++, me = X[1], X = [0];
                           continue;
                         case 7:
                           X = W.ops.pop(), W.trys.pop();
@@ -804,8 +804,8 @@ function Qi() {
                           continue;
                       }
                       X = ie.call(I, W);
-                    } catch (pe) {
-                      X = [6, pe], he = 0;
+                    } catch (he) {
+                      X = [6, he], me = 0;
                     } finally {
                       j = q = 0;
                     }
@@ -866,13 +866,13 @@ function Qi() {
                   });
                 }, M = function(I, ie, W) {
                   return ce(void 0, void 0, void 0, function() {
-                    var j, he, q, ve;
+                    var j, me, q, ve;
                     return Ce(this, function(ae) {
                       switch (ae.label) {
                         case 0:
                           return j = Ae(W), [4, Le(ie, j)];
                         case 1:
-                          if (he = ae.sent(), j.transform && (he = j.transform(he)), I.innerHTML = he, I.classList.add("vditor-reset"), j.i18n) return [3, 5];
+                          if (me = ae.sent(), j.transform && (me = j.transform(me)), I.innerHTML = me, I.classList.add("vditor-reset"), j.i18n) return [3, 5];
                           if (["de_DE", "en_US", "es_ES", "fr_FR", "ja_JP", "ko_KR", "pt_BR", "ru_RU", "sv_SE", "vi_VN", "zh_CN", "zh_TW"].includes(j.lang)) return [3, 2];
                           throw new Error("options.lang error, see https://ld246.com/article/1549638745630#options");
                         case 2:
@@ -896,8 +896,8 @@ function Qi() {
                           }), (0, b.i)(I, j.cdn, j.mode), (0, y.J)(I, j.cdn, j.mode), (0, s.K)(I, j.cdn), (0, g.P)(I, j.cdn), (0, p.v)(I, j.cdn), (0, c.p)(I, j.cdn, j.mode), (0, C.P)(I, j.cdn, j.mode), (0, D.B)(I, j.cdn), (0, x.Q)(I, j.cdn), j.render.media.enable && (0, w.Y)(I), j.speech.enable && de(I), j.anchor !== 0 && re(j.anchor), j.after && j.after(), j.lazyLoadImage && f(I), I.addEventListener("click", function(Te) {
                             var X = (0, z.lG)(Te.target, "SPAN");
                             if (X && (0, z.fb)(X, "vditor-toc")) {
-                              var pe = I.querySelector("#" + X.getAttribute("data-target-id"));
-                              pe && window.scrollTo(window.scrollX, pe.offsetTop);
+                              var he = I.querySelector("#" + X.getAttribute("data-target-id"));
+                              he && window.scrollTo(window.scrollX, he.offsetTop);
                               return;
                             }
                           }), [
@@ -2869,7 +2869,7 @@ onclick="event.stopPropagation();this.previousElementSibling.select();document.e
               exports: {}
               /******/
             };
-            return ge[Z](L, L.exports, Y), L.exports;
+            return pe[Z](L, L.exports, Y), L.exports;
           }
           Y.d = (Z, v) => {
             for (var L in v)
@@ -3230,7 +3230,7 @@ onclick="event.stopPropagation();this.previousElementSibling.select();document.e
                   return;
                 }
               }
-            }, he = function(e, t) {
+            }, me = function(e, t) {
               if (e.ir.composingLock = t.isComposing, t.isComposing)
                 return !1;
               t.key.indexOf("Arrow") === -1 && t.key !== "Meta" && t.key !== "Control" && t.key !== "Alt" && t.key !== "Shift" && t.key !== "CapsLock" && t.key !== "Escape" && !/^F\d{1,2}$/.test(t.key) && e.undo.recordFirstPosition(e, t);
@@ -3452,10 +3452,10 @@ onclick="event.stopPropagation();this.previousElementSibling.select();document.e
                 }
               }
               return !1;
-            }, X = Y(538), pe = function(e) {
+            }, X = Y(538), he = function(e) {
               e.options.theme === "dark" ? e.element.classList.add("vditor--dark") : e.element.classList.remove("vditor--dark");
             }, Oe = function(e) {
-              e.element.innerHTML = "", e.element.classList.add("vditor"), e.options.rtl && e.element.setAttribute("dir", "rtl"), pe(e), (0, X.Z)(e.options.preview.theme.current, e.options.preview.theme.path), typeof e.options.height == "number" ? e.element.style.height = e.options.height + "px" : e.element.style.height = e.options.height, typeof e.options.minHeight == "number" && (e.element.style.minHeight = e.options.minHeight + "px"), typeof e.options.width == "number" ? e.element.style.width = e.options.width + "px" : e.element.style.width = e.options.width, e.element.appendChild(e.toolbar.element);
+              e.element.innerHTML = "", e.element.classList.add("vditor"), e.options.rtl && e.element.setAttribute("dir", "rtl"), he(e), (0, X.Z)(e.options.preview.theme.current, e.options.preview.theme.path), typeof e.options.height == "number" ? e.element.style.height = e.options.height + "px" : e.element.style.height = e.options.height, typeof e.options.minHeight == "number" && (e.element.style.minHeight = e.options.minHeight + "px"), typeof e.options.width == "number" ? e.element.style.width = e.options.width + "px" : e.element.style.width = e.options.width, e.element.appendChild(e.toolbar.element);
               var t = document.createElement("div");
               if (t.className = "vditor-content", e.options.outline.position === "left" && t.appendChild(e.outline.element), t.appendChild(e.wysiwyg.element.parentElement), t.appendChild(e.sv.element), t.appendChild(e.ir.element.parentElement), t.appendChild(e.preview.element), e.toolbar.elements.devtools && t.appendChild(e.devtools.element), e.options.outline.position === "right" && (e.outline.element.classList.add("vditor-outline--right"), t.appendChild(e.outline.element)), e.upload && t.appendChild(e.upload.element), e.options.resize.enable && t.appendChild(e.resize.element), t.appendChild(e.hint.element), t.appendChild(e.tip.element), e.element.appendChild(t), t.addEventListener("click", function() {
                 b(e, ["subToolbar"]);
@@ -4208,7 +4208,7 @@ onclick="event.stopPropagation();this.previousElementSibling.select();document.e
                 }
                 r && Ye(e), i && ue(e);
               }
-            }, me = (
+            }, ge = (
               /** @class */
               /* @__PURE__ */ function() {
                 function e(t, n) {
@@ -4307,7 +4307,7 @@ onclick="event.stopPropagation();this.previousElementSibling.select();document.e
                     Qe(n, "sv", o), o.preventDefault(), o.stopPropagation();
                   });
                 }, t;
-              }(me)
+              }(ge)
             ), ut = function(e, t) {
               return (0, M.Gb)(e, t) ? getSelection().toString() : "";
             }, Rt = function(e, t) {
@@ -4358,7 +4358,7 @@ onclick="event.stopPropagation();this.previousElementSibling.select();document.e
                   } else if (e.currentMode === "wysiwyg") {
                     if (lr(e, n))
                       return;
-                  } else if (e.currentMode === "ir" && he(e, n))
+                  } else if (e.currentMode === "ir" && me(e, n))
                     return;
                   if (e.options.ctrlEnter && I("⌘Enter", n)) {
                     e.options.ctrlEnter(x(e)), n.preventDefault();
@@ -6105,7 +6105,7 @@ onclick="event.stopPropagation();this.previousElementSibling.select();document.e
                   }), i;
                 }
                 return t;
-              }(me)
+              }(ge)
             ), jr = (
               /** @class */
               /* @__PURE__ */ function() {
@@ -6146,7 +6146,7 @@ onclick="event.stopPropagation();this.previousElementSibling.select();document.e
                   }), i.element.appendChild(o), y(n, o, a, r.level), i;
                 }
                 return t;
-              }(me)
+              }(ge)
             ), Vr = /* @__PURE__ */ function() {
               var e = function(t, n) {
                 return e = Object.setPrototypeOf || { __proto__: [] } instanceof Array && function(r, i) {
@@ -6179,7 +6179,7 @@ onclick="event.stopPropagation();this.previousElementSibling.select();document.e
                   }), i.element.appendChild(o), y(n, o, a, r.level), i;
                 }
                 return t;
-              }(me)
+              }(ge)
             ), Fr = (
               /** @class */
               function() {
@@ -6230,7 +6230,7 @@ onclick="event.stopPropagation();this.previousElementSibling.select();document.e
                   }), i;
                 }
                 return t;
-              }(me)
+              }(ge)
             ), zr = /* @__PURE__ */ function() {
               var e = function(t, n) {
                 return e = Object.setPrototypeOf || { __proto__: [] } instanceof Array && function(r, i) {
@@ -6260,7 +6260,7 @@ onclick="event.stopPropagation();this.previousElementSibling.select();document.e
                   }), i;
                 }
                 return t;
-              }(me)
+              }(ge)
             ), Zr = (
               /** @class */
               /* @__PURE__ */ function() {
@@ -6322,7 +6322,7 @@ data-value=":`).concat(u, ': " data-key=":').concat(u, ':" class="vditor-emojis_
                     a && (r.element.querySelector(".vditor-emojis__tip").innerHTML = a.getAttribute("data-key"));
                   });
                 }, t;
-              }(me)
+              }(ge)
             ), Wn = function(e, t, n) {
               var r = document.createElement("a");
               "download" in r ? (r.download = n, r.style.display = "none", r.href = URL.createObjectURL(new Blob([t])), document.body.appendChild(r), r.click(), r.remove()) : e.tip.show(window.VditorI18n.downloadTip, 0);
@@ -6427,7 +6427,7 @@ window.addEventListener("message", (e) => {
                   }), i.element.appendChild(o), y(n, o, a, r.level), i;
                 }
                 return t;
-              }(me)
+              }(ge)
             ), ni = /* @__PURE__ */ function() {
               var e = function(t, n) {
                 return e = Object.setPrototypeOf || { __proto__: [] } instanceof Array && function(r, i) {
@@ -6466,7 +6466,7 @@ window.addEventListener("message", (e) => {
                     }), n.counter && (n.counter.element.className = n.counter.element.className.replace("__n", "__s"))), n.devtools && n.devtools.renderEchart(n), r.click && r.click(i, n), Ie(n), bt(n);
                   });
                 }, t;
-              }(me)
+              }(ge)
             ), ii = /* @__PURE__ */ function() {
               var e = function(t, n) {
                 return e = Object.setPrototypeOf || { __proto__: [] } instanceof Array && function(r, i) {
@@ -6507,7 +6507,7 @@ window.addEventListener("message", (e) => {
                       o.preventDefault(), n.currentMode === "wysiwyg" ? (wt(n, o.target.getAttribute("data-tag")), ue(n), i.classList.add("vditor-menu--current")) : n.currentMode === "ir" ? (pt(n, o.target.getAttribute("data-value")), i.classList.add("vditor-menu--current")) : pn(n, o.target.getAttribute("data-value")), r.style.display = "none";
                     });
                 }, t;
-              }(me)
+              }(ge)
             ), oi = /* @__PURE__ */ function() {
               var e = function(t, n) {
                 return e = Object.setPrototypeOf || { __proto__: [] } instanceof Array && function(r, i) {
@@ -6554,7 +6554,7 @@ window.addEventListener("message", (e) => {
                   }), i;
                 }
                 return t;
-              }(me)
+              }(ge)
             ), li = /* @__PURE__ */ function() {
               var e = function(t, n) {
                 return e = Object.setPrototypeOf || { __proto__: [] } instanceof Array && function(r, i) {
@@ -6586,7 +6586,7 @@ window.addEventListener("message", (e) => {
                   }), i;
                 }
                 return t;
-              }(me)
+              }(ge)
             ), ui = /* @__PURE__ */ function() {
               var e = function(t, n) {
                 return e = Object.setPrototypeOf || { __proto__: [] } instanceof Array && function(r, i) {
@@ -6645,7 +6645,7 @@ window.addEventListener("message", (e) => {
                   }), i;
                 }
                 return t;
-              }(me)
+              }(ge)
             ), di = /* @__PURE__ */ function() {
               var e = function(t, n) {
                 return e = Object.setPrototypeOf || { __proto__: [] } instanceof Array && function(r, i) {
@@ -6674,7 +6674,7 @@ window.addEventListener("message", (e) => {
                   }), i;
                 }
                 return t;
-              }(me)
+              }(ge)
             ), hi = /* @__PURE__ */ function() {
               var e = function(t, n) {
                 return e = Object.setPrototypeOf || { __proto__: [] } instanceof Array && function(r, i) {
@@ -6703,7 +6703,7 @@ window.addEventListener("message", (e) => {
                   }), i;
                 }
                 return t;
-              }(me)
+              }(ge)
             ), gi = /* @__PURE__ */ function() {
               var e = function(t, n) {
                 return e = Object.setPrototypeOf || { __proto__: [] } instanceof Array && function(r, i) {
@@ -6735,7 +6735,7 @@ window.addEventListener("message", (e) => {
                   }), i;
                 }
                 return t;
-              }(me)
+              }(ge)
             ), bi = /* @__PURE__ */ function() {
               var e = function(t, n) {
                 return e = Object.setPrototypeOf || { __proto__: [] } instanceof Array && function(r, i) {
@@ -6766,7 +6766,7 @@ window.addEventListener("message", (e) => {
                   }), i;
                 }
                 return t;
-              }(me)
+              }(ge)
             ), vi = /* @__PURE__ */ function() {
               var e = function(t, n) {
                 return e = Object.setPrototypeOf || { __proto__: [] } instanceof Array && function(r, i) {
@@ -6805,7 +6805,7 @@ window.addEventListener("message", (e) => {
                     }
                   });
                 }, t;
-              }(me)
+              }(ge)
             ), Si = (
               /** @class */
               function() {
@@ -6911,7 +6911,7 @@ window.addEventListener("message", (e) => {
                     }
                   });
                 }, t;
-              }(me)
+              }(ge)
             ), ki = /* @__PURE__ */ function() {
               var e = function(t, n) {
                 return e = Object.setPrototypeOf || { __proto__: [] } instanceof Array && function(r, i) {
@@ -6940,7 +6940,7 @@ window.addEventListener("message", (e) => {
                   }), i;
                 }
                 return t;
-              }(me)
+              }(ge)
             ), Ti = /* @__PURE__ */ function() {
               var e = function(t, n) {
                 return e = Object.setPrototypeOf || { __proto__: [] } instanceof Array && function(r, i) {
@@ -6969,7 +6969,7 @@ window.addEventListener("message", (e) => {
                   }), i;
                 }
                 return t;
-              }(me)
+              }(ge)
             ), Ai = /* @__PURE__ */ function() {
               var e = function(t, n) {
                 return e = Object.setPrototypeOf || { __proto__: [] } instanceof Array && function(r, i) {
@@ -7010,7 +7010,7 @@ window.addEventListener("message", (e) => {
                     i.target.files.length !== 0 && Ft(n, i.target.files, i.target);
                   });
                 }, t;
-              }(me)
+              }(ge)
             ), Di = (
               /** @class */
               function() {
@@ -7049,7 +7049,7 @@ window.addEventListener("message", (e) => {
                     case "inline-code":
                     case "link":
                     case "table":
-                      i = new me(t, n);
+                      i = new ge(t, n);
                       break;
                     case "emoji":
                       i = new Xr(t, n);
@@ -7911,7 +7911,7 @@ window.addEventListener("message", (e) => {
                 }, t.prototype.updateToolbarConfig = function(n) {
                   this.vditor.toolbar.updateConfig(this.vditor, n);
                 }, t.prototype.setTheme = function(n, r, i, a) {
-                  this.vditor.options.theme = n, pe(this.vditor), r && (this.vditor.options.preview.theme.current = r, (0, X.Z)(r, a || this.vditor.options.preview.theme.path)), i && (this.vditor.options.preview.hljs.style = i, (0, Vn.Y)(i, this.vditor.options.cdn));
+                  this.vditor.options.theme = n, he(this.vditor), r && (this.vditor.options.preview.theme.current = r, (0, X.Z)(r, a || this.vditor.options.preview.theme.path)), i && (this.vditor.options.preview.hljs.style = i, (0, Vn.Y)(i, this.vditor.options.cdn));
                 }, t.prototype.getValue = function() {
                   return x(this.vditor);
                 }, t.prototype.getCurrentMode = function() {
@@ -8088,7 +8088,7 @@ var $i = Qi();
 const ea = /* @__PURE__ */ Xi($i), ta = { class: "endericedragon-sticky-buttons" }, na = /* @__PURE__ */ Yn({
   __name: "EditorModal",
   setup(ne) {
-    const ye = ot(""), ge = ot(""), be = ot(!1), Y = ot(0), Be = ot(null);
+    const ye = ot(""), pe = ot(""), be = ot(!1), Y = ot(0), Be = ot(null);
     let Z = ot();
     Wi(() => {
       window.addEventListener(nn.showEditor, v);
@@ -8097,24 +8097,26 @@ const ea = /* @__PURE__ */ Xi($i), ta = { class: "endericedragon-sticky-buttons"
     });
     function v(g) {
       let p = g.detail, m = p.content, f = p.rel_file_path;
-      ye.value !== f && (ye.value = f, Y.value = 0), ge.value = m, be.value = !0;
+      ye.value !== f && (ye.value = f, Y.value = 0), pe.value = m, be.value = !0;
     }
     function L() {
-      nr(
+      var p;
+      const g = (p = Z.value) == null ? void 0 : p.getValue();
+      g !== pe.value && (pe.value = g, nr(
         Xe,
         er.saveContent,
         new tr(
           Z.value.getValue(),
           ye.value
         )
-      ).then((g) => {
+      ).then((m) => {
         Xe.extensionManager.toast.add({
           severity: "success",
           summary: "MDNotes",
           detail: "Note saved",
           life: 600
         });
-      });
+      }));
     }
     class x {
       static ok() {
@@ -8138,7 +8140,7 @@ const ea = /* @__PURE__ */ Xi($i), ta = { class: "endericedragon-sticky-buttons"
           maxWidth: 2147483647
           // 具体的宽度由Dialog说了算
         },
-        keydown: (m) => {
+        keydown: () => {
           Xe.extensionManager.setting.get(Dt.autosave) && (clearTimeout(Be.value), Be.value = setTimeout(() => {
             L();
           }, Xe.extensionManager.setting.get(Dt.autosaveDelay)));
@@ -8149,7 +8151,7 @@ const ea = /* @__PURE__ */ Xi($i), ta = { class: "endericedragon-sticky-buttons"
             "dark",
             "dark",
             "atom-one-dark"
-          ), (f = Z.value) == null || f.setValue(ge.value), ge.value = "", console.log("[mdnotes] Setting scrollTop value to ", Y.value), p.scrollTo({
+          ), (f = Z.value) == null || f.setValue(pe.value), pe.value = "", console.log("[mdnotes] Setting scrollTop value to ", Y.value), p.scrollTo({
             top: Y.value,
             left: 0,
             behavior: "smooth"
@@ -8201,15 +8203,15 @@ const ea = /* @__PURE__ */ Xi($i), ta = { class: "endericedragon-sticky-buttons"
     }, 8, ["visible", "header"]));
   }
 }), ra = (ne, ye) => {
-  const ge = ne.__vccOpts || ne;
+  const pe = ne.__vccOpts || ne;
   for (const [be, Y] of ye)
-    ge[be] = Y;
-  return ge;
-}, ia = /* @__PURE__ */ ra(na, [["__scopeId", "data-v-16bbcd19"]]), aa = /* @__PURE__ */ Yn({
+    pe[be] = Y;
+  return pe;
+}, ia = /* @__PURE__ */ ra(na, [["__scopeId", "data-v-b4b0df9f"]]), aa = /* @__PURE__ */ Yn({
   __name: "App",
   setup(ne) {
-    return (ye, ge) => ($n(), Qn(ia, {
-      onKeydown: ge[0] || (ge[0] = Ki(() => {
+    return (ye, pe) => ($n(), Qn(ia, {
+      onKeydown: pe[0] || (pe[0] = Ki(() => {
       }, ["stop"]))
     }));
   }
@@ -8231,7 +8233,7 @@ Xe.registerExtension({
       defaultValue: 1e3
     }
   ],
-  async beforeRegisterNodeDef(ne, ye, ge) {
+  async beforeRegisterNodeDef(ne, ye, pe) {
     let be = ne.prototype.getExtraMenuOptions;
     ne.prototype.getExtraMenuOptions = function(Y, Be) {
       be == null || be.apply(this, arguments);

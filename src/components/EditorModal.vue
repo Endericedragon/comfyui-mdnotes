@@ -43,21 +43,25 @@ function openNSetContent(e: Event) {
 }
 // 将准备保存的内容发回后端
 function saveNote() {
-  postJsonData(
-    comfyApp,
-    ROUTES.saveContent,
-    new DetailMessage(
-      editorInstance.value.getValue(),
-      notePath.value
-    )
-  ).then(_ => {
-    comfyApp.extensionManager.toast.add({
-      severity: "success",
-      summary: "MDNotes",
-      detail: "Note saved",
-      life: 600
+  const newContent = editorInstance.value?.getValue();
+  if (newContent !== mdContent.value) {
+    mdContent.value = newContent;
+    postJsonData(
+      comfyApp,
+      ROUTES.saveContent,
+      new DetailMessage(
+        editorInstance.value.getValue(),
+        notePath.value
+      )
+    ).then(_ => {
+      comfyApp.extensionManager.toast.add({
+        severity: "success",
+        summary: "MDNotes",
+        detail: "Note saved",
+        life: 600
+      });
     });
-  });
+  }
 }
 // 按钮行为控制
 class ButtonControl {
@@ -86,7 +90,7 @@ function handleShow() {
       },
       maxWidth: 2147483647 // 具体的宽度由Dialog说了算
     },
-    keydown: (event) => {
+    keydown: () => {
       if (comfyApp.extensionManager.setting.get(OPTIONS.autosave)) {
         // 自动保存计时器启动
         // 若存在旧的计时器，先清除
