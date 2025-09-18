@@ -16,7 +16,8 @@ const EVENTS = {
 
 const OPTIONS = {
     autosave: "comfyui-mdnotes.autosave",
-    autosaveDelay: "comfyui-mdnotes.autosaveDelay"
+    autosaveDelay: "comfyui-mdnotes.autosaveDelay",
+    showSaveToast: "comfyui-mdnotes.showSaveToast"
 }
 
 enum MODEL_TYPES {

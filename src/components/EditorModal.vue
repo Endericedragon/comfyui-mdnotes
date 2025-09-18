@@ -15,6 +15,7 @@ const mdContent = ref("");
 const isModalShown = ref(false);
 const scrollTopVal = ref(0);
 const autosaveTimer: Ref<NodeJS.Timeout | null> = ref(null);
+const unsaveMark = ref("");
 
 // create vditor instance to show/edit markdown notes
 let editorInstance: Ref<Vditor | undefined> = ref();
@@ -43,6 +44,7 @@ function openNSetContent(e: Event) {
 }
 // 将准备保存的内容发回后端
 function saveNote() {
+  unsaveMark.value = "";
   const newContent = editorInstance.value?.getValue();
   if (newContent !== mdContent.value) {
     mdContent.value = newContent;
@@ -54,12 +56,15 @@ function saveNote() {
         notePath.value
       )
     ).then(_ => {
-      comfyApp.extensionManager.toast.add({
-        severity: "success",
-        summary: "MDNotes",
-        detail: "Note saved",
-        life: 600
-      });
+      // 是否提示用户保存成功？
+      if (comfyApp.extensionManager.setting.get(OPTIONS.showSaveToast)) {
+        comfyApp.extensionManager.toast.add({
+          severity: "success",
+          summary: "MDNotes",
+          detail: "Note saved",
+          life: 600
+        });
+      }
     });
   }
 }
@@ -90,11 +95,13 @@ function handleShow() {
       },
       maxWidth: 2147483647 // 具体的宽度由Dialog说了算
     },
+    // 监听键盘事件，当用户输入时，启动自动保存计时器
     keydown: () => {
       if (comfyApp.extensionManager.setting.get(OPTIONS.autosave)) {
         // 自动保存计时器启动
         // 若存在旧的计时器，先清除
         clearTimeout(autosaveTimer.value);
+        unsaveMark.value = "*";
         autosaveTimer.value = setTimeout(() => {
           saveNote();
         }, comfyApp.extensionManager.setting.get(OPTIONS.autosaveDelay)); // 2秒自动保存一次
@@ -135,7 +142,7 @@ function rememberScrollValue() {
 
 <template>
   <Dialog v-model:visible="isModalShown" @show="handleShow" @hide="rememberScrollValue" @after-hide="handleHide"
-    :header="notePath" close-on-escape>
+    :header="notePath + unsaveMark" close-on-escape>
     <div id="mde-point"></div>
     <div class="endericedragon-sticky-buttons">
       <Button severity="danger" @click="ButtonControl.cancel">
