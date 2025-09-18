@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ROUTES, EVENTS, DetailMessage, postJsonData, comfyApp } from '../constants.js';
+import { ROUTES, EVENTS, OPTIONS, DetailMessage, postJsonData, comfyApp } from '../constants.js';
 // Vue 
 import { onMounted, ref, type Ref, onUnmounted } from 'vue'
 // bootstrap icon
@@ -14,6 +14,7 @@ const notePath = ref("");
 const mdContent = ref("");
 const isModalShown = ref(false);
 const scrollTopVal = ref(0);
+const autosaveTimer: Ref<NodeJS.Timeout | null> = ref(null);
 
 // create vditor instance to show/edit markdown notes
 let editorInstance: Ref<Vditor | undefined> = ref();
@@ -40,17 +41,29 @@ function openNSetContent(e: Event) {
   // 触发handleShow，从而设置对话框可见性
   isModalShown.value = true;
 }
+// 将准备保存的内容发回后端
+function saveNote() {
+  postJsonData(
+    comfyApp,
+    ROUTES.saveContent,
+    new DetailMessage(
+      editorInstance.value.getValue(),
+      notePath.value
+    )
+  ).then(_ => {
+    comfyApp.extensionManager.toast.add({
+      severity: "success",
+      summary: "MDNotes",
+      detail: "Note saved",
+      life: 600
+    });
+  });
+}
 // 按钮行为控制
 class ButtonControl {
   static ok() {
-    postJsonData(
-      comfyApp,
-      ROUTES.saveContent,
-      new DetailMessage(
-        editorInstance.value.getValue(),
-        notePath.value
-      )
-    );
+    // 保存内容
+    saveNote();
     isModalShown.value = false;
   }
   static cancel() {
@@ -73,6 +86,16 @@ function handleShow() {
       },
       maxWidth: 2147483647 // 具体的宽度由Dialog说了算
     },
+    keydown: (event) => {
+      if (comfyApp.extensionManager.setting.get(OPTIONS.autosave)) {
+        // 自动保存计时器启动
+        // 若存在旧的计时器，先清除
+        clearTimeout(autosaveTimer.value);
+        autosaveTimer.value = setTimeout(() => {
+          saveNote();
+        }, comfyApp.extensionManager.setting.get(OPTIONS.autosaveDelay)); // 2秒自动保存一次
+      }
+    },
     after: () => {
       editorInstance.value?.setTheme(
         "dark",
@@ -94,6 +117,8 @@ function handleShow() {
 }
 // 隐藏对话框后，销毁编辑器实例
 function handleHide() {
+  // 自动保存计时器清除
+  clearTimeout(autosaveTimer.value);
   editorInstance.value?.destroy();
 }
 // 对话框隐藏时，记录滚动位置
@@ -105,8 +130,8 @@ function rememberScrollValue() {
 </script>
 
 <template>
-  <Dialog v-model:visible="isModalShown" modal @show="handleShow" @hide="rememberScrollValue" @after-hide="handleHide" :header="notePath"
-    close-on-escape>
+  <Dialog v-model:visible="isModalShown" @show="handleShow" @hide="rememberScrollValue" @after-hide="handleHide"
+    :header="notePath" close-on-escape>
     <div id="mde-point"></div>
     <div class="endericedragon-sticky-buttons">
       <Button severity="danger" @click="ButtonControl.cancel">
@@ -121,7 +146,7 @@ function rememberScrollValue() {
 
 <style scoped>
 #mde-point {
-  max-width: 75vw;
+  max-width: 64vw;
 }
 
 .endericedragon-sticky-buttons {

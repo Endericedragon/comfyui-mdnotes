@@ -4,7 +4,7 @@ import { createApp } from "vue"
 import PrimeVue from "primevue/config";
 
 // shared data types
-import { ROUTES, EVENTS, MODEL_TYPES, DetailMessage, postJsonData, comfyApp, utils } from './constants.js';
+import { ROUTES, EVENTS, MODEL_TYPES, OPTIONS, DetailMessage, postJsonData, comfyApp, utils } from './constants.js';
 import App from './App.vue'
 
 // extensions/comfyui-mdnotes是固定的，后续内容和/web目录有关
@@ -12,7 +12,21 @@ const CSS_PATH = "extensions/comfyui-mdnotes/assets/main.css";
 utils.addStylesheet(CSS_PATH);
 
 comfyApp.registerExtension({
-    name: "endericedragon.mdnotes",
+    name: "endericedragon.comfyui-mdnotes",
+    settings: [
+        {
+            id: OPTIONS.autosave,
+            name: "Enable autosave?",
+            type: "boolean",
+            defaultValue: true
+        },
+        {
+            id: OPTIONS.autosaveDelay,
+            name: "Autosave delay (ms)",
+            type: "number",
+            defaultValue: 1000
+        }
+    ],
     async beforeRegisterNodeDef(nodeType, nodeData, app) {
         let originalMenuOptions = nodeType.prototype.getExtraMenuOptions;
         nodeType.prototype.getExtraMenuOptions = function (_, options) {
@@ -26,9 +40,9 @@ comfyApp.registerExtension({
             type DeducedContextMenuValue = typeof options[0];
             let newMenuOptions: DeducedContextMenuValue[] = [];
 
-            function genCallback(modelName: string, modelType: MODEL_TYPES) {
+            function genCallback(modelPath: string, modelType: MODEL_TYPES) {
                 // 发送当前选中的模型
-                postJsonData(comfyApp, ROUTES.sendCurrentModel, { model_type: modelType, model_name: modelName })
+                postJsonData(comfyApp, ROUTES.sendCurrentModel, { model_type: modelType, model_path: modelPath })
                     .then((data: DetailMessage) => {
                         let content = data.content;
                         let relFilePath = data.rel_file_path;

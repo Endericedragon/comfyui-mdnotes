@@ -8,7 +8,7 @@ import folder_paths
 
 class ModelInfo(TypedDict):
     model_type: str
-    model_name: str
+    model_path: str
 
 
 class RouteInfo(TypedDict):
@@ -35,6 +35,7 @@ ckpt_base_dir = model_base_dir / "checkpoints"
 lora_base_dir = model_base_dir / "loras"
 bigram_memo: dict[str, set[str]] = dict()
 
+
 def get_bigram(text: str) -> set[str]:
     if text not in bigram_memo:
         new_bigram = set(text[i - 1 : i + 1] for i in range(1, len(text)))
@@ -44,7 +45,24 @@ def get_bigram(text: str) -> set[str]:
         return bigram_memo[text]
 
 
+# bigram 预热
+def deep_bigram_preheat(pp: pathlib.Path):
+    for each in pp.iterdir():
+        if each.is_dir():
+            deep_bigram_preheat(each)
+        else:
+            bigram_memo[each.stem] = get_bigram(each.stem)
+
+
+# bigram 预热 GO!
+deep_bigram_preheat(ckpt_base_dir)
+deep_bigram_preheat(lora_base_dir)
+
+
 def get_dice_similiarity(t1: str, t2: str) -> float:
+    """
+    计算两个字符串的Dice相似度，其中的bigram从缓存中获取，若无则按需计算
+    """
     b1 = get_bigram(t1)
     b2 = get_bigram(t2)
     return 2 * len(b1 & b2) / (len(b1) + len(b2))
@@ -54,9 +72,9 @@ def get_dice_similiarity(t1: str, t2: str) -> float:
 async def get_current_model(request: web.Request):
     data: ModelInfo = await request.json()
     if data["model_type"] == "ckpt":
-        model_path = ckpt_base_dir / pathlib.Path(data["model_name"])
+        model_path = ckpt_base_dir / pathlib.Path(data["model_path"])
     elif data["model_type"] == "lora":
-        model_path = lora_base_dir / pathlib.Path(data["model_name"])
+        model_path = lora_base_dir / pathlib.Path(data["model_path"])
     model_dir = model_path.parent
     # 检查model_dir是否存在
     if not model_dir.exists():

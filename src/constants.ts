@@ -14,6 +14,11 @@ const EVENTS = {
     showEditor: "endericedragon-show-editor"
 }
 
+const OPTIONS = {
+    autosave: "comfyui-mdnotes.autosave",
+    autosaveDelay: "comfyui-mdnotes.autosaveDelay"
+}
+
 enum MODEL_TYPES {
     CKPT = "ckpt",
     LORA = "lora",
@@ -57,7 +62,7 @@ async function postJsonData(app: ComfyApp, route: string, data: any) {
                 comfyApp.extensionManager.toast.add({
                     severity: "error",
                     summary: "MDNotes Error",
-                    detail: `Path of model not found`,
+                    detail: `Status code = ${resp.status}`,
                     life: 3000
                 });
                 return Promise.reject(resp.status);
@@ -65,4 +70,4 @@ async function postJsonData(app: ComfyApp, route: string, data: any) {
     });
 }
 
-export { ROUTES, EVENTS, MODEL_TYPES, DetailMessage, postJsonData, comfyApp, utils };
+export { ROUTES, EVENTS, MODEL_TYPES, OPTIONS, DetailMessage, postJsonData, comfyApp, utils };
