@@ -8144,7 +8144,7 @@ const ea = /* @__PURE__ */ Xi($i), ta = { class: "endericedragon-sticky-buttons"
         },
         // 监听键盘事件，当用户输入时，启动自动保存计时器
         keydown: () => {
-          ze.extensionManager.setting.get(st.autosave) && (clearTimeout(Be.value), Z.value = "*", Be.value = setTimeout(() => {
+          Z.value = "*", ze.extensionManager.setting.get(st.autosave) && (clearTimeout(Be.value), Be.value = setTimeout(() => {
             x();
           }, ze.extensionManager.setting.get(st.autosaveDelay)));
         },
@@ -8210,7 +8210,7 @@ const ea = /* @__PURE__ */ Xi($i), ta = { class: "endericedragon-sticky-buttons"
   for (const [be, Y] of ye)
     pe[be] = Y;
   return pe;
-}, ia = /* @__PURE__ */ ra(na, [["__scopeId", "data-v-64882d10"]]), aa = /* @__PURE__ */ Yn({
+}, ia = /* @__PURE__ */ ra(na, [["__scopeId", "data-v-0b8b6c4d"]]), aa = /* @__PURE__ */ Yn({
   __name: "App",
   setup(ne) {
     return (ye, pe) => ($n(), Qn(ia, {

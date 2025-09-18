@@ -97,11 +97,11 @@ function handleShow() {
     },
     // 监听键盘事件，当用户输入时，启动自动保存计时器
     keydown: () => {
+      unsaveMark.value = "*";
       if (comfyApp.extensionManager.setting.get(OPTIONS.autosave)) {
         // 自动保存计时器启动
         // 若存在旧的计时器，先清除
         clearTimeout(autosaveTimer.value);
-        unsaveMark.value = "*";
         autosaveTimer.value = setTimeout(() => {
           saveNote();
         }, comfyApp.extensionManager.setting.get(OPTIONS.autosaveDelay)); // 2秒自动保存一次
