@@ -21,12 +21,6 @@ comfyApp.registerExtension({
             defaultValue: false
         },
         {
-            id: OPTIONS.autosaveDelay,
-            name: "Autosave delay (ms)",
-            type: "number",
-            defaultValue: 1000
-        },
-        {
             id: OPTIONS.showSaveToast,
             name: "Show toast on save?",
             type: "boolean",

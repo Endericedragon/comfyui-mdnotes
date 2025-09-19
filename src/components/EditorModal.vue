@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { ROUTES, EVENTS, OPTIONS, DetailMessage, postJsonData, comfyApp } from '../constants.js';
 // Vue 
-import { onMounted, ref, type Ref, onUnmounted } from 'vue'
+import { onMounted, ref, type Ref, onUnmounted, computed } from 'vue'
 // bootstrap icon
 import "bootstrap-icons/font/bootstrap-icons.min.css";
 // primevue
@@ -14,8 +14,11 @@ const notePath = ref("");
 const mdContent = ref("");
 const isModalShown = ref(false);
 const scrollTopVal = ref(0);
-const autosaveTimer: Ref<NodeJS.Timeout | null> = ref(null);
-const unsaveMark = ref("");
+const unsaveMark = ref(false);
+const dialogTitle = computed(() => {
+  return unsaveMark.value ? `${notePath.value}*` : notePath.value;
+});
+const need2Save = ref(false);
 
 // create vditor instance to show/edit markdown notes
 let editorInstance: Ref<Vditor | undefined> = ref();
@@ -42,9 +45,9 @@ function openNSetContent(e: Event) {
   // 触发handleShow，从而设置对话框可见性
   isModalShown.value = true;
 }
-// 将准备保存的内容发回后端
+// 将发生变化的笔记发回后端保存
 function saveNote() {
-  unsaveMark.value = "";
+  unsaveMark.value = false;
   const newContent = editorInstance.value?.getValue();
   if (newContent !== mdContent.value) {
     mdContent.value = newContent;
@@ -61,8 +64,8 @@ function saveNote() {
         comfyApp.extensionManager.toast.add({
           severity: "success",
           summary: "MDNotes",
-          detail: "Note saved",
-          life: 600
+          detail: "Note is saved!",
+          life: 2000
         });
       }
     });
@@ -72,12 +75,19 @@ function saveNote() {
 class ButtonControl {
   static ok() {
     // 保存内容
-    saveNote();
+    need2Save.value = true;
     isModalShown.value = false;
   }
   static cancel() {
     isModalShown.value = false;
   }
+}
+// 会改变编辑器内容的键盘事件
+function canChangeContent(e: KeyboardEvent) {
+  console.log(e);
+  const isCtrlC = (e.key === "c") && e.ctrlKey;
+  const isCtrlA = (e.key === "a") && e.ctrlKey;
+  return !isCtrlC && !isCtrlA && (e.key === "Tab" || e.key === "Backspace" || e.key === "Delete" || e.key.length === 1);
 }
 // 对话框显示时，创建编辑器实例
 function handleShow() {
@@ -95,16 +105,13 @@ function handleShow() {
       },
       maxWidth: 2147483647 // 具体的宽度由Dialog说了算
     },
-    // 监听键盘事件，当用户输入时，启动自动保存计时器
-    keydown: () => {
-      unsaveMark.value = "*";
-      if (comfyApp.extensionManager.setting.get(OPTIONS.autosave)) {
-        // 自动保存计时器启动
-        // 若存在旧的计时器，先清除
-        clearTimeout(autosaveTimer.value);
-        autosaveTimer.value = setTimeout(() => {
-          saveNote();
-        }, comfyApp.extensionManager.setting.get(OPTIONS.autosaveDelay)); // 2秒自动保存一次
+    // 监听键盘事件，当用户输入时，将需要保存
+    keydown: (e) => {
+      if (canChangeContent(e)) {
+        unsaveMark.value = true;
+        if (comfyApp.extensionManager.setting.get(OPTIONS.autosave)) {
+          need2Save.value = true;
+        }
       }
     },
     after: () => {
@@ -128,8 +135,11 @@ function handleShow() {
 }
 // 隐藏对话框后，销毁编辑器实例
 function handleHide() {
-  // 自动保存计时器清除
-  clearTimeout(autosaveTimer.value);
+  // 若需要保存，执行保存操作
+  if (need2Save.value) {
+    saveNote();
+    need2Save.value = false;
+  }
   editorInstance.value?.destroy();
 }
 // 对话框隐藏时，记录滚动位置
@@ -142,7 +152,7 @@ function rememberScrollValue() {
 
 <template>
   <Dialog v-model:visible="isModalShown" @show="handleShow" @hide="rememberScrollValue" @after-hide="handleHide"
-    :header="notePath + unsaveMark" close-on-escape>
+    :header="dialogTitle" close-on-escape>
     <div id="mde-point"></div>
     <div class="endericedragon-sticky-buttons">
       <Button severity="danger" @click="ButtonControl.cancel">
