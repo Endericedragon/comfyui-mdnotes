@@ -15,16 +15,10 @@ comfyApp.registerExtension({
     name: "endericedragon.comfyui-mdnotes",
     settings: [
         {
-            id: OPTIONS.autosave,
-            name: "Enable autosave?",
+            id: OPTIONS.saveOnClose,
+            name: "Save on close?",
             type: "boolean",
             defaultValue: false
-        },
-        {
-            id: OPTIONS.showSaveToast,
-            name: "Show toast on save?",
-            type: "boolean",
-            defaultValue: true
         }
     ],
     async beforeRegisterNodeDef(nodeType, nodeData, app) {

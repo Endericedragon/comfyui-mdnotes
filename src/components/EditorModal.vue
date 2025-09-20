@@ -15,10 +15,10 @@ const mdContent = ref("");
 const isModalShown = ref(false);
 const scrollTopVal = ref(0);
 const unsaveMark = ref(false);
+const needSaving = ref(false);
 const dialogTitle = computed(() => {
   return unsaveMark.value ? `${notePath.value}*` : notePath.value;
 });
-const need2Save = ref(false);
 
 // create vditor instance to show/edit markdown notes
 let editorInstance: Ref<Vditor | undefined> = ref();
@@ -47,7 +47,6 @@ function openNSetContent(e: Event) {
 }
 // 将发生变化的笔记发回后端保存
 function saveNote() {
-  unsaveMark.value = false;
   const newContent = editorInstance.value?.getValue();
   if (newContent !== mdContent.value) {
     mdContent.value = newContent;
@@ -59,15 +58,12 @@ function saveNote() {
         notePath.value
       )
     ).then(_ => {
-      // 是否提示用户保存成功？
-      if (comfyApp.extensionManager.setting.get(OPTIONS.showSaveToast)) {
-        comfyApp.extensionManager.toast.add({
-          severity: "success",
-          summary: "MDNotes",
-          detail: "Note is saved!",
-          life: 2000
-        });
-      }
+      comfyApp.extensionManager.toast.add({
+        severity: "success",
+        summary: "MDNotes",
+        detail: "Note is saved!",
+        life: 2000
+      });
     });
   }
 }
@@ -75,7 +71,7 @@ function saveNote() {
 class ButtonControl {
   static ok() {
     // 保存内容
-    need2Save.value = true;
+    needSaving.value = true;
     isModalShown.value = false;
   }
   static cancel() {
@@ -84,13 +80,16 @@ class ButtonControl {
 }
 // 会改变编辑器内容的键盘事件
 function canChangeContent(e: KeyboardEvent) {
-  console.log(e);
   const isCtrlC = (e.key === "c") && e.ctrlKey;
   const isCtrlA = (e.key === "a") && e.ctrlKey;
   return !isCtrlC && !isCtrlA && (e.key === "Tab" || e.key === "Backspace" || e.key === "Delete" || e.key.length === 1);
 }
 // 对话框显示时，创建编辑器实例
 function handleShow() {
+  // 复位所有修改标志位
+  unsaveMark.value = false;
+  needSaving.value = false;
+  // 准备挂载
   let mountPoint = document.getElementById("mde-point");
   let dialogContainer = mountPoint.parentElement;
 
@@ -109,8 +108,8 @@ function handleShow() {
     keydown: (e) => {
       if (canChangeContent(e)) {
         unsaveMark.value = true;
-        if (comfyApp.extensionManager.setting.get(OPTIONS.autosave)) {
-          need2Save.value = true;
+        if (comfyApp.extensionManager.setting.get(OPTIONS.saveOnClose)) {
+          needSaving.value = true;
         }
       }
     },
@@ -136,9 +135,8 @@ function handleShow() {
 // 隐藏对话框后，销毁编辑器实例
 function handleHide() {
   // 若需要保存，执行保存操作
-  if (need2Save.value) {
+  if (needSaving.value) {
     saveNote();
-    need2Save.value = false;
   }
   editorInstance.value?.destroy();
 }

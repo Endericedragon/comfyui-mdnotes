@@ -1,25 +1,24 @@
 var Ui = Object.defineProperty;
 var Vi = (ne, ye, pe) => ye in ne ? Ui(ne, ye, { enumerable: !0, configurable: !0, writable: !0, value: pe }) : ne[ye] = pe;
-var $t = (ne, ye, pe) => Vi(ne, typeof ye != "symbol" ? ye + "" : ye, pe);
-import { defineComponent as Yn, ref as $e, computed as Wi, onMounted as Fi, onUnmounted as Ki, createBlock as Qn, openBlock as $n, unref as en, withCtx as tn, createElementVNode as At, createVNode as Zn, withModifiers as qi, createApp as zi } from "vue";
+var Qt = (ne, ye, pe) => Vi(ne, typeof ye != "symbol" ? ye + "" : ye, pe);
+import { defineComponent as Xn, ref as Qe, computed as Wi, onMounted as Fi, onUnmounted as Ki, createBlock as Yn, openBlock as Qn, unref as $t, withCtx as en, createElementVNode as At, createVNode as Gn, withModifiers as qi, createApp as zi } from "vue";
 import Gi from "primevue/config";
 import { app as Zi } from "../../../scripts/app.js";
 import * as Ji from "../../../scripts/utils.js";
-import { Dialog as Xi, Button as Jn } from "primevue";
-const Xe = Zi, er = {
+import { Dialog as Xi, Button as Zn } from "primevue";
+const $e = Zi, $n = {
   sendCurrentModel: "/mdnotes/current_model",
   saveContent: "/mdnotes/save"
-}, nn = {
+}, tn = {
   showEditor: "endericedragon-show-editor"
-}, Dt = {
-  autosave: "comfyui-mdnotes.autosave",
-  showSaveToast: "comfyui-mdnotes.showSaveToast"
+}, er = {
+  saveOnClose: "comfyui-mdnotes.saveOnClose"
 };
-var rn = /* @__PURE__ */ ((ne) => (ne.CKPT = "ckpt", ne.LORA = "lora", ne.UNKNOWN = "unknown", ne))(rn || {});
+var nn = /* @__PURE__ */ ((ne) => (ne.CKPT = "ckpt", ne.LORA = "lora", ne.UNKNOWN = "unknown", ne))(nn || {});
 class tr {
   constructor(ye, pe) {
-    $t(this, "content");
-    $t(this, "rel_file_path");
+    Qt(this, "content");
+    Qt(this, "rel_file_path");
     this.content = ye, this.rel_file_path = pe;
   }
   toJSON() {
@@ -37,7 +36,7 @@ async function nr(ne, ye, pe) {
   }).then((be) => {
     switch (be.status) {
       case 201:
-        Xe.extensionManager.toast.add({
+        $e.extensionManager.toast.add({
           severity: "warn",
           summary: "MDNotes Warning",
           detail: "Note not found, ready to create one",
@@ -46,7 +45,7 @@ async function nr(ne, ye, pe) {
       case 200:
         return be.json();
       default:
-        return Xe.extensionManager.toast.add({
+        return $e.extensionManager.toast.add({
           severity: "error",
           summary: "MDNotes Error",
           detail: `Status code = ${be.status}`,
@@ -85,9 +84,9 @@ var xt = { exports: {} };
  * SOFTWARE.
  *
  */
-var Qi = xt.exports, Xn;
+var Qi = xt.exports, Jn;
 function $i() {
-  return Xn || (Xn = 1, function(ne, ye) {
+  return Jn || (Jn = 1, function(ne, ye) {
     (function(be, Y) {
       ne.exports = Y();
     })(Qi, function() {
@@ -3093,7 +3092,7 @@ onclick="event.stopPropagation();this.previousElementSibling.select();document.e
               n === void 0 && (n = !1);
               var i = (0, s.F9)(t.startContainer);
               if (i && !n && i.getAttribute("data-type") !== "code-block") {
-                if (qt(i.innerHTML) && i.previousElementSibling || zt(i.innerHTML))
+                if (Kt(i.innerHTML) && i.previousElementSibling || qt(i.innerHTML))
                   return;
                 for (
                   var a = (0, M.im)(i, e.ir.element, t).start, o = !0, f = a - 1;
@@ -3235,7 +3234,7 @@ onclick="event.stopPropagation();this.previousElementSibling.select();document.e
                 return !1;
               t.key.indexOf("Arrow") === -1 && t.key !== "Meta" && t.key !== "Control" && t.key !== "Alt" && t.key !== "Shift" && t.key !== "CapsLock" && t.key !== "Escape" && !/^F\d{1,2}$/.test(t.key) && e.undo.recordFirstPosition(e, t);
               var n = (0, M.zh)(e), r = n.startContainer;
-              if (!bn(t, e, r) || (wn(n, e, t), Nn(n), t.key !== "Enter" && t.key !== "Tab" && t.key !== "Backspace" && t.key.indexOf("Arrow") === -1 && !(0, l.yl)(t) && t.key !== "Escape" && t.key !== "Delete"))
+              if (!yn(t, e, r) || (bn(n, e, t), On(n), t.key !== "Enter" && t.key !== "Tab" && t.key !== "Backspace" && t.key.indexOf("Arrow") === -1 && !(0, l.yl)(t) && t.key !== "Escape" && t.key !== "Delete"))
                 return !1;
               var i = (0, s.a1)(r, "data-newline", "1");
               if (!(0, l.yl)(t) && !t.altKey && !t.shiftKey && t.key === "Enter" && i && n.startOffset < i.textContent.length) {
@@ -3245,12 +3244,12 @@ onclick="event.stopPropagation();this.previousElementSibling.select();document.e
                 o && (n.insertNode(document.createTextNode(o.textContent)), n.collapse(!0));
               }
               var f = (0, s.lG)(r, "P");
-              if (Ln(t, e, f, n) || Cn(n, e, f, t) || Dn(e, n, t, f))
+              if (Cn(t, e, f, n) || Sn(n, e, f, t) || xn(e, n, t, f))
                 return !0;
               var h = (0, s.fb)(r, "vditor-ir__marker--pre");
               if (h && h.tagName === "PRE") {
                 var d = h.firstChild;
-                if (xn(e, t, h, n) || (d.getAttribute("data-type") === "math-block" || d.getAttribute("data-type") === "html-block") && rt(e, t, n, d, h.parentElement) || dt(e, t, n, d, h.parentElement))
+                if (An(e, t, h, n) || (d.getAttribute("data-type") === "math-block" || d.getAttribute("data-type") === "html-block") && rt(e, t, n, d, h.parentElement) || dt(e, t, n, d, h.parentElement))
                   return !0;
               }
               var S = (0, s.a1)(r, "data-type", "code-block-info");
@@ -3273,7 +3272,7 @@ onclick="event.stopPropagation();this.previousElementSibling.select();document.e
                 if (H && dt(e, t, n, N, H))
                   return !0;
               }
-              if (An(e, t, n) || Hn(e, n, t) || Gt(e, n, t))
+              if (_n(e, t, n) || Dn(e, n, t) || zt(e, n, t))
                 return !0;
               var U = (0, C.W)(r);
               if (U) {
@@ -3288,7 +3287,7 @@ onclick="event.stopPropagation();this.previousElementSibling.select();document.e
               }
               var O = (0, s.F9)(r);
               if (t.key === "Backspace" && !(0, l.yl)(t) && !t.shiftKey && !t.altKey && n.toString() === "") {
-                if (On(e, n, t, f))
+                if (Hn(e, n, t, f))
                   return !0;
                 if (O && O.previousElementSibling && O.tagName !== "UL" && O.tagName !== "OL" && (O.previousElementSibling.getAttribute("data-type") === "code-block" || O.previousElementSibling.getAttribute("data-type") === "math-block")) {
                   var G = (0, M.im)(O, e.ir.element, n).start;
@@ -3302,7 +3301,7 @@ onclick="event.stopPropagation();this.previousElementSibling.select();document.e
               }
               return (t.key === "ArrowUp" || t.key === "ArrowDown") && O && (O.querySelectorAll(".vditor-ir__node").forEach(function(J) {
                 J.contains(r) || J.classList.add("vditor-ir__node--hidden");
-              }), Rn(t, O, n)) ? !0 : (vn(n, t.key), O && yt(O, e, t, n) ? (t.preventDefault(), !0) : !1);
+              }), Nn(t, O, n)) ? !0 : (wn(n, t.key), O && yt(O, e, t, n) ? (t.preventDefault(), !0) : !1);
             }, q = Y(190), ve = function(e, t) {
               e.querySelectorAll("[data-type=footnotes-link]").forEach(function(n) {
                 for (var r = n.parentElement, i = r.nextSibling; i && i.textContent.startsWith("    "); ) {
@@ -3398,7 +3397,7 @@ onclick="event.stopPropagation();this.previousElementSibling.select();document.e
 `, O.parentElement.remove());
                 }), H = B + H;
               }
-              H = dn(H, e), U ? a.innerHTML = H : a.outerHTML = H, e.sv.element.querySelectorAll("[data-type='link-ref-defs-block']").forEach(function(O) {
+              H = fn(H, e), U ? a.innerHTML = H : a.outerHTML = H, e.sv.element.querySelectorAll("[data-type='link-ref-defs-block']").forEach(function(O) {
                 e.sv.element.insertAdjacentElement("beforeend", O.parentElement);
               }), ve(e.sv.element, function(O) {
                 e.sv.element.insertAdjacentElement("beforeend", O);
@@ -3426,7 +3425,7 @@ onclick="event.stopPropagation();this.previousElementSibling.select();document.e
                     return t.shiftKey ? B.previousElementSibling.getAttribute("data-type") === "padding" && B.previousElementSibling.remove() : B.insertAdjacentHTML("beforebegin", '<span data-type="padding">'.concat(B.textContent.replace(/\S/g, " "), "</span>")), /^\d/.test(B.textContent) && (B.textContent = B.textContent.replace(/^\d{1,}/, "1"), f.selectNodeContents(R.firstChild), f.collapse(!1)), ae(e), t.preventDefault(), !0;
                 }
               }
-              if (Gt(e, f, t))
+              if (zt(e, f, t))
                 return !0;
               var O = (0, s.a1)(h, "data-block", "0"), G = (0, C.S)(h, "SPAN");
               if (t.key === "Enter" && !(0, l.yl)(t) && !t.altKey && !t.shiftKey && O) {
@@ -3459,7 +3458,7 @@ onclick="event.stopPropagation();this.previousElementSibling.select();document.e
               var t = document.createElement("div");
               if (t.className = "vditor-content", e.options.outline.position === "left" && t.appendChild(e.outline.element), t.appendChild(e.wysiwyg.element.parentElement), t.appendChild(e.sv.element), t.appendChild(e.ir.element.parentElement), t.appendChild(e.preview.element), e.toolbar.elements.devtools && t.appendChild(e.devtools.element), e.options.outline.position === "right" && (e.outline.element.classList.add("vditor-outline--right"), t.appendChild(e.outline.element)), e.upload && t.appendChild(e.upload.element), e.options.resize.enable && t.appendChild(e.resize.element), t.appendChild(e.hint.element), t.appendChild(e.tip.element), e.element.appendChild(t), t.addEventListener("click", function() {
                 w(e, ["subToolbar"]);
-              }), e.toolbar.elements.export && e.element.insertAdjacentHTML("beforeend", '<iframe id="vditorExportIframe" style="width: 100%;height: 0;border: 0"></iframe>'), Qe(e, e.options.mode, rr(e)), document.execCommand("DefaultParagraphSeparator", !1, "p"), navigator.userAgent.indexOf("iPhone") > -1 && typeof window.visualViewport < "u") {
+              }), e.toolbar.elements.export && e.element.insertAdjacentHTML("beforeend", '<iframe id="vditorExportIframe" style="width: 100%;height: 0;border: 0"></iframe>'), Ye(e, e.options.mode, rr(e)), document.execCommand("DefaultParagraphSeparator", !1, "p"), navigator.userAgent.indexOf("iPhone") > -1 && typeof window.visualViewport < "u") {
                 var n = !1, r = function(i) {
                   n || (n = !0, requestAnimationFrame(function() {
                     n = !1;
@@ -3485,12 +3484,12 @@ onclick="event.stopPropagation();this.previousElementSibling.select();document.e
                 var t = window.innerHeight;
                 typeof e.options.height == "number" ? (t = e.options.height, typeof e.options.minHeight == "number" && (t = Math.max(t, e.options.minHeight)), t = Math.min(window.innerHeight, t)) : t = e.element.clientHeight, e.element.classList.contains("vditor--fullscreen") && (t = window.innerHeight), e[e.currentMode].element.style.setProperty("--editor-bottom", (t - e.toolbar.element.offsetHeight) / 2 + "px");
               }
-            }, an;
-            function on() {
-              window.removeEventListener("resize", an);
+            }, rn;
+            function an() {
+              window.removeEventListener("resize", rn);
             }
             var rr = function(e) {
-              bt(e), on(), window.addEventListener("resize", an = function() {
+              bt(e), an(), window.addEventListener("resize", rn = function() {
                 Ie(e), bt(e);
               });
               var t = (0, l.pK)() && localStorage.getItem(e.options.cache.id);
@@ -3585,11 +3584,11 @@ onclick="event.stopPropagation();this.previousElementSibling.select();document.e
               for (var t = e.startContainer.nextSibling; t && t.textContent === ""; )
                 t = t.nextSibling;
               return !!(t && t.nodeType !== 3 && (t.tagName === "CODE" || t.getAttribute("data-type") === "math-inline" || t.getAttribute("data-type") === "html-entity" || t.getAttribute("data-type") === "html-inline"));
-            }, sn = function(e) {
+            }, on = function(e) {
               for (var t = "", n = e.nextSibling; n; )
                 n.nodeType === 3 ? t += n.textContent : t += n.outerHTML, n = n.nextSibling;
               return t;
-            }, ln = function(e) {
+            }, sn = function(e) {
               for (var t = "", n = e.previousSibling; n; )
                 n.nodeType === 3 ? t = n.textContent + t : t = n.outerHTML + t, n = n.previousSibling;
               return t;
@@ -3598,12 +3597,12 @@ onclick="event.stopPropagation();this.previousElementSibling.select();document.e
                 t = t.parentElement;
               return t.nextSibling;
             }, sr = function(e) {
-              var t = ln(e.startContainer), n = sn(e.startContainer), r = e.startContainer.textContent, i = e.startOffset, a = "", o = "";
+              var t = sn(e.startContainer), n = on(e.startContainer), r = e.startContainer.textContent, i = e.startOffset, a = "", o = "";
               return (r.substr(0, i) !== "" && r.substr(0, i) !== E.g.ZWSP || t) && (a = "".concat(t).concat(r.substr(0, i))), (r.substr(i) !== "" && r.substr(i) !== E.g.ZWSP || n) && (o = "".concat(r.substr(i)).concat(n)), {
                 afterHTML: o,
                 beforeHTML: a
               };
-            }, Ht = function(e, t) {
+            }, Dt = function(e, t) {
               Array.from(e.wysiwyg.element.childNodes).find(function(n) {
                 if (n.nodeType === 3) {
                   var r = document.createElement("p");
@@ -3616,7 +3615,7 @@ onclick="event.stopPropagation();this.previousElementSibling.select();document.e
             }, wt = function(e, t) {
               var n = (0, M.zh)(e), r = (0, s.F9)(n.startContainer);
               r || (r = n.startContainer.childNodes[n.startOffset]), !r && e.wysiwyg.element.children.length === 0 && (r = e.wysiwyg.element), r && !r.classList.contains("vditor-wysiwyg__block") && (n.insertNode(document.createElement("wbr")), r.innerHTML.trim() === "<wbr>" && (r.innerHTML = "<wbr><br>"), r.tagName === "BLOCKQUOTE" || r.classList.contains("vditor-reset") ? r.innerHTML = "<".concat(t, ' data-block="0">').concat(r.innerHTML.trim(), "</").concat(t, ">") : r.outerHTML = "<".concat(t, ' data-block="0">').concat(r.innerHTML.trim(), "</").concat(t, ">"), (0, M.ib)(e.wysiwyg.element, n), Ve(e));
-            }, Ot = function(e) {
+            }, Ht = function(e) {
               var t = getSelection().getRangeAt(0), n = (0, s.F9)(t.startContainer);
               n || (n = t.startContainer.childNodes[t.startOffset]), n && (t.insertNode(document.createElement("wbr")), n.outerHTML = '<p data-block="0">'.concat(n.innerHTML, "</p>"), (0, M.ib)(e.wysiwyg.element, t)), e.wysiwyg.popover.style.display = "none";
             }, lt = function(e, t, n) {
@@ -3628,10 +3627,10 @@ onclick="event.stopPropagation();this.previousElementSibling.select();document.e
                 return !1;
               t.key.indexOf("Arrow") === -1 && t.key !== "Meta" && t.key !== "Control" && t.key !== "Alt" && t.key !== "Shift" && t.key !== "CapsLock" && t.key !== "Escape" && !/^F\d{1,2}$/.test(t.key) && e.undo.recordFirstPosition(e, t);
               var n = (0, M.zh)(e), r = n.startContainer;
-              if (!bn(t, e, r) || (wn(n, e, t), Nn(n), t.key !== "Enter" && t.key !== "Tab" && t.key !== "Backspace" && t.key.indexOf("Arrow") === -1 && !(0, l.yl)(t) && t.key !== "Escape" && t.key !== "Delete"))
+              if (!yn(t, e, r) || (bn(n, e, t), On(n), t.key !== "Enter" && t.key !== "Tab" && t.key !== "Backspace" && t.key.indexOf("Arrow") === -1 && !(0, l.yl)(t) && t.key !== "Escape" && t.key !== "Delete"))
                 return !1;
               var i = (0, s.F9)(r), a = (0, s.lG)(r, "P");
-              if (Ln(t, e, a, n) || Cn(n, e, a, t) || An(e, t, n))
+              if (Cn(t, e, a, n) || Sn(n, e, a, t) || _n(e, t, n))
                 return !0;
               var o = (0, s.fb)(r, "vditor-wysiwyg__block");
               if (o) {
@@ -3641,10 +3640,10 @@ onclick="event.stopPropagation();this.previousElementSibling.select();document.e
                   var f = e.wysiwyg.popover.querySelector(".vditor-input");
                   return f.focus(), f.select(), t.preventDefault(), !0;
                 }
-                if (o.getAttribute("data-block") === "0" && (xn(e, t, o.firstElementChild, n) || dt(e, t, n, o.firstElementChild, o) || o.getAttribute("data-type") !== "yaml-front-matter" && rt(e, t, n, o.firstElementChild, o)))
+                if (o.getAttribute("data-block") === "0" && (An(e, t, o.firstElementChild, n) || dt(e, t, n, o.firstElementChild, o) || o.getAttribute("data-type") !== "yaml-front-matter" && rt(e, t, n, o.firstElementChild, o)))
                   return !0;
               }
-              if (Dn(e, n, t, a))
+              if (xn(e, n, t, a))
                 return !0;
               var h = (0, s.E2)(r, "BLOCKQUOTE");
               if (h && !t.shiftKey && t.altKey && t.key === "Enter") {
@@ -3668,9 +3667,9 @@ onclick="event.stopPropagation();this.previousElementSibling.select();document.e
                   var N = parseInt(S.tagName.substr(1), 10) + 1;
                   return N < 7 && (wt(e, "h".concat(N)), ue(e)), t.preventDefault(), !0;
                 }
-                t.key === "Backspace" && !(0, l.yl)(t) && !t.shiftKey && !t.altKey && S.textContent.length === 1 && Ot(e);
+                t.key === "Backspace" && !(0, l.yl)(t) && !t.shiftKey && !t.altKey && S.textContent.length === 1 && Ht(e);
               }
-              if (Hn(e, n, t))
+              if (Dn(e, n, t))
                 return !0;
               if (t.altKey && t.key === "Enter" && !(0, l.yl)(t) && !t.shiftKey) {
                 var R = (0, s.lG)(r, "A"), H = (0, s.a1)(r, "data-type", "link-ref"), U = (0, s.a1)(r, "data-type", "footnotes-ref");
@@ -3691,14 +3690,14 @@ onclick="event.stopPropagation();this.previousElementSibling.select();document.e
                 if (O)
                   return O.click(), t.preventDefault(), !0;
               }
-              if (Gt(e, n, t))
+              if (zt(e, n, t))
                 return !0;
               if (!(0, l.yl)(t) && t.shiftKey && !t.altKey && t.key === "Enter" && r.parentElement.tagName !== "LI" && r.parentElement.tagName !== "P")
                 return ["STRONG", "STRIKE", "S", "I", "EM", "B"].includes(r.parentElement.tagName) ? n.insertNode(document.createTextNode(`
 ` + E.g.ZWSP)) : n.insertNode(document.createTextNode(`
 `)), n.collapse(!1), (0, M.Hc)(n), ue(e), Ee(e), t.preventDefault(), !0;
               if (t.key === "Backspace" && !(0, l.yl)(t) && !t.shiftKey && !t.altKey && n.toString() === "") {
-                if (On(e, n, t, a))
+                if (Hn(e, n, t, a))
                   return !0;
                 if (i) {
                   if (i.previousElementSibling && i.previousElementSibling.classList.contains("vditor-wysiwyg__block") && i.previousElementSibling.getAttribute("data-block") === "0" && i.tagName !== "UL" && i.tagName !== "OL") {
@@ -3720,9 +3719,9 @@ onclick="event.stopPropagation();this.previousElementSibling.select();document.e
               }
               if ((0, l.vU)() && n.startOffset === 1 && r.textContent.indexOf(E.g.ZWSP) > -1 && r.previousSibling && r.previousSibling.nodeType !== 3 && r.previousSibling.tagName === "CODE" && (t.key === "Backspace" || t.key === "ArrowLeft"))
                 return n.selectNodeContents(r.previousSibling), n.collapse(!1), t.preventDefault(), !0;
-              if (Rn(t, i, n))
+              if (Nn(t, i, n))
                 return t.preventDefault(), !0;
-              if (vn(n, t.key), t.key === "ArrowDown") {
+              if (wn(n, t.key), t.key === "ArrowDown") {
                 var J = r.nextSibling;
                 J && J.nodeType !== 3 && J.getAttribute("data-type") === "math-inline" && n.setStartAfter(J);
               }
@@ -3732,7 +3731,7 @@ onclick="event.stopPropagation();this.previousElementSibling.select();document.e
                 var n = e.wysiwyg.popover.querySelector('[data-type="remove"]');
                 return n && n.click(), t.preventDefault(), !0;
               }
-            }, Ye = function(e) {
+            }, Xe = function(e) {
               clearTimeout(e.wysiwyg.hlToolbarTimeoutId), e.wysiwyg.hlToolbarTimeoutId = window.setTimeout(function() {
                 if (e.wysiwyg.element.getAttribute("contenteditable") !== "false" && (0, M.Gb)(e.wysiwyg.element)) {
                   g(e.toolbar.elements, E.g.EDIT_TOOLBARS), m(e.toolbar.elements, E.g.EDIT_TOOLBARS);
@@ -3810,18 +3809,18 @@ onclick="event.stopPropagation();this.previousElementSibling.select();document.e
                         if (te !== Je)
                           for (var mt = Je - te, Fe = 0; Fe < d.rows.length; Fe++)
                             if (mt > 0)
-                              for (var qn = 0; qn < mt; qn++)
+                              for (var Kn = 0; Kn < mt; Kn++)
                                 Fe === 0 ? d.rows[Fe].lastElementChild.insertAdjacentHTML("afterend", "<th> </th>") : d.rows[Fe].lastElementChild.insertAdjacentHTML("afterend", "<td> </td>");
                             else
-                              for (var Yt = te - 1; Yt >= Je; Yt--)
-                                d.rows[Fe].cells[Yt].remove();
+                              for (var Xt = te - 1; Xt >= Je; Xt--)
+                                d.rows[Fe].cells[Xt].remove();
                         if (K !== Ze) {
-                          var zn = Ze - K;
-                          if (zn > 0) {
-                            for (var Qt = "<tr>", ot = 0; ot < Je; ot++)
-                              Qt += "<td> </td>";
-                            for (var Gn = 0; Gn < zn; Gn++)
-                              d.querySelector("tbody") ? d.querySelector("tbody").insertAdjacentHTML("beforeend", Qt) : d.querySelector("thead").insertAdjacentHTML("afterend", Qt + "</tr>");
+                          var qn = Ze - K;
+                          if (qn > 0) {
+                            for (var Yt = "<tr>", ot = 0; ot < Je; ot++)
+                              Yt += "<td> </td>";
+                            for (var zn = 0; zn < qn; zn++)
+                              d.querySelector("tbody") ? d.querySelector("tbody").insertAdjacentHTML("beforeend", Yt) : d.querySelector("thead").insertAdjacentHTML("afterend", Yt + "</tr>");
                           } else
                             for (var ot = K - 1; ot >= Ze; ot--)
                               d.rows[ot].remove(), d.rows.length === 1 && d.querySelector("tbody").remove();
@@ -3847,12 +3846,12 @@ onclick="event.stopPropagation();this.previousElementSibling.select();document.e
                     var le = document.createElement("button");
                     le.setAttribute("type", "button"), le.setAttribute("aria-label", window.VditorI18n.insertRowBelow + "<" + (0, l.ns)("⌘=") + ">"), le.setAttribute("data-type", "insertRow"), le.innerHTML = '<svg><use xlink:href="#vditor-icon-insert-row"></use></svg>', le.className = "vditor-icon vditor-tooltipped vditor-tooltipped__n", le.onclick = function() {
                       var K = getSelection().getRangeAt(0).startContainer, te = (0, s.lG)(K, "TD") || (0, s.lG)(K, "TH");
-                      te && kn(e, t, te);
+                      te && Ln(e, t, te);
                     };
                     var oe = document.createElement("button");
                     oe.setAttribute("type", "button"), oe.setAttribute("aria-label", window.VditorI18n.insertRowAbove + "<" + (0, l.ns)("⇧⌘F") + ">"), oe.setAttribute("data-type", "insertRow"), oe.innerHTML = '<svg><use xlink:href="#vditor-icon-insert-rowb"></use></svg>', oe.className = "vditor-icon vditor-tooltipped vditor-tooltipped__n", oe.onclick = function() {
                       var K = getSelection().getRangeAt(0).startContainer, te = (0, s.lG)(K, "TD") || (0, s.lG)(K, "TH");
-                      te && Mn(e, t, te);
+                      te && kn(e, t, te);
                     };
                     var fe = document.createElement("button");
                     fe.setAttribute("type", "button"), fe.setAttribute("aria-label", window.VditorI18n.insertColumnRight + "<" + (0, l.ns)("⇧⌘=") + ">"), fe.setAttribute("data-type", "insertColumn"), fe.innerHTML = '<svg><use xlink:href="#vditor-icon-insert-column"></use></svg>', fe.className = "vditor-icon vditor-tooltipped vditor-tooltipped__n", fe.onclick = function() {
@@ -3867,12 +3866,12 @@ onclick="event.stopPropagation();this.previousElementSibling.select();document.e
                     var _e = document.createElement("button");
                     _e.setAttribute("type", "button"), _e.setAttribute("aria-label", window.VditorI18n["delete-row"] + "<" + (0, l.ns)("⌘-") + ">"), _e.setAttribute("data-type", "deleteRow"), _e.innerHTML = '<svg><use xlink:href="#vditor-icon-delete-row"></use></svg>', _e.className = "vditor-icon vditor-tooltipped vditor-tooltipped__n", _e.onclick = function() {
                       var K = getSelection().getRangeAt(0).startContainer, te = (0, s.lG)(K, "TD") || (0, s.lG)(K, "TH");
-                      te && Tn(e, t, te);
+                      te && Mn(e, t, te);
                     };
                     var He = document.createElement("button");
                     He.setAttribute("type", "button"), He.setAttribute("aria-label", window.VditorI18n["delete-column"] + "<" + (0, l.ns)("⇧⌘-") + ">"), He.setAttribute("data-type", "deleteColumn"), He.innerHTML = '<svg><use xlink:href="#vditor-icon-delete-column"></use></svg>', He.className = "vditor-icon vditor-tooltipped vditor-tooltipped__n", He.onclick = function() {
                       var K = getSelection().getRangeAt(0).startContainer, te = (0, s.lG)(K, "TD") || (0, s.lG)(K, "TH");
-                      te && _n(e, t, d, te);
+                      te && Tn(e, t, d, te);
                     };
                     var Q = document.createElement("span");
                     Q.setAttribute("aria-label", window.VditorI18n.row), Q.className = "vditor-tooltipped vditor-tooltipped__n";
@@ -3903,8 +3902,8 @@ onclick="event.stopPropagation();this.previousElementSibling.select();document.e
                       }
                     }, et(t, d, e), tt(t, d, e), je(d, e), e.wysiwyg.popover.insertAdjacentElement("beforeend", G), e.wysiwyg.popover.insertAdjacentElement("beforeend", V), e.wysiwyg.popover.insertAdjacentElement("beforeend", J), e.wysiwyg.popover.insertAdjacentElement("beforeend", oe), e.wysiwyg.popover.insertAdjacentElement("beforeend", le), e.wysiwyg.popover.insertAdjacentElement("beforeend", De), e.wysiwyg.popover.insertAdjacentElement("beforeend", fe), e.wysiwyg.popover.insertAdjacentElement("beforeend", _e), e.wysiwyg.popover.insertAdjacentElement("beforeend", He), e.wysiwyg.popover.insertAdjacentElement("beforeend", Q), e.wysiwyg.popover.insertAdjacentHTML("beforeend", " x "), e.wysiwyg.popover.insertAdjacentElement("beforeend", Tt), Ne(e, "table"), Pe(e, d);
                   }
-                  var Xt = (0, s.a1)(n, "data-type", "link-ref");
-                  Xt && cn(e, Xt, t);
+                  var Jt = (0, s.a1)(n, "data-type", "link-ref");
+                  Jt && ln(e, Jt, t);
                   var it = (0, s.a1)(n, "data-type", "footnotes-ref");
                   if (it) {
                     e.options.lang, e.options, e.wysiwyg.popover.innerHTML = "";
@@ -3917,13 +3916,13 @@ onclick="event.stopPropagation();this.previousElementSibling.select();document.e
                       te.isComposing || xe(e, te) || We(te, t);
                     }, je(it, e), e.wysiwyg.popover.insertAdjacentElement("beforeend", Q), Ne(e, "footnotes-ref"), Pe(e, it);
                   }
-                  var Me = (0, s.fb)(n, "vditor-wysiwyg__block"), Fn = Me ? Me.getAttribute("data-type").indexOf("block") > -1 : !1;
+                  var Me = (0, s.fb)(n, "vditor-wysiwyg__block"), Wn = Me ? Me.getAttribute("data-type").indexOf("block") > -1 : !1;
                   if (e.wysiwyg.element.querySelectorAll(".vditor-wysiwyg__preview").forEach(function(K) {
-                    if (!Me || Me && Fn && !Me.contains(K)) {
+                    if (!Me || Me && Wn && !Me.contains(K)) {
                       var te = K.previousElementSibling;
                       te.style.display = "none";
                     }
-                  }), Me && Fn) {
+                  }), Me && Wn) {
                     if (e.wysiwyg.popover.innerHTML = "", et(t, Me, e), tt(t, Me, e), je(Me, e), Me.getAttribute("data-type") === "code-block") {
                       var _t = document.createElement("span");
                       _t.setAttribute("aria-label", window.VditorI18n.language + "<" + (0, l.ns)("⌥Enter") + ">"), _t.className = "vditor-tooltipped vditor-tooltipped__n";
@@ -3968,21 +3967,21 @@ onclick="event.stopPropagation();this.previousElementSibling.select();document.e
                       te.isComposing || xe(e, te) || We(te, t);
                     }, et(t, S, e), tt(t, S, e), je(S, e), e.wysiwyg.popover.insertAdjacentElement("beforeend", Q), Ne(e, "heading"), Pe(e, S);
                   }
-                  if (h && Nt(e, h, t), !N && !i && !d && !Me && !h && !Xt && !it && !S && !T) {
+                  if (h && Ot(e, h, t), !N && !i && !d && !Me && !h && !Jt && !it && !S && !T) {
                     var at = (0, s.a1)(n, "data-block", "0");
                     at && at.parentElement.isEqualNode(e.wysiwyg.element) ? (e.wysiwyg.popover.innerHTML = "", et(t, at, e), tt(t, at, e), je(at, e), Ne(e, "block"), Pe(e, at)) : e.wysiwyg.popover.style.display = "none";
                   }
                   e.wysiwyg.element.querySelectorAll('span[data-type="backslash"] > span').forEach(function(K) {
                     K.style.display = "none";
                   });
-                  var Kn = (0, s.a1)(t.startContainer, "data-type", "backslash");
-                  Kn && (Kn.querySelector("span").style.display = "inline");
+                  var Fn = (0, s.a1)(t.startContainer, "data-type", "backslash");
+                  Fn && (Fn.querySelector("span").style.display = "inline");
                 }
               }, 200);
             }, Pe = function(e, t) {
               var n = t, r = (0, s.lG)(t, "TABLE");
               r && (n = r), e.wysiwyg.popover.style.left = "0", e.wysiwyg.popover.style.display = "block", e.wysiwyg.popover.style.top = Math.max(-8, n.offsetTop - 21 - e.wysiwyg.element.scrollTop) + "px", e.wysiwyg.popover.style.left = Math.min(n.offsetLeft, e.wysiwyg.element.clientWidth - e.wysiwyg.popover.clientWidth) + "px", e.wysiwyg.popover.setAttribute("data-top", (n.offsetTop - 21).toString());
-            }, cn = function(e, t, n) {
+            }, ln = function(e, t, n) {
               n === void 0 && (n = getSelection().getRangeAt(0)), e.wysiwyg.popover.innerHTML = "";
               var r = function() {
                 a.value.trim() !== "" && (t.tagName === "IMG" ? t.setAttribute("alt", a.value) : t.textContent = a.value), f.value.trim() !== "" && t.setAttribute("data-link-label", f.value), typeof e.options.input == "function" && e.options.input(x(e));
@@ -4007,7 +4006,7 @@ onclick="event.stopPropagation();this.previousElementSibling.select();document.e
               if (!(!r || !t.parentElement.isEqualNode(n.wysiwyg.element) && t.tagName !== "LI")) {
                 var i = document.createElement("button");
                 i.setAttribute("type", "button"), i.setAttribute("data-type", "up"), i.setAttribute("aria-label", window.VditorI18n.up + "<" + (0, l.ns)("⇧⌘U") + ">"), i.innerHTML = '<svg><use xlink:href="#vditor-icon-up"></use></svg>', i.className = "vditor-icon vditor-tooltipped vditor-tooltipped__n", i.onclick = function() {
-                  e.insertNode(document.createElement("wbr")), r.insertAdjacentElement("beforebegin", t), (0, M.ib)(n.wysiwyg.element, e), ue(n), Ye(n), Ee(n);
+                  e.insertNode(document.createElement("wbr")), r.insertAdjacentElement("beforebegin", t), (0, M.ib)(n.wysiwyg.element, e), ue(n), Xe(n), Ee(n);
                 }, n.wysiwyg.popover.insertAdjacentElement("beforeend", i);
               }
             }, tt = function(e, t, n) {
@@ -4015,14 +4014,14 @@ onclick="event.stopPropagation();this.previousElementSibling.select();document.e
               if (!(!r || !t.parentElement.isEqualNode(n.wysiwyg.element) && t.tagName !== "LI")) {
                 var i = document.createElement("button");
                 i.setAttribute("type", "button"), i.setAttribute("data-type", "down"), i.setAttribute("aria-label", window.VditorI18n.down + "<" + (0, l.ns)("⇧⌘D") + ">"), i.innerHTML = '<svg><use xlink:href="#vditor-icon-down"></use></svg>', i.className = "vditor-icon vditor-tooltipped vditor-tooltipped__n", i.onclick = function() {
-                  e.insertNode(document.createElement("wbr")), r.insertAdjacentElement("afterend", t), (0, M.ib)(n.wysiwyg.element, e), ue(n), Ye(n), Ee(n);
+                  e.insertNode(document.createElement("wbr")), r.insertAdjacentElement("afterend", t), (0, M.ib)(n.wysiwyg.element, e), ue(n), Xe(n), Ee(n);
                 }, n.wysiwyg.popover.insertAdjacentElement("beforeend", i);
               }
             }, je = function(e, t) {
               var n = document.createElement("button");
               n.setAttribute("type", "button"), n.setAttribute("data-type", "remove"), n.setAttribute("aria-label", window.VditorI18n.remove + "<" + (0, l.ns)("⇧⌘X") + ">"), n.innerHTML = '<svg><use xlink:href="#vditor-icon-trashcan"></use></svg>', n.className = "vditor-icon vditor-tooltipped vditor-tooltipped__n", n.onclick = function() {
                 var r = (0, M.zh)(t);
-                r.setStartAfter(e), (0, M.Hc)(r), e.remove(), ue(t), Ye(t), ["H1", "H2", "H3", "H4", "H5", "H6"].includes(e.tagName) && Ve(t);
+                r.setStartAfter(e), (0, M.Hc)(r), e.remove(), ue(t), Xe(t), ["H1", "H2", "H3", "H4", "H5", "H6"].includes(e.tagName) && Ve(t);
               }, t.wysiwyg.popover.insertAdjacentElement("beforeend", n);
             }, ct = function(e, t, n, r) {
               if (!n.isComposing) {
@@ -4035,7 +4034,7 @@ onclick="event.stopPropagation();this.previousElementSibling.select();document.e
                   t.insertAdjacentHTML("afterend", E.g.ZWSP), i.setStartAfter(t.nextSibling), i.collapse(!0), (0, M.Hc)(i), n.preventDefault();
                 }
               }
-            }, Nt = function(e, t, n) {
+            }, Ot = function(e, t, n) {
               e.wysiwyg.popover.innerHTML = "";
               var r = function() {
                 a.value.trim() !== "" && (t.innerHTML = a.value), t.setAttribute("href", f.value), t.setAttribute("title", d.value), ue(e);
@@ -4102,8 +4101,8 @@ onclick="event.stopPropagation();this.previousElementSibling.select();document.e
             }, Ne = function(e, t) {
               e.options.customWysiwygToolbar(t, e.wysiwyg.popover);
             }, nt = function(e) {
-              e.currentMode === "wysiwyg" ? Ye(e) : e.currentMode === "ir" && st(e);
-            }, un = function(e, t, n) {
+              e.currentMode === "wysiwyg" ? Xe(e) : e.currentMode === "ir" && st(e);
+            }, cn = function(e, t, n) {
               n === void 0 && (n = {
                 enableAddUndoStack: !0,
                 enableHint: !1,
@@ -4118,7 +4117,7 @@ onclick="event.stopPropagation();this.previousElementSibling.select();document.e
                 var S = r.tagName;
                 if (S === "STRIKE" && (S = "S"), S === "I" && (S = "EM"), S === "B" && (S = "STRONG"), S === "S" || S === "STRONG" || S === "EM") {
                   var T = "", N = "", R = "";
-                  r.parentElement.getAttribute("data-block") !== "0" && (N = ln(r), R = sn(r)), (h || N) && (T = "".concat(N, "<").concat(S, ">").concat(h, "</").concat(S, ">"), h = T), (n === "bold" && S === "STRONG" || n === "italic" && S === "EM" || n === "strikeThrough" && S === "S") && (T += "".concat(a).concat(E.g.ZWSP, "<wbr>").concat(o), i = !0), (d || R) && (d = "<".concat(S, ">").concat(d, "</").concat(S, ">").concat(R), T += d), r.parentElement.getAttribute("data-block") !== "0" ? (r = r.parentElement, r.innerHTML = T) : (r.outerHTML = T, r = r.parentElement), a = "<".concat(S, ">") + a, o = "</".concat(S, ">") + o;
+                  r.parentElement.getAttribute("data-block") !== "0" && (N = sn(r), R = on(r)), (h || N) && (T = "".concat(N, "<").concat(S, ">").concat(h, "</").concat(S, ">"), h = T), (n === "bold" && S === "STRONG" || n === "italic" && S === "EM" || n === "strikeThrough" && S === "S") && (T += "".concat(a).concat(E.g.ZWSP, "<wbr>").concat(o), i = !0), (d || R) && (d = "<".concat(S, ">").concat(d, "</").concat(S, ">").concat(R), T += d), r.parentElement.getAttribute("data-block") !== "0" ? (r = r.parentElement, r.innerHTML = T) : (r.outerHTML = T, r = r.parentElement), a = "<".concat(S, ">") + a, o = "</".concat(S, ">") + o;
                 } else
                   i = !0;
               }
@@ -4165,12 +4164,12 @@ onclick="event.stopPropagation();this.previousElementSibling.select();document.e
                   } else if (o === "link") {
                     if (a.toString() === "") {
                       var N = document.createElement("a");
-                      N.innerText = E.g.ZWSP, a.insertNode(N), a.setStart(N.firstChild, 1), a.collapse(!0), Nt(e, N, a);
+                      N.innerText = E.g.ZWSP, a.insertNode(N), a.setStart(N.firstChild, 1), a.collapse(!0), Ot(e, N, a);
                       var R = e.wysiwyg.popover.querySelector("input");
                       R.value = "", R.focus(), i = !1;
                     } else {
                       var T = document.createElement("a");
-                      T.setAttribute("href", ""), T.innerHTML = a.toString(), a.surroundContents(T), a.insertNode(T), (0, M.Hc)(a), Nt(e, T, a);
+                      T.setAttribute("href", ""), T.innerHTML = a.toString(), a.surroundContents(T), a.insertNode(T), (0, M.Hc)(a), Ot(e, T, a);
                       var H = e.wysiwyg.popover.querySelectorAll("input");
                       H[0].value = T.innerText, H[1].focus();
                     }
@@ -4206,7 +4205,7 @@ onclick="event.stopPropagation();this.previousElementSibling.select();document.e
                   } else
                     document.execCommand(o, !1, "");
                 }
-                r && Ye(e), i && ue(e);
+                r && Xe(e), i && ue(e);
               }
             }, ge = (
               /** @class */
@@ -4247,7 +4246,7 @@ onclick="event.stopPropagation();this.previousElementSibling.select();document.e
                 }
                 t.prototype = n === null ? Object.create(n) : (r.prototype = n.prototype, new r());
               };
-            }(), Qe = function(e, t, n) {
+            }(), Ye = function(e, t, n) {
               var r;
               if (typeof n != "string" ? (w(e, ["subToolbar", "hint"]), n.preventDefault(), r = x(e)) : r = n, !(e.currentMode === t && typeof n != "string")) {
                 if (e.devtools && e.devtools.renderEchart(e), e.options.preview.mode === "both" && t === "sv" ? e.preview.element.style.display = "block" : e.preview.element.style.display = "none", m(e.toolbar.elements, E.g.EDIT_TOOLBARS), g(e.toolbar.elements, E.g.EDIT_TOOLBARS), u(e.toolbar.elements, ["outdent", "indent"]), t === "ir")
@@ -4264,7 +4263,7 @@ onclick="event.stopPropagation();this.previousElementSibling.select();document.e
                     });
                   });
                 else if (t === "wysiwyg")
-                  b(e.toolbar.elements, ["both"]), y(e.toolbar.elements, ["outdent", "indent", "outline", "insert-before", "insert-after"]), e.sv.element.style.display = "none", e.wysiwyg.element.parentElement.style.display = "block", e.ir.element.parentElement.style.display = "none", e.lute.SetVditorIR(!1), e.lute.SetVditorWYSIWYG(!0), e.lute.SetVditorSV(!1), e.currentMode = "wysiwyg", Ie(e), un(e, r, {
+                  b(e.toolbar.elements, ["both"]), y(e.toolbar.elements, ["outdent", "indent", "outline", "insert-before", "insert-after"]), e.sv.element.style.display = "none", e.wysiwyg.element.parentElement.style.display = "block", e.ir.element.parentElement.style.display = "none", e.lute.SetVditorIR(!1), e.lute.SetVditorWYSIWYG(!0), e.lute.SetVditorSV(!1), e.currentMode = "wysiwyg", Ie(e), cn(e, r, {
                     enableAddUndoStack: !0,
                     enableHint: !1,
                     enableInput: !1
@@ -4276,7 +4275,7 @@ onclick="event.stopPropagation();this.previousElementSibling.select();document.e
                   }), e.wysiwyg.popover.style.display = "none";
                 else if (t === "sv") {
                   y(e.toolbar.elements, ["both"]), b(e.toolbar.elements, ["outdent", "indent", "outline", "insert-before", "insert-after"]), e.wysiwyg.element.parentElement.style.display = "none", e.ir.element.parentElement.style.display = "none", (e.options.preview.mode === "both" || e.options.preview.mode === "editor") && (e.sv.element.style.display = "block"), e.lute.SetVditorIR(!1), e.lute.SetVditorWYSIWYG(!1), e.lute.SetVditorSV(!0), e.currentMode = "sv";
-                  var i = dn(r, e);
+                  var i = fn(r, e);
                   i === "<div data-block='0'></div>" && (i = ""), e.sv.element.innerHTML = i, ve(e.sv.element), ke(e, {
                     enableAddUndoStack: !0,
                     enableHint: !1,
@@ -4300,25 +4299,25 @@ onclick="event.stopPropagation();this.previousElementSibling.select();document.e
                 return t.prototype._bindEvent = function(n, r, i) {
                   var a = this.element.children[0];
                   v(n, r, a, i.level), r.children.item(0).addEventListener((0, l.Le)(), function(o) {
-                    Qe(n, "wysiwyg", o), o.preventDefault(), o.stopPropagation();
+                    Ye(n, "wysiwyg", o), o.preventDefault(), o.stopPropagation();
                   }), r.children.item(1).addEventListener((0, l.Le)(), function(o) {
-                    Qe(n, "ir", o), o.preventDefault(), o.stopPropagation();
+                    Ye(n, "ir", o), o.preventDefault(), o.stopPropagation();
                   }), r.children.item(2).addEventListener((0, l.Le)(), function(o) {
-                    Qe(n, "sv", o), o.preventDefault(), o.stopPropagation();
+                    Ye(n, "sv", o), o.preventDefault(), o.stopPropagation();
                   });
                 }, t;
               }(ge)
             ), ut = function(e, t) {
               return (0, M.Gb)(e, t) ? getSelection().toString() : "";
-            }, Rt = function(e, t) {
+            }, Nt = function(e, t) {
               t.addEventListener("focus", function() {
                 e.options.focus && e.options.focus(x(e)), w(e, ["subToolbar", "hint"]);
               });
-            }, fn = function(e, t) {
+            }, un = function(e, t) {
               t.addEventListener("dblclick", function(n) {
                 n.target.tagName === "IMG" && (e.options.image.preview ? e.options.image.preview(n.target) : e.options.image.isPreview && (0, q.E)(n.target, e.options.lang, e.options.theme));
               });
-            }, It = function(e, t) {
+            }, Rt = function(e, t) {
               t.addEventListener("blur", function(n) {
                 if (e.currentMode === "ir") {
                   var r = e.ir.element.querySelector(".vditor-ir__node--expand");
@@ -4326,7 +4325,7 @@ onclick="event.stopPropagation();this.previousElementSibling.select();document.e
                 } else e.currentMode === "wysiwyg" && !e.wysiwyg.selectPopover.contains(n.relatedTarget) && e.wysiwyg.hideComment();
                 e[e.currentMode].range = (0, M.zh)(e), e.options.blur && e.options.blur(x(e));
               });
-            }, Pt = function(e, t) {
+            }, It = function(e, t) {
               t.addEventListener("dragstart", function(n) {
                 n.dataTransfer.setData(E.g.DROP_EDITOR, E.g.DROP_EDITOR);
               }), t.addEventListener("drop", function(n) {
@@ -4336,11 +4335,11 @@ onclick="event.stopPropagation();this.previousElementSibling.select();document.e
                   }
                 });
               });
-            }, jt = function(e, t, n) {
+            }, Pt = function(e, t, n) {
               t.addEventListener("copy", function(r) {
                 return n(r, e);
               });
-            }, Bt = function(e, t, n) {
+            }, jt = function(e, t, n) {
               t.addEventListener("cut", function(r) {
                 n(r, e), e.options.comment.enable && e.currentMode === "wysiwyg" && e.wysiwyg.getComments(e), document.execCommand("delete");
               });
@@ -4349,7 +4348,7 @@ onclick="event.stopPropagation();this.previousElementSibling.select();document.e
                 var t = e[e.currentMode].element, n = (0, M.Ny)(t).top;
                 e.options.height === "auto" && !e.element.classList.contains("vditor--fullscreen") && window.scrollTo(window.scrollX, n + e.element.offsetTop + e.toolbar.element.offsetHeight - window.innerHeight / 2 + 10), (e.options.height !== "auto" || e.element.classList.contains("vditor--fullscreen")) && (t.scrollTop = n + t.scrollTop - t.clientHeight / 2 + 10);
               }
-            }, Ut = function(e, t) {
+            }, Bt = function(e, t) {
               t.addEventListener("keydown", function(n) {
                 if (!n.isComposing && e.options.keydown && e.options.keydown(n), !((e.options.hint.extend.length > 1 || e.toolbar.elements.emoji) && e.hint.select(n, e))) {
                   if (e.options.comment.enable && e.currentMode === "wysiwyg" && (n.key === "Backspace" || I("⌘X", n)) && e.wysiwyg.getComments(e), e.currentMode === "sv") {
@@ -4379,12 +4378,12 @@ onclick="event.stopPropagation();this.previousElementSibling.select();document.e
                   if ((0, l.yl)(n) && n.altKey && !n.shiftKey && /^Digit[1-6]$/.test(n.code)) {
                     if (e.currentMode === "wysiwyg") {
                       var r = n.code.replace("Digit", "H");
-                      (0, s.lG)(getSelection().getRangeAt(0).startContainer, r) ? Ot(e) : wt(e, r), ue(e);
-                    } else e.currentMode === "sv" ? pn(e, "#".repeat(parseInt(n.code.replace("Digit", ""), 10)) + " ") : e.currentMode === "ir" && pt(e, "#".repeat(parseInt(n.code.replace("Digit", ""), 10)) + " ");
+                      (0, s.lG)(getSelection().getRangeAt(0).startContainer, r) ? Ht(e) : wt(e, r), ue(e);
+                    } else e.currentMode === "sv" ? dn(e, "#".repeat(parseInt(n.code.replace("Digit", ""), 10)) + " ") : e.currentMode === "ir" && pt(e, "#".repeat(parseInt(n.code.replace("Digit", ""), 10)) + " ");
                     return n.preventDefault(), !0;
                   }
                   if ((0, l.yl)(n) && n.altKey && !n.shiftKey && /^Digit[7-9]$/.test(n.code))
-                    return n.code === "Digit7" ? Qe(e, "wysiwyg", n) : n.code === "Digit8" ? Qe(e, "ir", n) : n.code === "Digit9" && Qe(e, "sv", n), !0;
+                    return n.code === "Digit7" ? Ye(e, "wysiwyg", n) : n.code === "Digit8" ? Ye(e, "ir", n) : n.code === "Digit9" && Ye(e, "sv", n), !0;
                   e.options.toolbar.find(function(i) {
                     if (!i.hotkey || i.toolbar) {
                       if (i.toolbar) {
@@ -4403,7 +4402,7 @@ onclick="event.stopPropagation();this.previousElementSibling.select();document.e
                   });
                 }
               });
-            }, Vt = function(e, t) {
+            }, Ut = function(e, t) {
               t.addEventListener("selectstart", function(n) {
                 t.onmouseup = function() {
                   setTimeout(function() {
@@ -4412,7 +4411,7 @@ onclick="event.stopPropagation();this.previousElementSibling.select();document.e
                   });
                 };
               });
-            }, Wt = function(e, t) {
+            }, Vt = function(e, t) {
               var n = (0, M.zh)(e);
               n.extractContents(), n.insertNode(document.createTextNode(Lute.Caret)), n.insertNode(document.createTextNode(t));
               var r = (0, s.a1)(n.startContainer, "data-block", "0");
@@ -4430,7 +4429,7 @@ onclick="event.stopPropagation();this.previousElementSibling.select();document.e
                 n ? r = r.previousElementSibling : r = r.nextElementSibling;
               }
               return !1;
-            }, dn = function(e, t) {
+            }, fn = function(e, t) {
               A("SpinVditorSVDOM", e, "argument", t.options.debugger);
               var n = t.lute.SpinVditorSVDOM(e);
               return e = "<div data-block='0'>" + n.replace(/<span data-type="newline"><br \/><span style="display: none">\n<\/span><\/span><span data-type="newline"><br \/><span style="display: none">\n<\/span><\/span></g, `<span data-type="newline"><br /><span style="display: none">
@@ -4463,7 +4462,7 @@ onclick="event.stopPropagation();this.previousElementSibling.select();document.e
               typeof e.options.input == "function" && t.enableInput && e.options.input(n), e.options.counter.enable && e.counter.render(e, n), e.options.cache.enable && (0, l.pK)() && (localStorage.setItem(e.options.cache.id, n), e.options.cache.after && e.options.cache.after(n)), e.devtools && e.devtools.renderEchart(e), clearTimeout(e.sv.processTimeoutId), e.sv.processTimeoutId = window.setTimeout(function() {
                 t.enableAddUndoStack && !e.sv.composingLock && e.undo.addToUndoStack(e);
               }, e.options.undoDelay);
-            }, pn = function(e, t) {
+            }, dn = function(e, t) {
               var n = (0, M.zh)(e), r = (0, C.S)(n.startContainer, "SPAN");
               r && r.textContent.trim() !== "" && (t = `
 ` + t), n.collapse(!0), document.execCommand("insertHTML", !1, t);
@@ -4495,7 +4494,7 @@ onclick="event.stopPropagation();this.previousElementSibling.select();document.e
                 }
                 (0, M.ib)(e.sv.element, i), ke(e);
               }
-            }, hn = function(e) {
+            }, pn = function(e) {
               switch (e.currentMode) {
                 case "ir":
                   return e.ir.element;
@@ -4504,7 +4503,7 @@ onclick="event.stopPropagation();this.previousElementSibling.select();document.e
                 case "sv":
                   return e.sv.element;
               }
-            }, mn = function(e, t) {
+            }, hn = function(e, t) {
               e.options.upload.setHeaders && (e.options.upload.headers = e.options.upload.setHeaders()), e.options.upload.headers && Object.keys(e.options.upload.headers).forEach(function(n) {
                 t.setRequestHeader(n, e.options.upload.headers[n]);
               });
@@ -4632,7 +4631,7 @@ onclick="event.stopPropagation();this.previousElementSibling.select();document.e
               }
               return n;
             }, vr = function(e, t) {
-              var n = hn(t);
+              var n = pn(t);
               n.focus();
               var r = JSON.parse(e), i = "";
               r.code === 1 && (i = "".concat(r.msg)), r.data.errFiles && r.data.errFiles.length > 0 && (i = "<ul><li>".concat(i, "</li>"), r.data.errFiles.forEach(function(o) {
@@ -4652,7 +4651,7 @@ onclick="event.stopPropagation();this.previousElementSibling.select();document.e
 `) : a += "[".concat(S, "](").concat(f, `)
 `);
               }), (0, M.Hc)(t.upload.range), document.execCommand("insertHTML", !1, a), t.upload.range = getSelection().getRangeAt(0).cloneRange();
-            }, Ft = function(e, t, n) {
+            }, Wt = function(e, t, n) {
               return gr(void 0, void 0, void 0, function() {
                 var r, i, H, a, o, o, f, h, d, S, T, N, R, H, U, B;
                 return yr(this, function(O) {
@@ -4682,7 +4681,7 @@ onclick="event.stopPropagation();this.previousElementSibling.select();document.e
                           2
                           /*return*/
                         ];
-                      if (f = hn(e), e.upload.range = (0, M.zh)(e), h = wr(e, r), h.length === 0)
+                      if (f = pn(e), e.upload.range = (0, M.zh)(e), h = wr(e, r), h.length === 0)
                         return n && (n.value = ""), [
                           2
                           /*return*/
@@ -4691,7 +4690,7 @@ onclick="event.stopPropagation();this.previousElementSibling.select();document.e
                         R = N[T], d.append(R, S[R]);
                       for (H = 0, U = h.length; H < U; H++)
                         d.append(e.options.upload.fieldName, h[H]);
-                      return B = new XMLHttpRequest(), e.upload.xhr = B, B.open("POST", e.options.upload.url), e.options.upload.token && B.setRequestHeader("X-Upload-Token", e.options.upload.token), e.options.upload.withCredentials && (B.withCredentials = !0), mn(e, B), e.upload.isUploading = !0, f.setAttribute("contenteditable", "false"), B.onreadystatechange = function() {
+                      return B = new XMLHttpRequest(), e.upload.xhr = B, B.open("POST", e.options.upload.url), e.options.upload.token && B.setRequestHeader("X-Upload-Token", e.options.upload.token), e.options.upload.withCredentials && (B.withCredentials = !0), hn(e, B), e.upload.isUploading = !0, f.setAttribute("contenteditable", "false"), B.onreadystatechange = function() {
                         if (B.readyState === XMLHttpRequest.DONE) {
                           if (e.upload.isUploading = !1, f.setAttribute("contenteditable", "true"), B.status >= 200 && B.status < 300)
                             if (e.options.upload.success)
@@ -4779,7 +4778,7 @@ onclick="event.stopPropagation();this.previousElementSibling.select();document.e
               });
             }, Er = function(e, t) {
               return Object.defineProperty ? Object.defineProperty(e, "raw", { value: t }) : e.raw = t, e;
-            }, gn = function(e, t, n, r) {
+            }, mn = function(e, t, n, r) {
               function i(a) {
                 return a instanceof n ? a : new n(function(o) {
                   o(a);
@@ -4805,7 +4804,7 @@ onclick="event.stopPropagation();this.previousElementSibling.select();document.e
                 }
                 d((r = r.apply(e, t || [])).next());
               });
-            }, yn = function(e, t) {
+            }, gn = function(e, t) {
               var n = { label: 0, sent: function() {
                 if (a[0] & 1) throw a[1];
                 return a[1];
@@ -4864,14 +4863,14 @@ onclick="event.stopPropagation();this.previousElementSibling.select();document.e
                 if (d[0] & 5) throw d[1];
                 return { value: d[0] ? d[1] : void 0, done: !0 };
               }
-            }, bn = function(e, t, n) {
+            }, yn = function(e, t, n) {
               if (e.keyCode === 229 && e.code === "" && e.key === "Unidentified" && t.currentMode !== "sv") {
                 var r = (0, s.F9)(n);
                 if (r && r.textContent.trim() === "")
                   return t[t.currentMode].composingLock = !0, !1;
               }
               return !0;
-            }, wn = function(e, t, n) {
+            }, bn = function(e, t, n) {
               if (!(n.key === "Enter" || n.key === "Tab" || n.key === "Backspace" || n.key.indexOf("Arrow") > -1 || (0, l.yl)(n) || n.key === "Escape" || n.shiftKey || n.altKey)) {
                 var r = (0, s.lG)(e.startContainer, "P") || (0, s.lG)(e.startContainer, "LI");
                 if (r && (0, M.im)(r, t[t.currentMode].element, e).start === 0) {
@@ -4880,7 +4879,7 @@ onclick="event.stopPropagation();this.previousElementSibling.select();document.e
                   e.insertNode(i), e.setStartAfter(i);
                 }
               }
-            }, vn = function(e, t) {
+            }, wn = function(e, t) {
               if (t === "ArrowDown" || t === "ArrowUp") {
                 var n = (0, s.a1)(e.startContainer, "data-type", "math-inline") || (0, s.a1)(e.startContainer, "data-type", "html-entity") || (0, s.a1)(e.startContainer, "data-type", "html-inline");
                 n && (t === "ArrowDown" && e.setStartAfter(n.parentElement), t === "ArrowUp" && e.setStartBefore(n.parentElement));
@@ -4895,7 +4894,7 @@ onclick="event.stopPropagation();this.previousElementSibling.select();document.e
             }, Cr = function(e) {
               var t = (0, s.lG)(e, "TABLE");
               return t && t.lastElementChild.lastElementChild.lastElementChild.isSameNode(e) ? t : !1;
-            }, En = function(e, t, n) {
+            }, vn = function(e, t, n) {
               n === void 0 && (n = !0);
               var r = e.previousElementSibling;
               return r || (e.parentElement.previousElementSibling ? r = e.parentElement.previousElementSibling.lastElementChild : e.parentElement.parentElement.tagName === "TBODY" && e.parentElement.parentElement.previousElementSibling ? r = e.parentElement.parentElement.previousElementSibling.lastElementChild.lastElementChild : r = null), r && (t.selectNodeContents(r), n || t.collapse(!1), (0, M.Hc)(t)), r;
@@ -4942,7 +4941,7 @@ onclick="event.stopPropagation();this.previousElementSibling.select();document.e
                 var h = (0, s.a1)(t.startContainer, "data-block", "0");
                 h || (e[e.currentMode].element.querySelector("wbr").remove(), h = e[e.currentMode].element.querySelector("p"), h.innerHTML = "<wbr>"), n === "check" ? (h.insertAdjacentHTML("beforebegin", '<ul data-block="0"><li class="vditor-task"><input type="checkbox" /> '.concat(h.innerHTML, "</li></ul>")), h.remove()) : n === "list" ? (h.insertAdjacentHTML("beforebegin", '<ul data-block="0"><li>'.concat(h.innerHTML, "</li></ul>")), h.remove()) : n === "ordered-list" && (h.insertAdjacentHTML("beforebegin", '<ol data-block="0"><li>'.concat(h.innerHTML, "</li></ol>")), h.remove());
               }
-            }, Sn = function(e, t, n) {
+            }, En = function(e, t, n) {
               var r = t.previousElementSibling;
               if (t && r) {
                 var i = [t];
@@ -4962,7 +4961,7 @@ onclick="event.stopPropagation();this.previousElementSibling.select();document.e
                 }), ee(e), nt(e);
               } else
                 e[e.currentMode].element.focus();
-            }, Kt = function(e, t, n, r) {
+            }, Ft = function(e, t, n, r) {
               var i = (0, s.lG)(t.parentElement, "LI");
               if (i) {
                 e[e.currentMode].element.querySelectorAll("wbr").forEach(function(T) {
@@ -4993,12 +4992,12 @@ onclick="event.stopPropagation();this.previousElementSibling.select();document.e
                   }
               for (var h = 0; h < i; h++)
                 e.rows[h].cells[a].setAttribute("align", t);
-            }, qt = function(e) {
+            }, Kt = function(e) {
               var t = e.trimRight().split(`
 `).pop();
               return t === "" ? !1 : (t.replace(/ |-/g, "") === "" || t.replace(/ |_/g, "") === "" || t.replace(/ |\*/g, "") === "") && t.replace(/ /g, "").length > 2 ? !(t.indexOf("-") > -1 && t.trimLeft().indexOf(" ") === -1 && e.trimRight().split(`
 `).length > 1 || t.indexOf("    ") === 0 || t.indexOf("	") === 0) : !1;
-            }, zt = function(e) {
+            }, qt = function(e) {
               var t = e.trimRight().split(`
 `);
               return e = t.pop(), e.indexOf("    ") === 0 || e.indexOf("	") === 0 || (e = e.trimLeft(), e === "" || t.length === 0) ? !1 : e.replace(/-/g, "") === "" || e.replace(/=/g, "") === "";
@@ -5008,7 +5007,7 @@ onclick="event.stopPropagation();this.previousElementSibling.select();document.e
                 enableHint: !1,
                 enableInput: !0
               }), e.currentMode === "wysiwyg" ? ue(e, t) : e.currentMode === "ir" ? Ke(e, t) : e.currentMode === "sv" && ke(e, t);
-            }, Cn = function(e, t, n, r) {
+            }, Sn = function(e, t, n, r) {
               var i, a = e.startContainer, o = (0, s.lG)(a, "LI");
               if (o) {
                 if (!(0, l.yl)(r) && !r.altKey && r.key === "Enter" && // fix li 中有多个 P 时，在第一个 P 中换行会在下方生成新的 li
@@ -5027,17 +5026,17 @@ onclick="event.stopPropagation();this.previousElementSibling.select();document.e
                 if (!(0, l.yl)(r) && !r.altKey && r.key === "Tab") {
                   var f = !1;
                   if ((e.startOffset === 0 && (a.nodeType === 3 && !a.previousSibling || a.nodeType !== 3 && a.nodeName === "LI") || o.classList.contains("vditor-task") && e.startOffset === 1 && a.previousSibling.nodeType !== 3 && a.previousSibling.tagName === "INPUT") && (f = !0), f || e.toString() !== "")
-                    return r.shiftKey ? Kt(t, o, e, o.parentElement) : Sn(t, o, e), r.preventDefault(), !0;
+                    return r.shiftKey ? Ft(t, o, e, o.parentElement) : En(t, o, e), r.preventDefault(), !0;
                 }
               }
               return !1;
-            }, Gt = function(e, t, n) {
+            }, zt = function(e, t, n) {
               if (e.options.tab && n.key === "Tab")
                 return n.shiftKey || (t.toString() === "" ? (t.insertNode(document.createTextNode(e.options.tab)), t.collapse(!1)) : (t.extractContents(), t.insertNode(document.createTextNode(e.options.tab)), t.collapse(!1))), (0, M.Hc)(t), ee(e), n.preventDefault(), !0;
-            }, Ln = function(e, t, n, r) {
+            }, Cn = function(e, t, n, r) {
               if (n) {
                 if (!(0, l.yl)(e) && !e.altKey && e.key === "Enter") {
-                  var i = String.raw(In || (In = Er(["", ""], ["", ""])), n.textContent).replace(/\\\|/g, "").trim(), a = i.split("|");
+                  var i = String.raw(Rn || (Rn = Er(["", ""], ["", ""])), n.textContent).replace(/\\\|/g, "").trim(), a = i.split("|");
                   if (i.startsWith("|") && i.endsWith("|") && a.length > 3) {
                     var o = a.map(function() {
                       return "---";
@@ -5046,14 +5045,14 @@ onclick="event.stopPropagation();this.previousElementSibling.select();document.e
 ` + o.substring(3, o.length - 3) + `
 |<wbr>`, n.outerHTML = t.lute.SpinVditorDOM(o), (0, M.ib)(t[t.currentMode].element, r), ee(t), Ee(t), e.preventDefault(), !0;
                   }
-                  if (qt(n.innerHTML) && n.previousElementSibling) {
+                  if (Kt(n.innerHTML) && n.previousElementSibling) {
                     var f = "", h = n.innerHTML.trimRight().split(`
 `);
                     return h.length > 1 && (h.pop(), f = '<p data-block="0">'.concat(h.join(`
 `), "</p>")), n.insertAdjacentHTML("afterend", "".concat(f, `<hr data-block="0"><p data-block="0"><wbr>
 </p>`)), n.remove(), (0, M.ib)(t[t.currentMode].element, r), ee(t), Ee(t), e.preventDefault(), !0;
                   }
-                  if (zt(n.innerHTML))
+                  if (qt(n.innerHTML))
                     return t.currentMode === "wysiwyg" ? n.outerHTML = t.lute.SpinVditorDOM(n.innerHTML + `<p data-block="0"><wbr>
 </p>`) : n.outerHTML = t.lute.SpinVditorIRDOM(n.innerHTML + `<p data-block="0"><wbr>
 </p>`), (0, M.ib)(t[t.currentMode].element, r), ee(t), Ee(t), e.preventDefault(), !0;
@@ -5067,11 +5066,11 @@ onclick="event.stopPropagation();this.previousElementSibling.select();document.e
                 }
                 return !1;
               }
-            }, kn = function(e, t, n) {
+            }, Ln = function(e, t, n) {
               for (var r = "", i = 0; i < n.parentElement.childElementCount; i++)
                 r += '<td align="'.concat(n.parentElement.children[i].getAttribute("align"), '"> </td>');
               n.tagName === "TH" ? n.parentElement.parentElement.insertAdjacentHTML("afterend", "<tbody><tr>".concat(r, "</tr></tbody>")) : n.parentElement.insertAdjacentHTML("afterend", "<tr>".concat(r, "</tr>")), ee(e);
-            }, Mn = function(e, t, n) {
+            }, kn = function(e, t, n) {
               for (var r = "", i = 0; i < n.parentElement.childElementCount; i++)
                 n.tagName === "TH" ? r += '<th align="'.concat(n.parentElement.children[i].getAttribute("align"), '"> </th>') : r += '<td align="'.concat(n.parentElement.children[i].getAttribute("align"), '"> </td>');
               if (n.tagName === "TH") {
@@ -5088,12 +5087,12 @@ onclick="event.stopPropagation();this.previousElementSibling.select();document.e
               for (var o = 0; o < t.rows.length; o++)
                 o === 0 ? t.rows[o].cells[i].insertAdjacentHTML(r, "<th> </th>") : t.rows[o].cells[i].insertAdjacentHTML(r, "<td> </td>");
               ee(e);
-            }, Tn = function(e, t, n) {
+            }, Mn = function(e, t, n) {
               if (n.tagName === "TD") {
                 var r = n.parentElement.parentElement;
                 n.parentElement.previousElementSibling ? t.selectNodeContents(n.parentElement.previousElementSibling.lastElementChild) : t.selectNodeContents(r.previousElementSibling.lastElementChild.lastElementChild), r.childElementCount === 1 ? r.remove() : n.parentElement.remove(), t.collapse(!1), (0, M.Hc)(t), ee(e);
               }
-            }, _n = function(e, t, n, r) {
+            }, Tn = function(e, t, n, r) {
               for (var i = 0, a = r.previousElementSibling; a; )
                 i++, a = a.previousElementSibling;
               (r.previousElementSibling || r.nextElementSibling) && (t.selectNodeContents(r.previousElementSibling || r.nextElementSibling), t.collapse(!0));
@@ -5106,7 +5105,7 @@ onclick="event.stopPropagation();this.previousElementSibling.select();document.e
                 f[i].remove();
               }
               (0, M.Hc)(t), ee(e);
-            }, An = function(e, t, n) {
+            }, _n = function(e, t, n) {
               var r = n.startContainer, i = (0, s.lG)(r, "TD") || (0, s.lG)(r, "TH");
               if (i) {
                 if (!(0, l.yl)(t) && !t.altKey && t.key === "Enter") {
@@ -5116,7 +5115,7 @@ onclick="event.stopPropagation();this.previousElementSibling.select();document.e
                 }
                 if (t.key === "Tab") {
                   if (t.shiftKey)
-                    return En(i, n), t.preventDefault(), !0;
+                    return vn(i, n), t.preventDefault(), !0;
                   var o = i.nextElementSibling;
                   return o || (i.parentElement.nextElementSibling ? o = i.parentElement.nextElementSibling.firstElementChild : i.parentElement.parentElement.tagName === "THEAD" && i.parentElement.parentElement.nextElementSibling ? o = i.parentElement.parentElement.nextElementSibling.firstElementChild.firstElementChild : o = null), o && (n.selectNodeContents(o), (0, M.Hc)(n)), t.preventDefault(), !0;
                 }
@@ -5144,22 +5143,22 @@ onclick="event.stopPropagation();this.previousElementSibling.select();document.e
                   return T.focus(), T.select(), t.preventDefault(), !0;
                 }
                 if (!(0, l.yl)(t) && !t.shiftKey && !t.altKey && t.key === "Backspace" && n.startOffset === 0 && n.toString() === "") {
-                  var N = En(i, n, !1);
+                  var N = vn(i, n, !1);
                   return !N && f && (f.textContent.trim() === "" ? (f.outerHTML = `<p data-block="0"><wbr>
 </p>`, (0, M.ib)(e[e.currentMode].element, n)) : (n.setStartBefore(f), n.collapse(!0)), ee(e)), t.preventDefault(), !0;
                 }
                 if (I("⇧⌘F", t))
-                  return Mn(e, n, i), t.preventDefault(), !0;
-                if (I("⌘=", t))
                   return kn(e, n, i), t.preventDefault(), !0;
+                if (I("⌘=", t))
+                  return Ln(e, n, i), t.preventDefault(), !0;
                 if (I("⇧⌘G", t))
                   return Lt(e, f, i, "beforebegin"), t.preventDefault(), !0;
                 if (I("⇧⌘=", t))
                   return Lt(e, f, i), t.preventDefault(), !0;
                 if (I("⌘-", t))
-                  return Tn(e, n, i), t.preventDefault(), !0;
+                  return Mn(e, n, i), t.preventDefault(), !0;
                 if (I("⇧⌘-", t))
-                  return _n(e, n, f, i), t.preventDefault(), !0;
+                  return Tn(e, n, f, i), t.preventDefault(), !0;
                 if (I("⇧⌘L", t)) {
                   if (e.currentMode === "ir")
                     return Ct(f, "left"), ee(e), t.preventDefault(), !0;
@@ -5183,7 +5182,7 @@ onclick="event.stopPropagation();this.previousElementSibling.select();document.e
                 }
               }
               return !1;
-            }, xn = function(e, t, n, r) {
+            }, An = function(e, t, n, r) {
               if (n.tagName === "PRE" && I("⌘A", t))
                 return r.selectNodeContents(n.firstElementChild), t.preventDefault(), !0;
               if (e.options.tab && t.key === "Tab" && !t.shiftKey && r.toString() === "")
@@ -5198,7 +5197,7 @@ onclick="event.stopPropagation();this.previousElementSibling.select();document.e
 `) || n.firstElementChild.insertAdjacentText("beforeend", `
 `), r.extractContents(), r.insertNode(document.createTextNode(`
 `)), r.collapse(!1), (0, M.Hc)(r), (0, l.vU)() || (e.currentMode === "wysiwyg" ? Et(e, r) : ze(e, r)), Ee(e), t.preventDefault(), !0) : !1;
-            }, Dn = function(e, t, n, r) {
+            }, xn = function(e, t, n, r) {
               var i = t.startContainer, a = (0, s.lG)(i, "BLOCKQUOTE");
               if (a && t.toString() === "") {
                 if (n.key === "Backspace" && !(0, l.yl)(n) && !n.shiftKey && !n.altKey && (0, M.im)(a, e[e.currentMode].element, t).start === 0)
@@ -5219,7 +5218,7 @@ onclick="event.stopPropagation();this.previousElementSibling.select();document.e
                   return !0;
               }
               return !1;
-            }, Hn = function(e, t, n) {
+            }, Dn = function(e, t, n) {
               var r = t.startContainer, i = (0, s.lG)(r, "LI");
               if (i && i.classList.contains("vditor-task")) {
                 if (I("⇧⌘J", n)) {
@@ -5240,7 +5239,7 @@ onclick="event.stopPropagation();this.previousElementSibling.select();document.e
                   if (i.textContent.trim() === "")
                     if ((0, s.fb)(i.parentElement, "vditor-task")) {
                       var h = (0, s.O9)(r);
-                      h && Kt(e, i, t, h);
+                      h && Ft(e, i, t, h);
                     } else if (i.nextElementSibling) {
                       var d = "", S = "", T = !1;
                       Array.from(i.parentElement.children).forEach(function(U) {
@@ -5258,7 +5257,7 @@ onclick="event.stopPropagation();this.previousElementSibling.select();document.e
                 }
               }
               return !1;
-            }, On = function(e, t, n, r) {
+            }, Hn = function(e, t, n, r) {
               if (t.startContainer.nodeType !== 3) {
                 var i = t.startContainer.children[t.startOffset];
                 if (i && i.tagName === "HR")
@@ -5276,9 +5275,9 @@ onclick="event.stopPropagation();this.previousElementSibling.select();document.e
                 }
               }
               return !1;
-            }, Nn = function(e) {
+            }, On = function(e) {
               (0, l.vU)() && e.startContainer.nodeType !== 3 && e.startContainer.tagName === "HR" && e.setStartBefore(e.startContainer);
-            }, Rn = function(e, t, n) {
+            }, Nn = function(e, t, n) {
               var r, i;
               if (!(0, l.vU)())
                 return !1;
@@ -5288,9 +5287,9 @@ onclick="event.stopPropagation();this.previousElementSibling.select();document.e
               }
               return e.key === "ArrowDown" && t && ((i = t.nextElementSibling) === null || i === void 0 ? void 0 : i.tagName) === "TABLE" ? (n.selectNodeContents(t.nextElementSibling.rows[0].cells[0]), n.collapse(!0), e.preventDefault(), !0) : !1;
             }, kt = function(e, t, n) {
-              return gn(void 0, void 0, void 0, function() {
+              return mn(void 0, void 0, void 0, function() {
                 var r, i, a, o, f, h, d, S, T, N, R, H, U, O, B, O, G;
-                return yn(this, function(V) {
+                return gn(this, function(V) {
                   switch (V.label) {
                     case 0:
                       return e[e.currentMode].element.getAttribute("contenteditable") !== "true" ? [
@@ -5304,7 +5303,7 @@ onclick="event.stopPropagation();this.previousElementSibling.select();document.e
                         var oe = J.TokensStr();
                         if (J.__internal_object__.Parent.Type === 34 && oe && oe.indexOf("file://") === -1 && e.options.upload.linkToImgUrl) {
                           var fe = new XMLHttpRequest();
-                          fe.open("POST", e.options.upload.linkToImgUrl), e.options.upload.token && fe.setRequestHeader("X-Upload-Token", e.options.upload.token), e.options.upload.withCredentials && (fe.withCredentials = !0), mn(e, fe), fe.setRequestHeader("Content-Type", "application/json; charset=utf-8"), fe.onreadystatechange = function() {
+                          fe.open("POST", e.options.upload.linkToImgUrl), e.options.upload.token && fe.setRequestHeader("X-Upload-Token", e.options.upload.token), e.options.upload.withCredentials && (fe.withCredentials = !0), hn(e, fe), fe.setRequestHeader("Content-Type", "application/json; charset=utf-8"), fe.onreadystatechange = function() {
                             if (fe.readyState === XMLHttpRequest.DONE) {
                               if (fe.status === 200) {
                                 var De = fe.responseText;
@@ -5343,9 +5342,9 @@ onclick="event.stopPropagation();this.previousElementSibling.select();document.e
                         J.removeAttribute("style");
                       }), R.querySelectorAll(".vditor-copy").forEach(function(J) {
                         J.remove();
-                      }), e.currentMode === "ir" ? (o.HTML2VditorIRDOM = { renderLinkDest: f }, e.lute.SetJSRenderers({ renderers: o }), (0, M.oC)(e.lute.HTML2VditorIRDOM(R.innerHTML), e)) : e.currentMode === "wysiwyg" ? (o.HTML2VditorDOM = { renderLinkDest: f }, e.lute.SetJSRenderers({ renderers: o }), (0, M.oC)(e.lute.HTML2VditorDOM(R.innerHTML), e)) : (o.Md2VditorSVDOM = { renderLinkDest: f }, e.lute.SetJSRenderers({ renderers: o }), Wt(e, e.lute.HTML2Md(R.innerHTML).trimRight())), e.outline.render(e), [3, 10];
+                      }), e.currentMode === "ir" ? (o.HTML2VditorIRDOM = { renderLinkDest: f }, e.lute.SetJSRenderers({ renderers: o }), (0, M.oC)(e.lute.HTML2VditorIRDOM(R.innerHTML), e)) : e.currentMode === "wysiwyg" ? (o.HTML2VditorDOM = { renderLinkDest: f }, e.lute.SetJSRenderers({ renderers: o }), (0, M.oC)(e.lute.HTML2VditorDOM(R.innerHTML), e)) : (o.Md2VditorSVDOM = { renderLinkDest: f }, e.lute.SetJSRenderers({ renderers: o }), Vt(e, e.lute.HTML2Md(R.innerHTML).trimRight())), e.outline.render(e), [3, 10];
                     case 5:
-                      return a.length > 0 ? e.options.upload.url || e.options.upload.handler ? [4, Ft(e, a)] : [3, 7] : [3, 9];
+                      return a.length > 0 ? e.options.upload.url || e.options.upload.handler ? [4, Wt(e, a)] : [3, 7] : [3, 9];
                     case 6:
                       return V.sent(), [3, 8];
                     case 7:
@@ -5358,7 +5357,7 @@ onclick="event.stopPropagation();this.previousElementSibling.select();document.e
                     case 8:
                       return [3, 10];
                     case 9:
-                      i.trim() !== "" && a.length === 0 && (O = (0, M.zh)(e), O.toString() !== "" && e.lute.IsValidLinkDest(i) && (i = "[".concat(O.toString(), "](").concat(i, ")")), e.currentMode === "ir" ? (o.Md2VditorIRDOM = { renderLinkDest: f }, e.lute.SetJSRenderers({ renderers: o }), (0, M.oC)(Lute.Sanitize(e.lute.Md2VditorIRDOM(i)), e)) : e.currentMode === "wysiwyg" ? (o.Md2VditorDOM = { renderLinkDest: f }, e.lute.SetJSRenderers({ renderers: o }), (0, M.oC)(Lute.Sanitize(e.lute.Md2VditorDOM(i)), e)) : (o.Md2VditorSVDOM = { renderLinkDest: f }, e.lute.SetJSRenderers({ renderers: o }), Wt(e, i)), e.outline.render(e)), V.label = 10;
+                      i.trim() !== "" && a.length === 0 && (O = (0, M.zh)(e), O.toString() !== "" && e.lute.IsValidLinkDest(i) && (i = "[".concat(O.toString(), "](").concat(i, ")")), e.currentMode === "ir" ? (o.Md2VditorIRDOM = { renderLinkDest: f }, e.lute.SetJSRenderers({ renderers: o }), (0, M.oC)(Lute.Sanitize(e.lute.Md2VditorIRDOM(i)), e)) : e.currentMode === "wysiwyg" ? (o.Md2VditorDOM = { renderLinkDest: f }, e.lute.SetJSRenderers({ renderers: o }), (0, M.oC)(Lute.Sanitize(e.lute.Md2VditorDOM(i)), e)) : (o.Md2VditorSVDOM = { renderLinkDest: f }, e.lute.SetJSRenderers({ renderers: o }), Vt(e, i)), e.outline.render(e)), V.label = 10;
                     case 10:
                       return e.currentMode !== "sv" && (B = (0, s.F9)((0, M.zh)(e).startContainer), B && (O = (0, M.zh)(e), e[e.currentMode].element.querySelectorAll("wbr").forEach(function(J) {
                         J.remove();
@@ -5372,9 +5371,9 @@ onclick="event.stopPropagation();this.previousElementSibling.select();document.e
                 });
               });
             }, Lr = function(e, t, n) {
-              return gn(void 0, void 0, void 0, function() {
+              return mn(void 0, void 0, void 0, function() {
                 var r, i, a, o, f, h, d, S, T, U, N, R, H, U, B, O;
-                return yn(this, function(G) {
+                return gn(this, function(G) {
                   switch (G.label) {
                     case 0:
                       if (!n)
@@ -5388,9 +5387,9 @@ onclick="event.stopPropagation();this.previousElementSibling.select();document.e
                             hex: d.replace(r, "").replace(/[^\da-fA-F]/g, ""),
                             type: S
                           });
-                      for (T = [], Zt(t, function(V) {
+                      for (T = [], Gt(t, function(V) {
                         if (V.tagName === "V:SHAPE")
-                          return Zt(V, function(J) {
+                          return Gt(V, function(J) {
                             J.tagName === "V:IMAGEDATA" && T.push({ shape: V, img: J });
                           }), !1;
                       }), U = 0; U < T.length; U++)
@@ -5412,12 +5411,12 @@ onclick="event.stopPropagation();this.previousElementSibling.select();document.e
                   }
                 });
               });
-            }, Zt = function(e, t) {
+            }, Gt = function(e, t) {
               var n = t(e);
               if (n !== !1)
                 for (var r = 0; r < e.children.length; r++)
-                  Zt(e.children[r], t);
-            }, In, Pn = function(e) {
+                  Gt(e.children[r], t);
+            }, Rn, In = function(e) {
               var t, n;
               e.hint.render(e);
               var r = (0, M.zh)(e).startContainer, i = (0, s.a1)(r, "data-type", "code-block-info");
@@ -5440,7 +5439,7 @@ onclick="event.stopPropagation();this.previousElementSibling.select();document.e
                 enableAddUndoStack: !0,
                 enableHint: !1,
                 enableInput: !0
-              }), t.enableHint && Pn(e), clearTimeout(e.ir.processTimeoutId), e.ir.processTimeoutId = window.setTimeout(function() {
+              }), t.enableHint && In(e), clearTimeout(e.ir.processTimeoutId), e.ir.processTimeoutId = window.setTimeout(function() {
                 if (!e.ir.composingLock) {
                   var n = x(e);
                   typeof e.options.input == "function" && t.enableInput && e.options.input(n), e.options.counter.enable && e.counter.render(e, n), e.options.cache.enable && (0, l.pK)() && (localStorage.setItem(e.options.cache.id, n), e.options.cache.after && e.options.cache.after(n)), e.devtools && e.devtools.renderEchart(e), t.enableAddUndoStack && e.undo.addToUndoStack(e);
@@ -5726,7 +5725,7 @@ onclick="event.stopPropagation();this.previousElementSibling.select();document.e
                   this.composingLock = !1;
                   var n = document.createElement("div");
                   n.className = "vditor-ir", n.innerHTML = '<pre class="vditor-reset" placeholder="'.concat(t.options.placeholder, `"
- contenteditable="true" spellcheck="false"></pre>`), this.element = n.firstElementChild, this.bindEvent(t), Rt(t, this.element), fn(t, this.element), It(t, this.element), Ut(t, this.element), Vt(t, this.element), Pt(t, this.element), jt(t, this.element, this.copy), Bt(t, this.element, this.copy);
+ contenteditable="true" spellcheck="false"></pre>`), this.element = n.firstElementChild, this.bindEvent(t), Nt(t, this.element), un(t, this.element), Rt(t, this.element), Bt(t, this.element), Ut(t, this.element), It(t, this.element), Pt(t, this.element, this.copy), jt(t, this.element, this.copy);
                 }
                 return e.prototype.copy = function(t, n) {
                   var r = getSelection().getRangeAt(0);
@@ -5795,7 +5794,7 @@ onclick="event.stopPropagation();this.previousElementSibling.select();document.e
 ` && i.startOffset === 1 && (i.startContainer.textContent = "", j(i, t)), n.element.querySelectorAll(".language-math").forEach(function(o) {
                         var f = o.querySelector("br");
                         f && f.remove();
-                      })) : r.key.indexOf("Arrow") > -1 ? ((r.key === "ArrowLeft" || r.key === "ArrowRight") && Pn(t), j(i, t)) : r.keyCode === 229 && r.code === "" && r.key === "Unidentified" && j(i, t);
+                      })) : r.key.indexOf("Arrow") > -1 ? ((r.key === "ArrowLeft" || r.key === "ArrowRight") && In(t), j(i, t)) : r.keyCode === 229 && r.code === "" && r.key === "Unidentified" && j(i, t);
                       var a = (0, s.fb)(i.startContainer, "vditor-ir__preview");
                       if (a) {
                         if (r.key === "ArrowUp" || r.key === "ArrowLeft")
@@ -5807,14 +5806,14 @@ onclick="event.stopPropagation();this.previousElementSibling.select();document.e
                   });
                 }, e;
               }()
-            ), jn = function(e) {
+            ), Pn = function(e) {
               if (e.currentMode === "sv")
                 return e.lute.Md2HTML(x(e));
               if (e.currentMode === "wysiwyg")
                 return e.lute.VditorDOM2HTML(e.wysiwyg.element.innerHTML);
               if (e.currentMode === "ir")
                 return e.lute.VditorIRDOM2HTML(e.ir.element.innerHTML);
-            }, xr = Y(214), Bn = Y(436), Dr = (
+            }, xr = Y(214), jn = Y(436), Dr = (
               /** @class */
               function() {
                 function e(t) {
@@ -5823,7 +5822,7 @@ onclick="event.stopPropagation();this.previousElementSibling.select();document.e
                 }
                 return e.prototype.render = function(t) {
                   var n = "";
-                  return t.preview.element.style.display === "block" ? n = (0, Bn.k)(t.preview.previewElement, this.element.lastElementChild, t) : n = (0, Bn.k)(t[t.currentMode].element, this.element.lastElementChild, t), n;
+                  return t.preview.element.style.display === "block" ? n = (0, jn.k)(t.preview.previewElement, this.element.lastElementChild, t) : n = (0, jn.k)(t[t.currentMode].element, this.element.lastElementChild, t), n;
                 }, e.prototype.toggle = function(t, n, r) {
                   var i;
                   n === void 0 && (n = !0), r === void 0 && (r = !0);
@@ -5998,7 +5997,7 @@ onclick="event.stopPropagation();this.previousElementSibling.select();document.e
               /** @class */
               function() {
                 function e(t) {
-                  this.composingLock = !1, this.element = document.createElement("pre"), this.element.className = "vditor-sv vditor-reset", this.element.setAttribute("placeholder", t.options.placeholder), this.element.setAttribute("contenteditable", "true"), this.element.setAttribute("spellcheck", "false"), this.bindEvent(t), Rt(t, this.element), It(t, this.element), Ut(t, this.element), Vt(t, this.element), Pt(t, this.element), jt(t, this.element, this.copy), Bt(t, this.element, this.copy);
+                  this.composingLock = !1, this.element = document.createElement("pre"), this.element.className = "vditor-sv vditor-reset", this.element.setAttribute("placeholder", t.options.placeholder), this.element.setAttribute("contenteditable", "true"), this.element.setAttribute("spellcheck", "false"), this.bindEvent(t), Nt(t, this.element), Rt(t, this.element), Bt(t, this.element), Ut(t, this.element), It(t, this.element), Pt(t, this.element, this.copy), jt(t, this.element, this.copy);
                 }
                 return e.prototype.copy = function(t, n) {
                   t.stopPropagation(), t.preventDefault(), t.clipboardData.setData("text/plain", ut(n[n.currentMode].element));
@@ -6043,7 +6042,7 @@ onclick="event.stopPropagation();this.previousElementSibling.select();document.e
                   });
                 }, e;
               }()
-            ), Un = (
+            ), Bn = (
               /** @class */
               function() {
                 function e() {
@@ -6064,7 +6063,7 @@ onclick="event.stopPropagation();this.previousElementSibling.select();document.e
                   this.element.className = "vditor-messageElementtip", this.element.innerHTML = "";
                 }, e;
               }()
-            ), Jt = function(e, t) {
+            ), Zt = function(e, t) {
               if (t.options.preview.mode !== e) {
                 switch (t.options.preview.mode = e, e) {
                   case "both":
@@ -6101,7 +6100,7 @@ onclick="event.stopPropagation();this.previousElementSibling.select();document.e
                   var i = e.call(this, n, r) || this;
                   return n.options.preview.mode === "both" && i.element.children[0].classList.add("vditor-menu--current"), i.element.children[0].addEventListener((0, l.Le)(), function(a) {
                     var o = i.element.firstElementChild;
-                    o.classList.contains(E.g.CLASS_MENU_DISABLED) || (a.preventDefault(), n.currentMode === "sv" && (n.options.preview.mode === "both" ? Jt("editor", n) : Jt("both", n)));
+                    o.classList.contains(E.g.CLASS_MENU_DISABLED) || (a.preventDefault(), n.currentMode === "sv" && (n.options.preview.mode === "both" ? Zt("editor", n) : Zt("both", n)));
                   }), i;
                 }
                 return t;
@@ -6114,7 +6113,7 @@ onclick="event.stopPropagation();this.previousElementSibling.select();document.e
                 }
                 return e;
               }()
-            ), Vn = Y(580), Br = /* @__PURE__ */ function() {
+            ), Un = Y(580), Br = /* @__PURE__ */ function() {
               var e = function(t, n) {
                 return e = Object.setPrototypeOf || { __proto__: [] } instanceof Array && function(r, i) {
                   r.__proto__ = i;
@@ -6142,7 +6141,7 @@ onclick="event.stopPropagation();this.previousElementSibling.select();document.e
                   return E.g.CODE_THEME.forEach(function(h) {
                     f += "<button>".concat(h, "</button>");
                   }), o.innerHTML = '<div style="overflow: auto;max-height:'.concat(window.innerHeight / 2, 'px">').concat(f, "</div>"), o.addEventListener((0, l.Le)(), function(h) {
-                    h.target.tagName === "BUTTON" && (w(n, ["subToolbar"]), n.options.preview.hljs.style = h.target.textContent, (0, Vn.Y)(h.target.textContent, n.options.cdn), h.preventDefault(), h.stopPropagation());
+                    h.target.tagName === "BUTTON" && (w(n, ["subToolbar"]), n.options.preview.hljs.style = h.target.textContent, (0, Un.Y)(h.target.textContent, n.options.cdn), h.preventDefault(), h.stopPropagation());
                   }), i.element.appendChild(o), v(n, o, a, r.level), i;
                 }
                 return t;
@@ -6314,7 +6313,7 @@ data-value=":`).concat(f, ': " data-key=":').concat(f, ':" class="vditor-emojis_
                         var d = document.createElement("div");
                         d.innerHTML = h, h = d.firstElementChild.firstElementChild.outerHTML + " ", (0, M.oC)(h, n);
                       } else
-                        f.extractContents(), f.insertNode(document.createTextNode(o)), (0, s.F9)(f.startContainer) || Ht(n, f);
+                        f.extractContents(), f.insertNode(document.createTextNode(o)), (0, s.F9)(f.startContainer) || Dt(n, f);
                       f.collapse(!1), (0, M.Hc)(f), r.element.lastElementChild.style.display = "none", ee(n);
                     }
                   }), this.element.lastElementChild.addEventListener("mouseover", function(i) {
@@ -6323,12 +6322,12 @@ data-value=":`).concat(f, ': " data-key=":').concat(f, ':" class="vditor-emojis_
                   });
                 }, t;
               }(ge)
-            ), Wn = function(e, t, n) {
+            ), Vn = function(e, t, n) {
               var r = document.createElement("a");
               "download" in r ? (r.download = n, r.style.display = "none", r.href = URL.createObjectURL(new Blob([t])), document.body.appendChild(r), r.click(), r.remove()) : e.tip.show(window.VditorI18n.downloadTip, 0);
             }, Yr = function(e) {
               var t = x(e);
-              Wn(e, t, t.substr(0, 10) + ".md");
+              Vn(e, t, t.substr(0, 10) + ".md");
             }, Qr = function(e) {
               e.tip.show(window.VditorI18n.generate, 3800);
               var t = document.querySelector("#vditorExportIframe");
@@ -6357,7 +6356,7 @@ window.addEventListener("message", (e) => {
                 t.contentWindow.postMessage(x(e), "*");
               }, 200);
             }, $r = function(e) {
-              var t = jn(e), n = '<html><head><link rel="stylesheet" type="text/css" href="'.concat(e.options.cdn, `/dist/index.css"/>
+              var t = Pn(e), n = '<html><head><link rel="stylesheet" type="text/css" href="'.concat(e.options.cdn, `/dist/index.css"/>
 <script src="`).concat(e.options.cdn, "/dist/js/i18n/").concat(e.options.lang, `.js"><\/script>
 <script src="`).concat(e.options.cdn, `/dist/method.min.js"><\/script></head>
 <body><div class="vditor-reset" id="preview">`).concat(t, `</div>
@@ -6382,7 +6381,7 @@ window.addEventListener("message", (e) => {
     Vditor.speechRender(previewElement);
 <\/script>
 <script src="`).concat(e.options.cdn, "/dist/js/icons/").concat(e.options.icon, '.js"><\/script></body></html>');
-              Wn(e, n, t.substr(0, 10) + ".html");
+              Vn(e, n, t.substr(0, 10) + ".html");
             }, ei = /* @__PURE__ */ function() {
               var e = function(t, n) {
                 return e = Object.setPrototypeOf || { __proto__: [] } instanceof Array && function(r, i) {
@@ -6500,11 +6499,11 @@ window.addEventListener("message", (e) => {
                 return t.prototype._bindEvent = function(n, r) {
                   var i = this.element.children[0];
                   i.addEventListener((0, l.Le)(), function(o) {
-                    o.preventDefault(), clearTimeout(n.wysiwyg.afterRenderTimeoutId), clearTimeout(n.ir.processTimeoutId), clearTimeout(n.sv.processTimeoutId), !i.classList.contains(E.g.CLASS_MENU_DISABLED) && (i.blur(), i.classList.contains("vditor-menu--current") ? (n.currentMode === "wysiwyg" ? (Ot(n), ue(n)) : n.currentMode === "ir" && pt(n, ""), i.classList.remove("vditor-menu--current")) : (w(n, ["subToolbar"]), r.style.display = "block"));
+                    o.preventDefault(), clearTimeout(n.wysiwyg.afterRenderTimeoutId), clearTimeout(n.ir.processTimeoutId), clearTimeout(n.sv.processTimeoutId), !i.classList.contains(E.g.CLASS_MENU_DISABLED) && (i.blur(), i.classList.contains("vditor-menu--current") ? (n.currentMode === "wysiwyg" ? (Ht(n), ue(n)) : n.currentMode === "ir" && pt(n, ""), i.classList.remove("vditor-menu--current")) : (w(n, ["subToolbar"]), r.style.display = "block"));
                   });
                   for (var a = 0; a < 6; a++)
                     r.children.item(a).addEventListener((0, l.Le)(), function(o) {
-                      o.preventDefault(), n.currentMode === "wysiwyg" ? (wt(n, o.target.getAttribute("data-tag")), ue(n), i.classList.add("vditor-menu--current")) : n.currentMode === "ir" ? (pt(n, o.target.getAttribute("data-value")), i.classList.add("vditor-menu--current")) : pn(n, o.target.getAttribute("data-value")), r.style.display = "none";
+                      o.preventDefault(), n.currentMode === "wysiwyg" ? (wt(n, o.target.getAttribute("data-tag")), ue(n), i.classList.add("vditor-menu--current")) : n.currentMode === "ir" ? (pt(n, o.target.getAttribute("data-value")), i.classList.add("vditor-menu--current")) : dn(n, o.target.getAttribute("data-value")), r.style.display = "none";
                     });
                 }, t;
               }(ge)
@@ -6581,7 +6580,7 @@ window.addEventListener("message", (e) => {
                   return i.element.children[0].addEventListener((0, l.Le)(), function(a) {
                     if (a.preventDefault(), !(i.element.firstElementChild.classList.contains(E.g.CLASS_MENU_DISABLED) || n.currentMode === "sv")) {
                       var o = (0, M.zh)(n), f = (0, s.lG)(o.startContainer, "LI");
-                      f && Sn(n, f, o);
+                      f && En(n, f, o);
                     }
                   }), i;
                 }
@@ -6730,7 +6729,7 @@ window.addEventListener("message", (e) => {
                   return i.element.children[0].addEventListener((0, l.Le)(), function(a) {
                     if (a.preventDefault(), !(i.element.firstElementChild.classList.contains(E.g.CLASS_MENU_DISABLED) || n.currentMode === "sv")) {
                       var o = (0, M.zh)(n), f = (0, s.lG)(o.startContainer, "LI");
-                      f && Kt(n, f, o, f.parentElement);
+                      f && Ft(n, f, o, f.parentElement);
                     }
                   }), i;
                 }
@@ -6905,7 +6904,7 @@ window.addEventListener("message", (e) => {
                       if (i.isRecording) {
                         i.stopRecording(), n.tip.hide();
                         var f = new File([i.buildWavFileBlob()], "record".concat((/* @__PURE__ */ new Date()).getTime(), ".wav"), { type: "video/webm" });
-                        Ft(n, [f]), r.element.children[0].classList.remove("vditor-menu--current");
+                        Wt(n, [f]), r.element.children[0].classList.remove("vditor-menu--current");
                       } else
                         n.tip.show(window.VditorI18n.recording), o.setAttribute("contenteditable", "false"), i.startRecordingNewWavFile(), r.element.children[0].classList.add("vditor-menu--current");
                     }
@@ -7007,7 +7006,7 @@ window.addEventListener("message", (e) => {
                       i.stopPropagation(), i.preventDefault();
                       return;
                     }
-                    i.target.files.length !== 0 && Ft(n, i.target.files, i.target);
+                    i.target.files.length !== 0 && Wt(n, i.target.files, i.target);
                   });
                 }, t;
               }(ge)
@@ -7633,7 +7632,7 @@ window.addEventListener("message", (e) => {
     <button type="button" aria-label="`).concat(window.VditorI18n.comment, `" class="vditor-icon vditor-tooltipped vditor-tooltipped__n">
         <svg><use xlink:href="#vditor-icon-comment"></use></svg>
     </button>
-</div>`), this.element = r.firstElementChild, this.popover = r.firstElementChild.nextElementSibling, this.selectPopover = r.lastElementChild, this.bindEvent(t), Rt(t, this.element), fn(t, this.element), It(t, this.element), Ut(t, this.element), Vt(t, this.element), Pt(t, this.element), jt(t, this.element, this.copy), Bt(t, this.element, this.copy), t.options.comment.enable && (this.selectPopover.querySelector("button").onclick = function() {
+</div>`), this.element = r.firstElementChild, this.popover = r.firstElementChild.nextElementSibling, this.selectPopover = r.lastElementChild, this.bindEvent(t), Nt(t, this.element), un(t, this.element), Rt(t, this.element), Bt(t, this.element), Ut(t, this.element), It(t, this.element), Pt(t, this.element, this.copy), jt(t, this.element, this.copy), t.options.comment.enable && (this.selectPopover.querySelector("button").onclick = function() {
                     var i = Lute.NewNodeID(), a = getSelection().getRangeAt(0), o = a.cloneRange(), f = a.extractContents(), h, d, S = !1, T = !1;
                     f.childNodes.forEach(function(H, U) {
                       var B = !1;
@@ -7766,7 +7765,7 @@ window.addEventListener("message", (e) => {
                         return;
                       }
                       var i = getSelection().getRangeAt(0), a = (0, s.F9)(i.startContainer);
-                      if (a || (Ht(t, i), a = (0, s.F9)(i.startContainer)), !!a) {
+                      if (a || (Dt(t, i), a = (0, s.F9)(i.startContainer)), !!a) {
                         for (var o = (0, M.im)(a, t.wysiwyg.element, i).start, f = !0, h = o - 1; h > a.textContent.substr(0, o).lastIndexOf(`
 `); h--)
                           if (a.textContent.charAt(h) !== " " && // 多个 tab 前删除不形成代码块 https://github.com/Vanessa219/vditor/issues/162 1
@@ -7783,7 +7782,7 @@ window.addEventListener("message", (e) => {
                           }
                         d && /^#{1,6} $/.test(a.textContent) && (d = !1);
                         var S = (0, C.W)(getSelection().getRangeAt(0).startContainer);
-                        if (S && S.textContent === "" && (Ve(t), S.remove()), f && a.getAttribute("data-type") !== "code-block" || d || zt(a.innerHTML) || qt(a.innerHTML) && a.previousElementSibling) {
+                        if (S && S.textContent === "" && (Ve(t), S.remove()), f && a.getAttribute("data-type") !== "code-block" || d || qt(a.innerHTML) || Kt(a.innerHTML) && a.previousElementSibling) {
                           typeof t.options.input == "function" && t.options.input(x(t));
                           return;
                         }
@@ -7798,7 +7797,7 @@ window.addEventListener("message", (e) => {
                     }
                     if (r.target.tagName === "IMG" && // plantuml 图片渲染不进行提示
                     !r.target.parentElement.classList.contains("vditor-wysiwyg__preview")) {
-                      r.target.getAttribute("data-type") === "link-ref" ? cn(t, r.target) : cr(r, t);
+                      r.target.getAttribute("data-type") === "link-ref" ? ln(t, r.target) : cr(r, t);
                       return;
                     }
                     var a = (0, s.lG)(r.target, "A");
@@ -7811,7 +7810,7 @@ window.addEventListener("message", (e) => {
                       var f = n.element.lastElementChild.getBoundingClientRect();
                       r.y > f.top + f.height && (n.element.lastElementChild.tagName === "P" && n.element.lastElementChild.textContent.trim().replace(E.g.ZWSP, "") === "" ? (o.selectNodeContents(n.element.lastElementChild), o.collapse(!1)) : (n.element.insertAdjacentHTML("beforeend", '<p data-block="0">'.concat(E.g.ZWSP, "<wbr></p>")), (0, M.ib)(n.element, o)));
                     }
-                    Ye(t);
+                    Xe(t);
                     var h = (0, s.fb)(r.target, "vditor-wysiwyg__preview");
                     h || (h = (0, s.fb)((0, M.zh)(t).startContainer, "vditor-wysiwyg__preview")), h && lt(h, t), gt(r, t);
                   }), this.element.addEventListener("keyup", function(r) {
@@ -7820,7 +7819,7 @@ window.addEventListener("message", (e) => {
 `) && (t.wysiwyg.element.innerHTML = "");
                       var i = (0, M.zh)(t);
                       if (r.key === "Backspace" && (0, l.vU)() && i.startContainer.textContent === `
-` && i.startOffset === 1 && (i.startContainer.textContent = ""), Ht(t, i), Ye(t), !(r.key !== "ArrowDown" && r.key !== "ArrowRight" && r.key !== "Backspace" && r.key !== "ArrowLeft" && r.key !== "ArrowUp")) {
+` && i.startOffset === 1 && (i.startContainer.textContent = ""), Dt(t, i), Xe(t), !(r.key !== "ArrowDown" && r.key !== "ArrowRight" && r.key !== "Backspace" && r.key !== "ArrowLeft" && r.key !== "ArrowUp")) {
                         (r.key === "ArrowLeft" || r.key === "ArrowRight") && t.hint.render(t);
                         var a = (0, s.fb)(i.startContainer, "vditor-wysiwyg__preview");
                         if (!a && i.startContainer.nodeType !== 3 && i.startOffset > 0) {
@@ -7906,12 +7905,12 @@ window.addEventListener("message", (e) => {
                   return i;
                 }
                 return t.prototype.showErrorTip = function(n) {
-                  var r = new Un();
+                  var r = new Bn();
                   document.body.appendChild(r.element), r.show(n, 0);
                 }, t.prototype.updateToolbarConfig = function(n) {
                   this.vditor.toolbar.updateConfig(this.vditor, n);
                 }, t.prototype.setTheme = function(n, r, i, a) {
-                  this.vditor.options.theme = n, he(this.vditor), r && (this.vditor.options.preview.theme.current = r, (0, X.Z)(r, a || this.vditor.options.preview.theme.path)), i && (this.vditor.options.preview.hljs.style = i, (0, Vn.Y)(i, this.vditor.options.cdn));
+                  this.vditor.options.theme = n, he(this.vditor), r && (this.vditor.options.preview.theme.current = r, (0, X.Z)(r, a || this.vditor.options.preview.theme.path)), i && (this.vditor.options.preview.hljs.style = i, (0, Un.Y)(i, this.vditor.options.cdn));
                 }, t.prototype.getValue = function() {
                   return x(this.vditor);
                 }, t.prototype.getCurrentMode = function() {
@@ -7950,11 +7949,11 @@ window.addEventListener("message", (e) => {
                 }, t.prototype.exportJSON = function(n) {
                   return this.vditor.lute.RenderJSON(n);
                 }, t.prototype.getHTML = function() {
-                  return jn(this.vditor);
+                  return Pn(this.vditor);
                 }, t.prototype.tip = function(n, r) {
                   this.vditor.tip.show(n, r);
                 }, t.prototype.setPreviewMode = function(n) {
-                  Jt(n, this.vditor);
+                  Zt(n, this.vditor);
                 }, t.prototype.deleteValue = function() {
                   window.getSelection().isCollapsed || document.execCommand("delete", !1);
                 }, t.prototype.updateValue = function(n) {
@@ -7966,14 +7965,14 @@ window.addEventListener("message", (e) => {
                   var a = document.createElement("template");
                   a.innerHTML = n, i.insertNode(a.content.cloneNode(!0)), i.collapse(!1), this.vditor.currentMode === "sv" ? (this.vditor.sv.preventInput = !0, r && ae(this.vditor)) : this.vditor.currentMode === "wysiwyg" ? r && Et(this.vditor, getSelection().getRangeAt(0)) : this.vditor.currentMode === "ir" && (this.vditor.ir.preventInput = !0, r && ze(this.vditor, getSelection().getRangeAt(0), !0));
                 }, t.prototype.insertMD = function(n) {
-                  this.vditor.currentMode === "ir" ? (0, M.oC)(this.vditor.lute.Md2VditorIRDOM(n), this.vditor) : this.vditor.currentMode === "wysiwyg" ? (0, M.oC)(this.vditor.lute.Md2VditorDOM(n), this.vditor) : Wt(this.vditor, n), this.vditor.outline.render(this.vditor), ee(this.vditor);
+                  this.vditor.currentMode === "ir" ? (0, M.oC)(this.vditor.lute.Md2VditorIRDOM(n), this.vditor) : this.vditor.currentMode === "wysiwyg" ? (0, M.oC)(this.vditor.lute.Md2VditorDOM(n), this.vditor) : Vt(this.vditor, n), this.vditor.outline.render(this.vditor), ee(this.vditor);
                 }, t.prototype.setValue = function(n, r) {
                   var i = this;
                   r === void 0 && (r = !1), this.vditor.currentMode === "sv" ? (this.vditor.sv.element.innerHTML = "<div data-block='0'>".concat(this.vditor.lute.SpinVditorSVDOM(n), "</div>"), ke(this.vditor, {
                     enableAddUndoStack: !0,
                     enableHint: !1,
                     enableInput: !1
-                  })) : this.vditor.currentMode === "wysiwyg" ? un(this.vditor, n, {
+                  })) : this.vditor.currentMode === "wysiwyg" ? cn(this.vditor, n, {
                     enableAddUndoStack: !0,
                     enableHint: !1,
                     enableInput: !1
@@ -7991,7 +7990,7 @@ window.addEventListener("message", (e) => {
                 }, t.prototype.destroy = function() {
                   this.vditor.element.innerHTML = this.vditor.originalInnerHTML, this.vditor.element.classList.remove("vditor"), this.vditor.element.removeAttribute("style");
                   var n = document.getElementById("vditorIconScript");
-                  n && n.remove(), this.clearCache(), on(), this.vditor.wysiwyg.unbindListener(), this.vditor.options.after = void 0, this.isDestroyed = !0;
+                  n && n.remove(), this.clearCache(), an(), this.vditor.wysiwyg.unbindListener(), this.vditor.options.after = void 0, this.isDestroyed = !0;
                 }, t.prototype.getCommentIds = function() {
                   return this.vditor.currentMode !== "wysiwyg" ? [] : this.vditor.wysiwyg.getComments(this.vditor, !0);
                 }, t.prototype.hlCommentIds = function(n) {
@@ -8052,7 +8051,7 @@ window.addEventListener("message", (e) => {
                     options: r,
                     originalInnerHTML: n.innerHTML,
                     outline: new Dr(window.VditorI18n.outline),
-                    tip: new Un()
+                    tip: new Bn()
                   }, this.vditor.sv = new Rr(this.vditor), this.vditor.undo = new Oi(), this.vditor.wysiwyg = new Ii(this.vditor), this.vditor.ir = new Ar(this.vditor), this.vditor.toolbar = new Di(this.vditor), r.resize.enable && (this.vditor.resize = new Nr(this.vditor)), this.vditor.toolbar.elements.devtools && (this.vditor.devtools = new c()), (r.upload.url || r.upload.handler) && (this.vditor.upload = new br()), (0, _.G)(r._lutePath || "".concat(r.cdn, "/dist/js/lute/lute.min.js"), "vditorLuteScript").then(function() {
                     i.vditor.lute = (0, xr.X)({
                       autoSpace: i.vditor.options.preview.markdown.autoSpace,
@@ -8085,15 +8084,15 @@ window.addEventListener("message", (e) => {
   }(xt)), xt.exports;
 }
 var ea = $i();
-const ta = /* @__PURE__ */ Yi(ea), na = { class: "endericedragon-sticky-buttons" }, ra = /* @__PURE__ */ Yn({
+const ta = /* @__PURE__ */ Yi(ea), na = { class: "endericedragon-sticky-buttons" }, ra = /* @__PURE__ */ Xn({
   __name: "EditorModal",
   setup(ne) {
-    const ye = $e(""), pe = $e(""), be = $e(!1), Y = $e(0), Be = $e(!1), Z = Wi(() => Be.value ? `${ye.value}*` : ye.value), E = $e(!1);
-    let L = $e();
+    const ye = Qe(""), pe = Qe(""), be = Qe(!1), Y = Qe(0), Be = Qe(!1), Z = Qe(!1), E = Wi(() => Be.value ? `${ye.value}*` : ye.value);
+    let L = Qe();
     Fi(() => {
-      window.addEventListener(nn.showEditor, x);
+      window.addEventListener(tn.showEditor, x);
     }), Ki(() => {
-      window.removeEventListener(nn.showEditor, x);
+      window.removeEventListener(tn.showEditor, x);
     });
     function x(u) {
       let b = u.detail, y = b.content, w = b.rel_file_path;
@@ -8101,17 +8100,16 @@ const ta = /* @__PURE__ */ Yi(ea), na = { class: "endericedragon-sticky-buttons"
     }
     function _() {
       var b;
-      Be.value = !1;
       const u = (b = L.value) == null ? void 0 : b.getValue();
       u !== pe.value && (pe.value = u, nr(
-        Xe,
-        er.saveContent,
+        $e,
+        $n.saveContent,
         new tr(
           L.value.getValue(),
           ye.value
         )
       ).then((y) => {
-        Xe.extensionManager.setting.get(Dt.showSaveToast) && Xe.extensionManager.toast.add({
+        $e.extensionManager.toast.add({
           severity: "success",
           summary: "MDNotes",
           detail: "Note is saved!",
@@ -8121,18 +8119,18 @@ const ta = /* @__PURE__ */ Yi(ea), na = { class: "endericedragon-sticky-buttons"
     }
     class c {
       static ok() {
-        E.value = !0, be.value = !1;
+        Z.value = !0, be.value = !1;
       }
       static cancel() {
         be.value = !1;
       }
     }
     function l(u) {
-      console.log(u);
       const b = u.key === "c" && u.ctrlKey, y = u.key === "a" && u.ctrlKey;
       return !b && !y && (u.key === "Tab" || u.key === "Backspace" || u.key === "Delete" || u.key.length === 1);
     }
     function g() {
+      Be.value = !1, Z.value = !1;
       let b = document.getElementById("mde-point").parentElement;
       L.value = new ta("mde-point", {
         minHeight: 320,
@@ -8148,7 +8146,7 @@ const ta = /* @__PURE__ */ Yi(ea), na = { class: "endericedragon-sticky-buttons"
         },
         // 监听键盘事件，当用户输入时，将需要保存
         keydown: (y) => {
-          l(y) && (Be.value = !0, Xe.extensionManager.setting.get(Dt.autosave) && (E.value = !0));
+          l(y) && (Be.value = !0, $e.extensionManager.setting.get(er.saveOnClose) && (Z.value = !0));
         },
         after: () => {
           var y, w;
@@ -8166,38 +8164,38 @@ const ta = /* @__PURE__ */ Yi(ea), na = { class: "endericedragon-sticky-buttons"
     }
     function p() {
       var u;
-      E.value && (_(), E.value = !1), (u = L.value) == null || u.destroy();
+      Z.value && _(), (u = L.value) == null || u.destroy();
     }
     function m() {
       let u = document.getElementById("mde-point").parentElement;
       console.log("[mdnotes] Scrolled to ", u.scrollTop), Y.value = u.scrollTop;
     }
-    return (u, b) => ($n(), Qn(en(Xi), {
+    return (u, b) => (Qn(), Yn($t(Xi), {
       visible: be.value,
       "onUpdate:visible": b[0] || (b[0] = (y) => be.value = y),
       onShow: g,
       onHide: m,
       onAfterHide: p,
-      header: Z.value,
+      header: E.value,
       "close-on-escape": ""
     }, {
-      default: tn(() => [
+      default: en(() => [
         b[3] || (b[3] = At("div", { id: "mde-point" }, null, -1)),
         At("div", na, [
-          Zn(en(Jn), {
+          Gn($t(Zn), {
             severity: "danger",
             onClick: c.cancel
           }, {
-            default: tn(() => [...b[1] || (b[1] = [
+            default: en(() => [...b[1] || (b[1] = [
               At("i", { class: "bi bi-x-circle" }, null, -1)
             ])]),
             _: 1
           }, 8, ["onClick"]),
-          Zn(en(Jn), {
+          Gn($t(Zn), {
             severity: "success",
             onClick: c.ok
           }, {
-            default: tn(() => [...b[2] || (b[2] = [
+            default: en(() => [...b[2] || (b[2] = [
               At("i", { class: "bi bi-check2-circle" }, null, -1)
             ])]),
             _: 1
@@ -8212,30 +8210,24 @@ const ta = /* @__PURE__ */ Yi(ea), na = { class: "endericedragon-sticky-buttons"
   for (const [be, Y] of ye)
     pe[be] = Y;
   return pe;
-}, aa = /* @__PURE__ */ ia(ra, [["__scopeId", "data-v-57e23697"]]), oa = /* @__PURE__ */ Yn({
+}, aa = /* @__PURE__ */ ia(ra, [["__scopeId", "data-v-84268ea3"]]), oa = /* @__PURE__ */ Xn({
   __name: "App",
   setup(ne) {
-    return (ye, pe) => ($n(), Qn(aa, {
+    return (ye, pe) => (Qn(), Yn(aa, {
       onKeydown: pe[0] || (pe[0] = qi(() => {
       }, ["stop"]))
     }));
   }
 }), sa = "extensions/comfyui-mdnotes/assets/main.css";
 Ji.addStylesheet(sa);
-Xe.registerExtension({
+$e.registerExtension({
   name: "endericedragon.comfyui-mdnotes",
   settings: [
     {
-      id: Dt.autosave,
-      name: "Enable autosave?",
+      id: er.saveOnClose,
+      name: "Save on close?",
       type: "boolean",
       defaultValue: !1
-    },
-    {
-      id: Dt.showSaveToast,
-      name: "Show toast on save?",
-      type: "boolean",
-      defaultValue: !0
     }
   ],
   async beforeRegisterNodeDef(ne, ye, pe) {
@@ -8244,9 +8236,9 @@ Xe.registerExtension({
       be == null || be.apply(this, arguments);
       let Z = this.widgets.find((_) => _.name === "ckpt_name"), E = this.widgets.filter((_) => _.name.includes("lora") && _.name.includes("name")), L = [];
       function x(_, c) {
-        nr(Xe, er.sendCurrentModel, { model_type: c, model_path: _ }).then((l) => {
+        nr($e, $n.sendCurrentModel, { model_type: c, model_path: _ }).then((l) => {
           let g = l.content, p = l.rel_file_path;
-          window.dispatchEvent(new CustomEvent(nn.showEditor, {
+          window.dispatchEvent(new CustomEvent(tn.showEditor, {
             detail: new tr(g, p)
           }));
         });
@@ -8256,7 +8248,7 @@ Xe.registerExtension({
         L.push({
           content: "Show note of checkpoint",
           callback: () => {
-            x(_, rn.CKPT);
+            x(_, nn.CKPT);
           }
         });
       }
@@ -8265,7 +8257,7 @@ Xe.registerExtension({
         l !== "None" && L.push({
           content: `Show note of lora${_ + 1}`,
           callback: () => {
-            x(l, rn.LORA);
+            x(l, nn.LORA);
           }
         });
       }
