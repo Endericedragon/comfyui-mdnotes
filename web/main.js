@@ -12,7 +12,7 @@ const $e = Zi, $n = {
 }, tn = {
   showEditor: "endericedragon-show-editor"
 }, er = {
-  saveOnClose: "comfyui-mdnotes.saveOnClose"
+  savingOptions: "comfyui-mdnotes.savingOptions"
 };
 var nn = /* @__PURE__ */ ((ne) => (ne.CKPT = "ckpt", ne.LORA = "lora", ne.UNKNOWN = "unknown", ne))(nn || {});
 class tr {
@@ -8146,7 +8146,7 @@ const ta = /* @__PURE__ */ Yi(ea), na = { class: "endericedragon-sticky-buttons"
         },
         // 监听键盘事件，当用户输入时，将需要保存
         keydown: (y) => {
-          l(y) && (Be.value = !0, $e.extensionManager.setting.get(er.saveOnClose) && (Z.value = !0));
+          l(y) && (Be.value = !0, $e.extensionManager.setting.get(er.savingOptions) && (Z.value = !0));
         },
         after: () => {
           var y, w;
@@ -8210,7 +8210,7 @@ const ta = /* @__PURE__ */ Yi(ea), na = { class: "endericedragon-sticky-buttons"
   for (const [be, Y] of ye)
     pe[be] = Y;
   return pe;
-}, aa = /* @__PURE__ */ ia(ra, [["__scopeId", "data-v-84268ea3"]]), oa = /* @__PURE__ */ Xn({
+}, aa = /* @__PURE__ */ ia(ra, [["__scopeId", "data-v-8c36cca9"]]), oa = /* @__PURE__ */ Xn({
   __name: "App",
   setup(ne) {
     return (ye, pe) => (Qn(), Yn(aa, {
@@ -8224,8 +8224,8 @@ $e.registerExtension({
   name: "endericedragon.comfyui-mdnotes",
   settings: [
     {
-      id: er.saveOnClose,
-      name: "Save on close?",
+      id: er.savingOptions,
+      name: "Always save on close?",
       type: "boolean",
       defaultValue: !1
     }

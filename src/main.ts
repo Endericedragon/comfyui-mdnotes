@@ -15,8 +15,8 @@ comfyApp.registerExtension({
     name: "endericedragon.comfyui-mdnotes",
     settings: [
         {
-            id: OPTIONS.saveOnClose,
-            name: "Save on close?",
+            id: OPTIONS.savingOptions,
+            name: "Always save on close?",
             type: "boolean",
             defaultValue: false
         }

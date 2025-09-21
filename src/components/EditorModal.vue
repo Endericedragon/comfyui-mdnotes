@@ -108,7 +108,7 @@ function handleShow() {
     keydown: (e) => {
       if (canChangeContent(e)) {
         unsaveMark.value = true;
-        if (comfyApp.extensionManager.setting.get(OPTIONS.saveOnClose)) {
+        if (comfyApp.extensionManager.setting.get(OPTIONS.savingOptions)) {
           needSaving.value = true;
         }
       }

@@ -45,20 +45,6 @@ def get_bigram(text: str) -> set[str]:
         return bigram_memo[text]
 
 
-# bigram 预热
-def deep_bigram_preheat(pp: pathlib.Path):
-    for each in pp.iterdir():
-        if each.is_dir():
-            deep_bigram_preheat(each)
-        else:
-            bigram_memo[each.stem] = get_bigram(each.stem)
-
-
-# bigram 预热 GO!
-deep_bigram_preheat(ckpt_base_dir)
-deep_bigram_preheat(lora_base_dir)
-
-
 def get_dice_similiarity(t1: str, t2: str) -> float:
     """
     计算两个字符串的Dice相似度，其中的bigram从缓存中获取，若无则按需计算
@@ -79,6 +65,7 @@ async def get_current_model(request: web.Request):
     # 检查model_dir是否存在
     if not model_dir.exists():
         return web.json_response(None, status=404)
+    # 计算Dice相似度
     model_name = model_path.stem
     similarities = [
         (get_dice_similiarity(model_name, each.stem), each)
