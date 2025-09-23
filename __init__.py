@@ -1,5 +1,6 @@
 import os
 import pathlib
+from time import time
 from typing import TypedDict
 from server import PromptServer
 from aiohttp import web
@@ -67,21 +68,23 @@ async def get_current_model(request: web.Request):
         return web.json_response(None, status=404)
     # 计算Dice相似度
     model_name = model_path.stem
-    similarities = [
-        (get_dice_similiarity(model_name, each.stem), each)
-        for each in filter(lambda x: x.suffix == ".md", model_dir.iterdir())
-    ]
+    print("[mdnotes] Finding note for model {}".format(model_name))
+    similarities = map(
+        lambda x: (get_dice_similiarity(model_name, x.stem), x),
+        filter(lambda x: x.suffix == ".md", model_dir.iterdir()),
+    )
     likelihood, most_likely_md_path = max(similarities, key=lambda x: x[0])
     resp_json: ContentNPath = {"content": "", "rel_file_path": ""}
     status_code: int = 200
     if likelihood >= 0.5:
+        rel_file_path_str = str(most_likely_md_path.relative_to(model_base_dir))
+        print("[mdnotes] Found note: {}".format(rel_file_path_str))
         with open(most_likely_md_path, "r", encoding="utf-8") as f:
             content = f.read()
             resp_json["content"] = content
-            resp_json["rel_file_path"] = str(
-                most_likely_md_path.relative_to(model_base_dir)
-            )
+            resp_json["rel_file_path"] = rel_file_path_str
     else:
+        print("[mdnotes] No note found for model {}".format(model_name))
         status_code = 201  # Created
         resp_json["rel_file_path"] = str(
             model_dir.relative_to(model_base_dir) / (model_name + ".md")
