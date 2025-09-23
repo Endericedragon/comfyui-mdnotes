@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import EditorModal from '@/components/EditorModal.vue';
+import EditorModal from "@/components/EditorModal.vue";
 </script>
 
 <template>

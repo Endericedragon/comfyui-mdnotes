@@ -4,8 +4,8 @@ import { createApp } from "vue"
 import PrimeVue from "primevue/config";
 
 // shared data types
-import { ROUTES, EVENTS, MODEL_TYPES, OPTIONS, DetailMessage, postJsonData, comfyApp, utils } from './constants.js';
-import App from './App.vue'
+import { ROUTES, EVENTS, MODEL_TYPES, OPTIONS, DetailMessage, postJsonData, comfyApp, utils } from "./constants.js";
+import App from "./App.vue"
 
 // extensions/comfyui-mdnotes是固定的，后续内容和/web目录有关
 const CSS_PATH = "extensions/comfyui-mdnotes/assets/main.css";

@@ -1,11 +1,11 @@
 <script setup lang="ts">
-import { ROUTES, EVENTS, OPTIONS, DetailMessage, postJsonData, comfyApp } from '../constants.js';
+import { ROUTES, EVENTS, OPTIONS, DetailMessage, postJsonData, comfyApp } from "../constants.js";
 // Vue 
-import { onMounted, ref, type Ref, onUnmounted, computed } from 'vue'
+import { onMounted, onUnmounted, ref, type Ref, computed } from "vue";
 // bootstrap icon
 import "bootstrap-icons/font/bootstrap-icons.min.css";
 // primevue
-import { Button, Dialog } from 'primevue';
+import { Button, Dialog } from "primevue";
 // Vditor 
 import Vditor from "vditor";
 import "vditor/dist/index.css";

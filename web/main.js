@@ -8210,7 +8210,7 @@ const ta = /* @__PURE__ */ Yi(ea), na = { class: "endericedragon-sticky-buttons"
   for (const [be, Y] of ye)
     pe[be] = Y;
   return pe;
-}, aa = /* @__PURE__ */ ia(ra, [["__scopeId", "data-v-8c36cca9"]]), oa = /* @__PURE__ */ Xn({
+}, aa = /* @__PURE__ */ ia(ra, [["__scopeId", "data-v-5b12802f"]]), oa = /* @__PURE__ */ Xn({
   __name: "App",
   setup(ne) {
     return (ye, pe) => (Qn(), Yn(aa, {

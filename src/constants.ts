@@ -1,7 +1,7 @@
 // ComfyUI utils
 import { app } from "../../../scripts/app.js";
-import * as utils from '../../../scripts/utils.js';
-import type { ComfyApp } from '@comfyorg/comfyui-frontend-types'
+import * as utils from "../../../scripts/utils.js";
+import type { ComfyApp } from "@comfyorg/comfyui-frontend-types"
 
 const comfyApp: ComfyApp = app;
 
