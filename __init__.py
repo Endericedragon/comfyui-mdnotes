@@ -1,10 +1,11 @@
 import os
 import pathlib
-from time import time
+from functools import lru_cache
 from typing import TypedDict
-from server import PromptServer
-from aiohttp import web
+
 import folder_paths
+from aiohttp import web
+from server import PromptServer
 
 
 class ModelInfo(TypedDict):
@@ -34,16 +35,11 @@ custom_node_dir = os.path.dirname(os.path.realpath(__file__))
 model_base_dir = pathlib.Path(folder_paths.models_dir)
 ckpt_base_dir = model_base_dir / "checkpoints"
 lora_base_dir = model_base_dir / "loras"
-bigram_memo: dict[str, set[str]] = dict()
 
 
+@lru_cache(maxsize=256)
 def get_bigram(text: str) -> set[str]:
-    if text not in bigram_memo:
-        new_bigram = set(text[i - 1 : i + 1] for i in range(1, len(text)))
-        bigram_memo[text] = new_bigram
-        return new_bigram
-    else:
-        return bigram_memo[text]
+    return set(text[i - 1 : i + 1] for i in range(1, len(text)))
 
 
 def get_dice_similiarity(t1: str, t2: str) -> float:
