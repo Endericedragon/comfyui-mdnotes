@@ -101,8 +101,7 @@ function handleShow() {
     preview: {
       hljs: {
         lineNumber: true
-      },
-      maxWidth: 2147483647 // 具体的宽度由Dialog说了算
+      }
     },
     // 监听键盘事件，当用户输入时，将需要保存
     keydown: (e) => {
@@ -114,14 +113,13 @@ function handleShow() {
       }
     },
     after: () => {
-      editorInstance.value?.setTheme(
+      editorInstance.value.setTheme(
         "dark",
         "dark",
         "atom-one-dark"
       );
       // 装入数据
-      editorInstance.value?.setValue(mdContent.value);
-      mdContent.value = "";
+      editorInstance.value.setValue(mdContent.value);
       // 滚动记忆
       console.log("[mdnotes] Setting scrollTop value to ", scrollTopVal.value);
       dialogContainer.scrollTo({
