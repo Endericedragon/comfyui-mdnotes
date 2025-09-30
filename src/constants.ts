@@ -41,6 +41,11 @@ class DetailMessage {
     }
 }
 
+function printTimestamp(text: string) {
+    const current = new Date();
+    console.log(`[mdnotes] ${current.getHours()}:${current.getMinutes()}:${current.getSeconds()}:${current.getMilliseconds()} - ${text}`);
+}
+
 async function postJsonData(app: ComfyApp, route: string, data: any) {
     return app.api.fetchApi(route, {
         method: "POST",
@@ -69,4 +74,4 @@ async function postJsonData(app: ComfyApp, route: string, data: any) {
     });
 }
 
-export { ROUTES, EVENTS, MODEL_TYPES, OPTIONS, DetailMessage, postJsonData, comfyApp, utils };
+export { ROUTES, EVENTS, MODEL_TYPES, OPTIONS, DetailMessage, postJsonData, comfyApp, utils, printTimestamp };

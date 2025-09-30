@@ -8133,14 +8133,11 @@ const ta = /* @__PURE__ */ Yi(ea), na = { class: "endericedragon-sticky-buttons"
       Be.value = !1, Z.value = !1;
       let y = document.getElementById("mde-point").parentElement;
       L.value = new ta("mde-point", {
-        minHeight: 320,
         toolbarConfig: {
           pin: !0
         },
         preview: {
-          hljs: {
-            lineNumber: !0
-          }
+          maxWidth: 2147483647
         },
         // 监听键盘事件，当用户输入时，将需要保存
         keydown: (b) => {
@@ -8207,7 +8204,7 @@ const ta = /* @__PURE__ */ Yi(ea), na = { class: "endericedragon-sticky-buttons"
   for (const [be, Y] of ye)
     he[be] = Y;
   return he;
-}, aa = /* @__PURE__ */ ia(ra, [["__scopeId", "data-v-84b3b61a"]]), oa = /* @__PURE__ */ Xn({
+}, aa = /* @__PURE__ */ ia(ra, [["__scopeId", "data-v-b2631117"]]), oa = /* @__PURE__ */ Xn({
   __name: "App",
   setup(ne) {
     return (ye, he) => (Qn(), Yn(aa, {

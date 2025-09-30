@@ -94,14 +94,11 @@ function handleShow() {
   let dialogContainer = mountPoint.parentElement;
 
   editorInstance.value = new Vditor("mde-point", {
-    minHeight: 320,
     toolbarConfig: {
       pin: true
     },
     preview: {
-      hljs: {
-        lineNumber: true
-      }
+      maxWidth: 2147483647
     },
     // 监听键盘事件，当用户输入时，将需要保存
     keydown: (e) => {
