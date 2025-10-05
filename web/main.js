@@ -8133,6 +8133,8 @@ const ta = /* @__PURE__ */ Yi(ea), na = { class: "endericedragon-sticky-buttons"
       Be.value = !1, Z.value = !1;
       let y = document.getElementById("mde-point").parentElement;
       L.value = new ta("mde-point", {
+        // cdn: "https://cdn.jsdelivr.net/npm/vditor@3.11.2",
+        cdn: "https://registry.npmmirror.com/vditor/3.11.2/files",
         toolbarConfig: {
           pin: !0
         },
@@ -8204,7 +8206,7 @@ const ta = /* @__PURE__ */ Yi(ea), na = { class: "endericedragon-sticky-buttons"
   for (const [be, Y] of ye)
     he[be] = Y;
   return he;
-}, aa = /* @__PURE__ */ ia(ra, [["__scopeId", "data-v-b2631117"]]), oa = /* @__PURE__ */ Xn({
+}, aa = /* @__PURE__ */ ia(ra, [["__scopeId", "data-v-5adbc2ba"]]), oa = /* @__PURE__ */ Xn({
   __name: "App",
   setup(ne) {
     return (ye, he) => (Qn(), Yn(aa, {

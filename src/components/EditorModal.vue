@@ -92,8 +92,10 @@ function handleShow() {
   // 准备挂载
   let mountPoint = document.getElementById("mde-point");
   let dialogContainer = mountPoint.parentElement;
-
+  // Setting Vditor
   editorInstance.value = new Vditor("mde-point", {
+    // cdn: "https://cdn.jsdelivr.net/npm/vditor@3.11.2",
+    cdn: "https://registry.npmmirror.com/vditor/3.11.2/files",
     toolbarConfig: {
       pin: true
     },

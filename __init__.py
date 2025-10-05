@@ -2,6 +2,8 @@ import os
 import pathlib
 from functools import lru_cache
 from typing import TypedDict
+import requests
+import json
 
 import folder_paths
 from aiohttp import web
@@ -99,3 +101,20 @@ async def save_note(request: web.Request):
     with open(note_path, "w", encoding="utf-8") as f:
         f.write(content)
     return web.json_response({"status": "ok"}, status=200)
+
+
+# @PromptServer.instance.routes.get("/mdnotes/dist/{thing:.+}")
+# async def get_dist(req: web.Request):
+#     thing = req.match_info.get("thing")
+#     print("thing = {}".format(thing))
+#     # if thing and (filepath := BASE_DIR / "dist" / thing).exists():
+#     #     with open(filepath, "rb") as f:
+#     #         return web.Response(body=f.read())
+#     # else:
+#     #     # return web.json_response(None, status=404)
+#     #     print("Downloading {}".format(thing))
+#     #     r = requests.get("https://registry.npmmirror.com/vditor/3.11.2/files/dist/{}".format(thing))
+#     #     return web.Response(body=r.content)
+#     print("Downloading {}".format(thing))
+#     r = requests.get("https://registry.npmmirror.com/vditor/3.11.2/files/dist/{}".format(thing))
+#     return web.Response(body=r.content)
