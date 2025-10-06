@@ -4,21 +4,39 @@ import { createApp } from "vue"
 import PrimeVue from "primevue/config";
 
 // shared data types
-import { ROUTES, EVENTS, MODEL_TYPES, OPTIONS, DetailMessage, postJsonData, comfyApp, utils } from "./constants.js";
+import { ROUTES, EVENTS, MODEL_TYPES, DetailMessage, postJsonData, comfyApp, utils, OPTIONS } from "./constants.js";
 import App from "./App.vue"
 
 // extensions/comfyui-mdnotes是固定的，后续内容和/web目录有关
 const CSS_PATH = "extensions/comfyui-mdnotes/assets/main.css";
 utils.addStylesheet(CSS_PATH);
 
+const VDITOR_VERSION: string = __VDITOR_VERSION__;
+const CDNs = {
+    npmmirror: `https://registry.npmmirror.com/vditor/${VDITOR_VERSION}/files`,
+    jsDelivr: `https://cdn.jsdelivr.net/npm/vditor@${VDITOR_VERSION}`,
+    unpkg: `https://unpkg.com/vditor@${VDITOR_VERSION}`
+}
+
 comfyApp.registerExtension({
     name: "endericedragon.comfyui-mdnotes",
     settings: [
         {
-            id: OPTIONS.savingOptions,
+            id: OPTIONS.saveOnClose,
             name: "Always save on close?",
             type: "boolean",
             defaultValue: false
+        },
+        {
+            id: OPTIONS.cdnSwitch,
+            name: "CDN for vditor",
+            type: "combo",
+            defaultValue: CDNs.unpkg,
+            options: [
+                { text: "unpkg", value: CDNs.unpkg },
+                { text: "jsDelivr", value: CDNs.jsDelivr },
+                { text: "npmmirror", value: CDNs.npmmirror },
+            ]
         }
     ],
     async beforeRegisterNodeDef(nodeType, nodeData, app) {

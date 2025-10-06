@@ -15,7 +15,8 @@ const EVENTS = {
 }
 
 const OPTIONS = {
-    savingOptions: "comfyui-mdnotes.savingOptions",
+    saveOnClose: "comfyui-mdnotes.savingOptions.saveOnClose",
+    cdnSwitch: "comfyui-mdnotes.cdnSwitch"
 }
 
 enum MODEL_TYPES {

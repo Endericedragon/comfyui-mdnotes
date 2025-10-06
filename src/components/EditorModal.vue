@@ -94,8 +94,9 @@ function handleShow() {
   let dialogContainer = mountPoint.parentElement;
   // Setting Vditor
   editorInstance.value = new Vditor("mde-point", {
-    // cdn: "https://cdn.jsdelivr.net/npm/vditor@3.11.2",
-    cdn: "https://registry.npmmirror.com/vditor/3.11.2/files",
+    // cdn: `https://cdn.jsdelivr.net/npm/vditor@${VDITOR_VERSION}`,
+    // cdn: `https://registry.npmmirror.com/vditor/${VDITOR_VERSION}/files`,
+    cdn: comfyApp.extensionManager.setting.get(OPTIONS.cdnSwitch) as string,
     toolbarConfig: {
       pin: true
     },
@@ -106,7 +107,7 @@ function handleShow() {
     keydown: (e) => {
       if (canChangeContent(e)) {
         unsaveMark.value = true;
-        if (comfyApp.extensionManager.setting.get(OPTIONS.savingOptions)) {
+        if (comfyApp.extensionManager.setting.get(OPTIONS.saveOnClose)) {
           needSaving.value = true;
         }
       }
