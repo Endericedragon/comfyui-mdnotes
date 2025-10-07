@@ -1,4 +1,4 @@
 import "vue";
 import "primevue/config";
-import "./main-DtGpgAMY.mjs";
+import "./main-Bkjows1j.mjs";
 import "../../../scripts/utils.js";

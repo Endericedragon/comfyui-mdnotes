@@ -180,3 +180,9 @@ function handleHide() {
   gap: 0.5em;
 }
 </style>
+
+<style>
+#mde-point .cm-line {
+  font-family: Consolas, monospace;
+}
+</style>

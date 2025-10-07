@@ -22677,7 +22677,7 @@ function ue(n) {
   return new uV(zw.define(n));
 }
 function wa(n) {
-  return import("./index-_yFJggQT.mjs").then((e) => e.sql({ dialect: e[n] }));
+  return import("./index-3XiLs1Ly.mjs").then((e) => e.sql({ dialect: e[n] }));
 }
 const tq = [
   // New-style language modes
@@ -22685,7 +22685,7 @@ const tq = [
     name: "C",
     extensions: ["c", "h", "ino"],
     load() {
-      return import("./index-FjDfa-t_.mjs").then((n) => n.cpp());
+      return import("./index-9L_sZq0a.mjs").then((n) => n.cpp());
     }
   }),
   /* @__PURE__ */ ee.of({
@@ -22693,7 +22693,7 @@ const tq = [
     alias: ["cpp"],
     extensions: ["cpp", "c++", "cc", "cxx", "hpp", "h++", "hh", "hxx"],
     load() {
-      return import("./index-FjDfa-t_.mjs").then((n) => n.cpp());
+      return import("./index-9L_sZq0a.mjs").then((n) => n.cpp());
     }
   }),
   /* @__PURE__ */ ee.of({
@@ -22708,14 +22708,14 @@ const tq = [
     name: "CSS",
     extensions: ["css"],
     load() {
-      return import("./index-s_erkwn4.mjs").then((n) => n.css());
+      return import("./index-B-hdde67.mjs").then((n) => n.css());
     }
   }),
   /* @__PURE__ */ ee.of({
     name: "Go",
     extensions: ["go"],
     load() {
-      return import("./index-BpdfJ-5U.mjs").then((n) => n.go());
+      return import("./index-_LGD73-p.mjs").then((n) => n.go());
     }
   }),
   /* @__PURE__ */ ee.of({
@@ -22723,14 +22723,14 @@ const tq = [
     alias: ["xhtml"],
     extensions: ["html", "htm", "handlebars", "hbs"],
     load() {
-      return import("./index-fNGDNnny.mjs").then((n) => n.html());
+      return import("./index-D2uoV5w1.mjs").then((n) => n.html());
     }
   }),
   /* @__PURE__ */ ee.of({
     name: "Java",
     extensions: ["java"],
     load() {
-      return import("./index-Dn2Y-tJL.mjs").then((n) => n.java());
+      return import("./index-XCpmrleS.mjs").then((n) => n.java());
     }
   }),
   /* @__PURE__ */ ee.of({
@@ -22738,7 +22738,7 @@ const tq = [
     alias: ["ecmascript", "js", "node"],
     extensions: ["js", "mjs", "cjs"],
     load() {
-      return import("./index-D_4Tj5-M.mjs").then((n) => n.javascript());
+      return import("./index-Bcn0prep.mjs").then((n) => n.javascript());
     }
   }),
   /* @__PURE__ */ ee.of({
@@ -22746,28 +22746,28 @@ const tq = [
     alias: ["json5"],
     extensions: ["json", "map"],
     load() {
-      return import("./index-4Syn2qpf.mjs").then((n) => n.json());
+      return import("./index-BK0z6ene.mjs").then((n) => n.json());
     }
   }),
   /* @__PURE__ */ ee.of({
     name: "JSX",
     extensions: ["jsx"],
     load() {
-      return import("./index-D_4Tj5-M.mjs").then((n) => n.javascript({ jsx: !0 }));
+      return import("./index-Bcn0prep.mjs").then((n) => n.javascript({ jsx: !0 }));
     }
   }),
   /* @__PURE__ */ ee.of({
     name: "LESS",
     extensions: ["less"],
     load() {
-      return import("./index-nUR781hA.mjs").then((n) => n.less());
+      return import("./index-DuGOThMS.mjs").then((n) => n.less());
     }
   }),
   /* @__PURE__ */ ee.of({
     name: "Liquid",
     extensions: ["liquid"],
     load() {
-      return import("./index-D0KwGcQX.mjs").then((n) => n.liquid());
+      return import("./index-BNfUDaaz.mjs").then((n) => n.liquid());
     }
   }),
   /* @__PURE__ */ ee.of({
@@ -22780,7 +22780,7 @@ const tq = [
     name: "Markdown",
     extensions: ["md", "markdown", "mkd"],
     load() {
-      return import("./index-CXUthh1j.mjs").then((n) => n.markdown());
+      return import("./index-BqNHEIIE.mjs").then((n) => n.markdown());
     }
   }),
   /* @__PURE__ */ ee.of({
@@ -22799,7 +22799,7 @@ const tq = [
     name: "PHP",
     extensions: ["php", "php3", "php4", "php5", "php7", "phtml"],
     load() {
-      return import("./index-CIInTAgk.mjs").then((n) => n.php());
+      return import("./index-CzcwBdLw.mjs").then((n) => n.php());
     }
   }),
   /* @__PURE__ */ ee.of({
@@ -22820,28 +22820,28 @@ const tq = [
     extensions: ["BUILD", "bzl", "py", "pyw"],
     filename: /^(BUCK|BUILD)$/,
     load() {
-      return import("./index-DCz2QuNO.mjs").then((n) => n.python());
+      return import("./index-Ch3px3fi.mjs").then((n) => n.python());
     }
   }),
   /* @__PURE__ */ ee.of({
     name: "Rust",
     extensions: ["rs"],
     load() {
-      return import("./index-F2yWfsAP.mjs").then((n) => n.rust());
+      return import("./index-BvrHO9Y3.mjs").then((n) => n.rust());
     }
   }),
   /* @__PURE__ */ ee.of({
     name: "Sass",
     extensions: ["sass"],
     load() {
-      return import("./index-3in0HYKy.mjs").then((n) => n.sass({ indented: !0 }));
+      return import("./index-CxpdGE3K.mjs").then((n) => n.sass({ indented: !0 }));
     }
   }),
   /* @__PURE__ */ ee.of({
     name: "SCSS",
     extensions: ["scss"],
     load() {
-      return import("./index-3in0HYKy.mjs").then((n) => n.sass());
+      return import("./index-CxpdGE3K.mjs").then((n) => n.sass());
     }
   }),
   /* @__PURE__ */ ee.of({
@@ -22861,7 +22861,7 @@ const tq = [
     name: "TSX",
     extensions: ["tsx"],
     load() {
-      return import("./index-D_4Tj5-M.mjs").then((n) => n.javascript({ jsx: !0, typescript: !0 }));
+      return import("./index-Bcn0prep.mjs").then((n) => n.javascript({ jsx: !0, typescript: !0 }));
     }
   }),
   /* @__PURE__ */ ee.of({
@@ -22869,14 +22869,14 @@ const tq = [
     alias: ["ts"],
     extensions: ["ts", "mts", "cts"],
     load() {
-      return import("./index-D_4Tj5-M.mjs").then((n) => n.javascript({ typescript: !0 }));
+      return import("./index-Bcn0prep.mjs").then((n) => n.javascript({ typescript: !0 }));
     }
   }),
   /* @__PURE__ */ ee.of({
     name: "WebAssembly",
     extensions: ["wat", "wast"],
     load() {
-      return import("./index-CrqS5XqD.mjs").then((n) => n.wast());
+      return import("./index-DWJREnzT.mjs").then((n) => n.wast());
     }
   }),
   /* @__PURE__ */ ee.of({
@@ -22884,7 +22884,7 @@ const tq = [
     alias: ["rss", "wsdl", "xsd"],
     extensions: ["xml", "xsl", "xsd", "svg"],
     load() {
-      return import("./index-Bngnez26.mjs").then((n) => n.xml());
+      return import("./index-Dq4Cpddh.mjs").then((n) => n.xml());
     }
   }),
   /* @__PURE__ */ ee.of({
@@ -22892,7 +22892,7 @@ const tq = [
     alias: ["yml"],
     extensions: ["yaml", "yml"],
     load() {
-      return import("./index-BhYecbUQ.mjs").then((n) => n.yaml());
+      return import("./index-C4swoM1_.mjs").then((n) => n.yaml());
     }
   }),
   // Legacy modes ported from CodeMirror 5
@@ -23688,13 +23688,13 @@ const tq = [
     name: "Vue",
     extensions: ["vue"],
     load() {
-      return import("./index-xN2hvv3M.mjs").then((n) => n.vue());
+      return import("./index-Wn2IIs2f.mjs").then((n) => n.vue());
     }
   }),
   /* @__PURE__ */ ee.of({
     name: "Angular Template",
     load() {
-      return import("./index-BOwoXa6J.mjs").then((n) => n.angular());
+      return import("./index-DK8yR2zO.mjs").then((n) => n.angular());
     }
   })
 ], nq = "#e5c07b", j7 = "#e06c75", rq = "#56b6c2", iq = "#ffffff", Nm = "#abb2bf", Vv = "#7d8799", sq = "#61afef", oq = "#98c379", W7 = "#d19a66", aq = "#c678dd", lq = "#21252b", U7 = "#2c313a", K7 = "#282c34", kb = "#353a42", cq = "#3E4451", G7 = "#528bff", uq = /* @__PURE__ */ $e.theme({
@@ -69277,7 +69277,7 @@ const _ce = { class: "endericedragon-sticky-buttons" }, Rce = /* @__PURE__ */ Xn
   for (const [r, i] of e)
     t[r] = i;
   return t;
-}, Bce = /* @__PURE__ */ Pce(Rce, [["__scopeId", "data-v-f3c2309d"]]), Hce = /* @__PURE__ */ Xn({
+}, Bce = /* @__PURE__ */ Pce(Rce, [["__scopeId", "data-v-feb72b90"]]), Hce = /* @__PURE__ */ Xn({
   __name: "App",
   setup(n) {
     return (e, t) => (J9(), G9(Bce, {
