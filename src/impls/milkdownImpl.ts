@@ -4,7 +4,7 @@ import "@milkdown/crepe/theme/nord-dark.css";
 
 import { Editor } from "@/traits/Editor";
 
-class MilkdownImpl implements Editor<Crepe> {
+class MilkdownImpl implements Editor {
     rootElemId: string;
     editor: Crepe;
     firstLoad: boolean;

@@ -9,7 +9,7 @@ function canChangeContent(e: KeyboardEvent) {
     return !isCtrlC && !isCtrlA && (e.key === "Tab" || e.key === "Backspace" || e.key === "Delete" || e.key.length === 1);
 }
 
-class VditorImpl implements Editor<Vditor> {
+class VditorImpl implements Editor {
     editor: Vditor;
 
     constructor(rootElemId: string, _mdContent: string, unique: {

@@ -16,8 +16,21 @@ const EVENTS = {
 
 const OPTIONS = {
     saveOnClose: "comfyui-mdnotes.savingOptions.saveOnClose",
-    cdnSwitch: "comfyui-mdnotes.cdnSwitch"
+    editorSwitch: "comfyui-mdnotes.markdownEditor.editorSwitch",
+    cdnSwitch: "comfyui-mdnotes.markdownEditor.cdnSwitch",
 }
+
+const VDITOR_VERSION: string = __VDITOR_VERSION__;
+const CDNs = {
+    npmmirror: `https://registry.npmmirror.com/vditor/${VDITOR_VERSION}/files`,
+    jsDelivr: `https://cdn.jsdelivr.net/npm/vditor@${VDITOR_VERSION}`,
+    unpkg: `https://unpkg.com/vditor@${VDITOR_VERSION}`
+};
+
+enum MD_EDITORS {
+    vditor,
+    milkdown,
+};
 
 enum MODEL_TYPES {
     CKPT = "ckpt",
@@ -75,4 +88,4 @@ async function postJsonData(app: ComfyApp, route: string, data: any) {
     });
 }
 
-export { ROUTES, EVENTS, MODEL_TYPES, OPTIONS, DetailMessage, postJsonData, comfyApp, utils, printTimestamp };
+export { CDNs, MD_EDITORS, ROUTES, EVENTS, MODEL_TYPES, OPTIONS, DetailMessage, postJsonData, comfyApp, utils, printTimestamp };

@@ -4,19 +4,14 @@ import { createApp } from "vue"
 import PrimeVue from "primevue/config";
 
 // shared data types
-import { ROUTES, EVENTS, MODEL_TYPES, DetailMessage, postJsonData, comfyApp, utils, OPTIONS } from "./constants.js";
+import { CDNs, ROUTES, EVENTS, MODEL_TYPES, DetailMessage, postJsonData, comfyApp, utils, OPTIONS, MD_EDITORS } from "./constants.js";
 import App from "./App.vue"
 
 // extensions/comfyui-mdnotes是固定的，后续内容和/web目录有关
 const CSS_PATH = "extensions/comfyui-mdnotes/assets/main.css";
 utils.addStylesheet(CSS_PATH);
 
-const VDITOR_VERSION: string = __VDITOR_VERSION__;
-const CDNs = {
-    npmmirror: `https://registry.npmmirror.com/vditor/${VDITOR_VERSION}/files`,
-    jsDelivr: `https://cdn.jsdelivr.net/npm/vditor@${VDITOR_VERSION}`,
-    unpkg: `https://unpkg.com/vditor@${VDITOR_VERSION}`
-}
+
 
 comfyApp.registerExtension({
     name: "endericedragon.comfyui-mdnotes",
@@ -26,6 +21,16 @@ comfyApp.registerExtension({
             name: "Always save on close?",
             type: "boolean",
             defaultValue: false
+        },
+        {
+            id: OPTIONS.editorSwitch,
+            name: "Markdown editor to use",
+            type: "combo",
+            defaultValue: MD_EDITORS.vditor,
+            options: [
+                { text: "vditor", value: MD_EDITORS.vditor },
+                { text: "milkdown", value: MD_EDITORS.milkdown }
+            ]
         },
         {
             id: OPTIONS.cdnSwitch,

@@ -1,4 +1,4 @@
-interface Editor<T> {
+interface Editor {
     // constructor(rootElemId: string, mdContent: string, cdnURL: string): Editor<T>;
     getMarkdownContent(): string;
     getScrollTop(): number;

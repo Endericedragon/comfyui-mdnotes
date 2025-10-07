@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ROUTES, EVENTS, OPTIONS, DetailMessage, postJsonData, comfyApp } from "@/constants.js";
+import { ROUTES, EVENTS, OPTIONS, DetailMessage, postJsonData, comfyApp, MD_EDITORS } from "@/constants.js";
 // Vue 
 import { onMounted, onUnmounted, ref, type Ref, computed } from "vue";
 // bootstrap icon
@@ -9,6 +9,7 @@ import { Button, Dialog } from "primevue";
 // Our editor implement 
 import { VditorImpl } from "@/impls/vditorImpl";
 import { MilkdownImpl } from "@/impls/milkdownImpl";
+import { Editor } from "@/traits/Editor";
 
 const notePath = ref("");
 const mdContent = ref("");
@@ -21,7 +22,7 @@ const dialogTitle = computed(() => {
 });
 
 // create vditor instance to show/edit markdown notes
-const editorInstance: Ref<MilkdownImpl | null> = ref(null);
+const editorInstance: Ref<Editor | null> = ref(null);
 // let editorInstance: Ref<Vditor | undefined> = ref();
 // mount vditor instance
 onMounted(() => {
@@ -85,33 +86,56 @@ function handleShow() {
   unsaveMark.value = false;
   needSaving.value = false;
   // Setting Vditor
-  editorInstance.value = new MilkdownImpl(
-    "mde-point",
-    mdContent.value,
-    {
-      // cdnURL: comfyApp.extensionManager.setting.get(OPTIONS.cdnSwitch) as string,
-      callbacks: {
-        afterRender: (obj) => {
-          // obj.editor.setTheme(
-          //   "dark",
-          //   "dark",
-          //   "atom-one-dark"
-          // );
-          // // 装入数据
-          // obj.editor.setValue(mdContent.value);
-          // 滚动记忆
-          obj.setScrollTop(scrollTopVal.value);
-        },
-        afterContentChange: (_obj) => {
-          unsaveMark.value = true;
-          if (comfyApp.extensionManager.setting.get(OPTIONS.saveOnClose)) {
-            needSaving.value = true;
+  switch (comfyApp.extensionManager.setting.get(OPTIONS.editorSwitch)) {
+    case MD_EDITORS.vditor:
+      editorInstance.value = new VditorImpl(
+        "mde-point",
+        mdContent.value,
+        {
+          cdnURL: comfyApp.extensionManager.setting.get(OPTIONS.cdnSwitch) as string,
+          callbacks: {
+            afterRender: (obj) => {
+              obj.editor.setTheme(
+                "dark",
+                "dark",
+                "atom-one-dark"
+              );
+              // 装入数据
+              obj.editor.setValue(mdContent.value);
+              // 滚动记忆
+              obj.setScrollTop(scrollTopVal.value);
+            },
+            afterContentChange: (_obj) => {
+              unsaveMark.value = true;
+              if (comfyApp.extensionManager.setting.get(OPTIONS.saveOnClose)) {
+                needSaving.value = true;
+              }
+            }
           }
         }
-      }
-    }
-  );
-  // this.editorInstance.setScrollTop(scrollTopVal.value);
+      );
+      break;
+    case MD_EDITORS.milkdown:
+      editorInstance.value = new MilkdownImpl(
+        "mde-point",
+        mdContent.value,
+        {
+          callbacks: {
+            afterRender: (obj) => {
+              // 滚动记忆
+              obj.setScrollTop(scrollTopVal.value);
+            },
+            afterContentChange: (_obj) => {
+              unsaveMark.value = true;
+              if (comfyApp.extensionManager.setting.get(OPTIONS.saveOnClose)) {
+                needSaving.value = true;
+              }
+            }
+          }
+        }
+      );
+      break;
+  }
 }
 // 隐藏对话框后，销毁编辑器实例
 function handleAfterHide() {

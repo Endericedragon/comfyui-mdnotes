@@ -1,4 +1,4 @@
 import "vue";
 import "primevue/config";
-import "./main-GiP-jZ7Y.mjs";
+import "./main-DtGpgAMY.mjs";
 import "../../../scripts/utils.js";
