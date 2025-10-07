@@ -8,7 +8,7 @@ import "bootstrap-icons/font/bootstrap-icons.min.css";
 import { Button, Dialog } from "primevue";
 // Our editor implement 
 import { VditorImpl } from "@/impls/vditorImpl";
-
+import { MilkdownImpl } from "@/impls/milkdownImpl";
 
 const notePath = ref("");
 const mdContent = ref("");
@@ -21,7 +21,7 @@ const dialogTitle = computed(() => {
 });
 
 // create vditor instance to show/edit markdown notes
-const editorInstance: Ref<VditorImpl | null> = ref(null);
+const editorInstance: Ref<MilkdownImpl | null> = ref(null);
 // let editorInstance: Ref<Vditor | undefined> = ref();
 // mount vditor instance
 onMounted(() => {
@@ -85,26 +85,28 @@ function handleShow() {
   unsaveMark.value = false;
   needSaving.value = false;
   // Setting Vditor
-  editorInstance.value = new VditorImpl(
+  editorInstance.value = new MilkdownImpl(
     "mde-point",
     mdContent.value,
-    comfyApp.extensionManager.setting.get(OPTIONS.cdnSwitch) as string,
     {
-      afterRender: (obj) => {
-        obj.editor.setTheme(
-          "dark",
-          "dark",
-          "atom-one-dark"
-        );
-        // 装入数据
-        obj.editor.setValue(mdContent.value);
-        // 滚动记忆
-        obj.setScrollTop(scrollTopVal.value);
-      },
-      afterContentChange: (_obj) => {
-        unsaveMark.value = true;
-        if (comfyApp.extensionManager.setting.get(OPTIONS.saveOnClose)) {
-          needSaving.value = true;
+      // cdnURL: comfyApp.extensionManager.setting.get(OPTIONS.cdnSwitch) as string,
+      callbacks: {
+        afterRender: (obj) => {
+          // obj.editor.setTheme(
+          //   "dark",
+          //   "dark",
+          //   "atom-one-dark"
+          // );
+          // // 装入数据
+          // obj.editor.setValue(mdContent.value);
+          // 滚动记忆
+          obj.setScrollTop(scrollTopVal.value);
+        },
+        afterContentChange: (_obj) => {
+          unsaveMark.value = true;
+          if (comfyApp.extensionManager.setting.get(OPTIONS.saveOnClose)) {
+            needSaving.value = true;
+          }
         }
       }
     }

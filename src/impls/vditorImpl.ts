@@ -10,19 +10,19 @@ function canChangeContent(e: KeyboardEvent) {
 }
 
 class VditorImpl implements Editor<Vditor> {
-    rootElemId: string;
     editor: Vditor;
 
-    constructor(rootElemId: string, mdContent: string, cdnURL: string, callbacks: {
-        afterRender?: (obj: VditorImpl) => void;
-        afterContentChange?: (obj: VditorImpl) => void;
+    constructor(rootElemId: string, _mdContent: string, unique: {
+        cdnURL: string,
+        callbacks: {
+            afterRender?: (obj: VditorImpl) => void;
+            afterContentChange?: (obj: VditorImpl) => void;
+        }
     }) {
-        this.rootElemId = rootElemId;
-
-        this.editor = new Vditor(this.rootElemId, {
+        this.editor = new Vditor(rootElemId, {
             // cdn: `https://cdn.jsdelivr.net/npm/vditor@${VDITOR_VERSION}`,
             // cdn: `https://registry.npmmirror.com/vditor/${VDITOR_VERSION}/files`,
-            cdn: cdnURL,
+            cdn: unique.cdnURL,
             toolbarConfig: {
                 pin: true
             },
@@ -31,13 +31,13 @@ class VditorImpl implements Editor<Vditor> {
             },
             // 监听键盘事件，当用户输入时，将需要保存
             keydown: (e) => {
-                if (callbacks.afterContentChange && canChangeContent(e)) {
-                    callbacks.afterContentChange(this);
+                if (unique.callbacks.afterContentChange && canChangeContent(e)) {
+                    unique.callbacks.afterContentChange(this);
                 }
             },
             after: () => {
-                if (callbacks.afterRender) {
-                    callbacks.afterRender(this);
+                if (unique.callbacks.afterRender) {
+                    unique.callbacks.afterRender(this);
                 }
             }
         });
