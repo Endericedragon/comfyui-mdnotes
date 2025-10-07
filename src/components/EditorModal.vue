@@ -6,9 +6,9 @@ import { onMounted, onUnmounted, ref, type Ref, computed } from "vue";
 import "bootstrap-icons/font/bootstrap-icons.min.css";
 // primevue
 import { Button, Dialog } from "primevue";
-// Vditor 
-import Vditor from "vditor";
-import "vditor/dist/index.css";
+// Our editor implement 
+import { VditorImpl } from "@/impls/vditorImpl";
+
 
 const notePath = ref("");
 const mdContent = ref("");
@@ -21,7 +21,8 @@ const dialogTitle = computed(() => {
 });
 
 // create vditor instance to show/edit markdown notes
-let editorInstance: Ref<Vditor | undefined> = ref();
+const editorInstance: Ref<VditorImpl | null> = ref(null);
+// let editorInstance: Ref<Vditor | undefined> = ref();
 // mount vditor instance
 onMounted(() => {
   // 监听事件，当打开编辑器时，设置内容
@@ -47,14 +48,14 @@ function openNSetContent(e: Event) {
 }
 // 将发生变化的笔记发回后端保存
 function saveNote() {
-  const newContent = editorInstance.value?.getValue();
+  const newContent = editorInstance.value?.getMarkdownContent();
   if (newContent !== mdContent.value) {
     mdContent.value = newContent;
     postJsonData(
       comfyApp,
       ROUTES.saveContent,
       new DetailMessage(
-        editorInstance.value.getValue(),
+        newContent,
         notePath.value
       )
     ).then(_ => {
@@ -78,57 +79,37 @@ class ButtonControl {
     isModalShown.value = false;
   }
 }
-// 会改变编辑器内容的键盘事件
-function canChangeContent(e: KeyboardEvent) {
-  const isCtrlC = (e.key === "c") && e.ctrlKey;
-  const isCtrlA = (e.key === "a") && e.ctrlKey;
-  return !isCtrlC && !isCtrlA && (e.key === "Tab" || e.key === "Backspace" || e.key === "Delete" || e.key.length === 1);
-}
 // 对话框显示时，创建编辑器实例
 function handleShow() {
   // 复位所有修改标志位
   unsaveMark.value = false;
   needSaving.value = false;
-  // 准备挂载
-  let mountPoint = document.getElementById("mde-point");
-  let dialogContainer = mountPoint.parentElement;
   // Setting Vditor
-  editorInstance.value = new Vditor("mde-point", {
-    // cdn: `https://cdn.jsdelivr.net/npm/vditor@${VDITOR_VERSION}`,
-    // cdn: `https://registry.npmmirror.com/vditor/${VDITOR_VERSION}/files`,
-    cdn: comfyApp.extensionManager.setting.get(OPTIONS.cdnSwitch) as string,
-    toolbarConfig: {
-      pin: true
-    },
-    preview: {
-      maxWidth: 2147483647
-    },
-    // 监听键盘事件，当用户输入时，将需要保存
-    keydown: (e) => {
-      if (canChangeContent(e)) {
+  editorInstance.value = new VditorImpl(
+    "mde-point",
+    mdContent.value,
+    comfyApp.extensionManager.setting.get(OPTIONS.cdnSwitch) as string,
+    {
+      afterRender: (obj) => {
+        obj.editor.setTheme(
+          "dark",
+          "dark",
+          "atom-one-dark"
+        );
+        // 装入数据
+        obj.editor.setValue(mdContent.value);
+        // 滚动记忆
+        obj.setScrollTop(scrollTopVal.value);
+      },
+      afterContentChange: (_obj) => {
         unsaveMark.value = true;
         if (comfyApp.extensionManager.setting.get(OPTIONS.saveOnClose)) {
           needSaving.value = true;
         }
       }
-    },
-    after: () => {
-      editorInstance.value.setTheme(
-        "dark",
-        "dark",
-        "atom-one-dark"
-      );
-      // 装入数据
-      editorInstance.value.setValue(mdContent.value);
-      // 滚动记忆
-      console.log("[mdnotes] Setting scrollTop value to ", scrollTopVal.value);
-      dialogContainer.scrollTo({
-        top: scrollTopVal.value,
-        left: 0,
-        behavior: "smooth"
-      });
     }
-  });
+  );
+  // this.editorInstance.setScrollTop(scrollTopVal.value);
 }
 // 隐藏对话框后，销毁编辑器实例
 function handleAfterHide() {
@@ -136,16 +117,11 @@ function handleAfterHide() {
   if (needSaving.value) {
     saveNote();
   }
-  editorInstance.value?.destroy();
+  editorInstance.value?.gc();
 }
 // 对话框隐藏时，记录滚动位置
 function handleHide() {
-  rememberScrollValue();
-}
-function rememberScrollValue() {
-  let dialogContainer = document.getElementById("mde-point").parentElement;
-  console.log("[mdnotes] Scrolled to ", dialogContainer.scrollTop);
-  scrollTopVal.value = dialogContainer.scrollTop;
+  scrollTopVal.value = editorInstance.value?.getScrollTop();
 }
 </script>
 

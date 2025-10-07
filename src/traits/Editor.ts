@@ -1,8 +1,9 @@
 interface Editor<T> {
-    create(rootElemId: string, mdContent: string, cdnURL: string): T;
+    // constructor(rootElemId: string, mdContent: string, cdnURL: string): Editor<T>;
     getMarkdownContent(): string;
     getScrollTop(): number;
     setScrollTop(x: number): void;
+    gc(): void;
 }
 
 export { Editor }

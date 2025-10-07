@@ -1,15 +1,25 @@
 import Vditor from "vditor";
+import "vditor/dist/index.css";
 import { Editor } from "@/traits/Editor";
-import { Ref } from "vue";
+
+// 会改变编辑器内容的键盘事件
+function canChangeContent(e: KeyboardEvent) {
+    const isCtrlC = (e.key === "c") && e.ctrlKey;
+    const isCtrlA = (e.key === "a") && e.ctrlKey;
+    return !isCtrlC && !isCtrlA && (e.key === "Tab" || e.key === "Backspace" || e.key === "Delete" || e.key.length === 1);
+}
 
 class VditorImpl implements Editor<Vditor> {
     rootElemId: string;
-    editor: Ref<Vditor>;
+    editor: Vditor;
 
-    create(rootElemId: string, mdContent: string, cdnURL: string): Vditor {
+    constructor(rootElemId: string, mdContent: string, cdnURL: string, callbacks: {
+        afterRender?: (obj: VditorImpl) => void;
+        afterContentChange?: (obj: VditorImpl) => void;
+    }) {
         this.rootElemId = rootElemId;
 
-        this.editor.value = new Vditor(this.rootElemId, {
+        this.editor = new Vditor(this.rootElemId, {
             // cdn: `https://cdn.jsdelivr.net/npm/vditor@${VDITOR_VERSION}`,
             // cdn: `https://registry.npmmirror.com/vditor/${VDITOR_VERSION}/files`,
             cdn: cdnURL,
@@ -19,42 +29,31 @@ class VditorImpl implements Editor<Vditor> {
             preview: {
                 maxWidth: 2147483647
             },
-            // todo: 监听键盘事件，当用户输入时，将需要保存
-            // keydown: (e) => {
-            //     if (canChangeContent(e)) {
-            //         unsaveMark.value = true;
-            //         if (comfyApp.extensionManager.setting.get(OPTIONS.saveOnClose)) {
-            //             needSaving.value = true;
-            //         }
-            //     }
-            // },
+            // 监听键盘事件，当用户输入时，将需要保存
+            keydown: (e) => {
+                if (callbacks.afterContentChange && canChangeContent(e)) {
+                    callbacks.afterContentChange(this);
+                }
+            },
             after: () => {
-                this.editor.value.setTheme(
-                    "dark",
-                    "dark",
-                    "atom-one-dark"
-                );
-                // 装入数据
-                this.editor.value.setValue(mdContent);
-                // 滚动记忆
-
+                if (callbacks.afterRender) {
+                    callbacks.afterRender(this);
+                }
             }
         });
-
-        return this.editor.value;
     }
     getMarkdownContent(): string {
-        throw new Error("Method not implemented.");
+        return this.editor.getValue();
     }
     getScrollTop(): number {
         // let mountPoint = document.getElementById(this.rootElemId);
-        let mountPoint = this.editor.value.vditor.element;
+        let mountPoint = this.editor.vditor.element;
         let dialogContainer = mountPoint.parentElement;
         return dialogContainer.scrollTop;
     }
     setScrollTop(x: number) {
         // let mountPoint = document.getElementById(this.rootElemId);
-        let mountPoint = this.editor.value.vditor.element;
+        let mountPoint = this.editor.vditor.element;
         let dialogContainer = mountPoint.parentElement;
         console.log("[mdnotes] Setting scrollTop value to ", x);
         dialogContainer.scrollTo({
@@ -64,4 +63,9 @@ class VditorImpl implements Editor<Vditor> {
         });
     }
 
+    gc() {
+        this.editor.destroy();
+    }
 }
+
+export { VditorImpl }
