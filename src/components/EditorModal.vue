@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ROUTES, EVENTS, OPTIONS, DetailMessage, postJsonData, comfyApp } from "../constants.js";
+import { ROUTES, EVENTS, OPTIONS, DetailMessage, postJsonData, comfyApp } from "@/constants.js";
 // Vue 
 import { onMounted, onUnmounted, ref, type Ref, computed } from "vue";
 // bootstrap icon
@@ -131,7 +131,7 @@ function handleShow() {
   });
 }
 // 隐藏对话框后，销毁编辑器实例
-function handleHide() {
+function handleAfterHide() {
   // 若需要保存，执行保存操作
   if (needSaving.value) {
     saveNote();
@@ -139,6 +139,9 @@ function handleHide() {
   editorInstance.value?.destroy();
 }
 // 对话框隐藏时，记录滚动位置
+function handleHide() {
+  rememberScrollValue();
+}
 function rememberScrollValue() {
   let dialogContainer = document.getElementById("mde-point").parentElement;
   console.log("[mdnotes] Scrolled to ", dialogContainer.scrollTop);
@@ -147,7 +150,7 @@ function rememberScrollValue() {
 </script>
 
 <template>
-  <Dialog v-model:visible="isModalShown" @show="handleShow" @hide="rememberScrollValue" @after-hide="handleHide"
+  <Dialog v-model:visible="isModalShown" @show="handleShow" @hide="handleHide" @after-hide="handleAfterHide"
     :header="dialogTitle" close-on-escape>
     <div id="mde-point"></div>
     <div class="endericedragon-sticky-buttons">
