@@ -20,11 +20,12 @@ const OPTIONS = {
     cdnSwitch: "comfyui-mdnotes.markdownEditor.cdnSwitch",
 }
 
-const VDITOR_VERSION: string = __VDITOR_VERSION__;
+// const VDITOR_VERSION: string = __VDITOR_VERSION__;
 const CDNs = {
-    npmmirror: `https://registry.npmmirror.com/vditor/${VDITOR_VERSION}/files`,
-    jsDelivr: `https://cdn.jsdelivr.net/npm/vditor@${VDITOR_VERSION}`,
-    unpkg: `https://unpkg.com/vditor@${VDITOR_VERSION}`
+    npmmirror: `https://registry.npmmirror.com/vditor/${__VDITOR_VERSION__}/files`,
+    jsDelivr: `https://cdn.jsdelivr.net/npm/vditor@${__VDITOR_VERSION__}`,
+    unpkg: `https://unpkg.com/vditor@${__VDITOR_VERSION__}`,
+    localCachedCDN: "mdnotes"
 };
 
 enum MD_EDITORS {

@@ -41,6 +41,7 @@ comfyApp.registerExtension({
                 { text: "unpkg", value: CDNs.unpkg },
                 { text: "jsDelivr", value: CDNs.jsDelivr },
                 { text: "npmmirror", value: CDNs.npmmirror },
+                { text: "LocalCachedCDN", value: CDNs.localCachedCDN },
             ]
         }
     ],

@@ -3,7 +3,7 @@ import pathlib
 from functools import lru_cache
 from typing import TypedDict
 import requests
-import json
+import mimetypes
 
 import folder_paths
 from aiohttp import web
@@ -102,19 +102,31 @@ async def save_note(request: web.Request):
         f.write(content)
     return web.json_response({"status": "ok"}, status=200)
 
+def get_mime_type(thing: str) -> str:
+    res, _ = mimetypes.guess_type(thing)
+    if not res:
+        return "application/octet-stream"
+    return res.split(";", 1)[0]
 
-# @PromptServer.instance.routes.get("/mdnotes/dist/{thing:.+}")
-# async def get_dist(req: web.Request):
-#     thing = req.match_info.get("thing")
-#     print("thing = {}".format(thing))
-#     # if thing and (filepath := BASE_DIR / "dist" / thing).exists():
-#     #     with open(filepath, "rb") as f:
-#     #         return web.Response(body=f.read())
-#     # else:
-#     #     # return web.json_response(None, status=404)
-#     #     print("Downloading {}".format(thing))
-#     #     r = requests.get("https://registry.npmmirror.com/vditor/3.11.2/files/dist/{}".format(thing))
-#     #     return web.Response(body=r.content)
-#     print("Downloading {}".format(thing))
-#     r = requests.get("https://registry.npmmirror.com/vditor/3.11.2/files/dist/{}".format(thing))
-#     return web.Response(body=r.content)
+@PromptServer.instance.routes.get("/mdnotes/dist/{thing:.+}")
+async def get_dist(req: web.Request):
+    thing = req.match_info.get("thing")
+    if not thing:
+        return web.json_response(None, status=404)
+
+    if not (filepath := BASE_DIR / "dist" / thing).exists():
+        filepath.parent.mkdir(parents=True, exist_ok=True)
+        print("Downloading {}".format(thing))
+        r = requests.get(
+            "https://registry.npmmirror.com/vditor/3.11.2/files/dist/{}".format(thing)
+        )
+        if r.status_code != 200:
+            return web.json_response(None, status=r.status_code)
+        with open(filepath, "wb") as f:
+            f.write(r.content)
+
+    with open(filepath, "rb") as f:
+        return web.Response(
+            body=f.read(),
+            content_type=get_mime_type(thing),
+        )
