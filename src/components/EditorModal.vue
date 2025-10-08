@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ROUTES, EVENTS, OPTIONS, DetailMessage, postJsonData, comfyApp, MD_EDITORS } from "@/constants.js";
+import { ROUTES, EVENTS, OPTIONS, DetailMessage, postJsonData, comfyApp, MD_EDITORS, CDNs, postTextData } from "@/constants.js";
 // Vue 
 import { onMounted, onUnmounted, ref, type Ref, computed } from "vue";
 // bootstrap icon
@@ -19,6 +19,15 @@ const unsaveMark = ref(false);
 const needSaving = ref(false);
 const dialogTitle = computed(() => {
   return unsaveMark.value ? `${notePath.value}*` : notePath.value;
+});
+const cdnToUse = computed(() => {
+  if (comfyApp.extensionManager.setting.get(OPTIONS.useLocalCDN)) {
+    // 发送当前选定的远程CDN
+    postTextData(comfyApp, ROUTES.setCDN, comfyApp.extensionManager.setting.get(OPTIONS.cdnSwitch)).then();
+    return CDNs.localCachedCDN;
+  } else {
+    return comfyApp.extensionManager.setting.get(OPTIONS.cdnSwitch) as string;
+  }
 });
 
 // create vditor instance to show/edit markdown notes
@@ -92,14 +101,17 @@ function handleShow() {
         "mde-point",
         mdContent.value,
         {
-          cdnURL: comfyApp.extensionManager.setting.get(OPTIONS.cdnSwitch) as string,
+          cdnURL: cdnToUse.value,
           callbacks: {
             afterRender: (obj) => {
-              obj.editor.setTheme(
-                "dark",
-                "dark",
-                "atom-one-dark"
-              );
+              // console.log(comfyApp.extensionManager.setting.get("Comfy.ColorPalette"));
+              if (comfyApp.extensionManager.setting.get(OPTIONS.vditorTheme) === "dark") {
+                obj.editor.setTheme(
+                  "dark",
+                  "dark",
+                  "atom-one-dark"
+                );
+              }
               // 装入数据
               obj.editor.setValue(mdContent.value);
               // 滚动记忆

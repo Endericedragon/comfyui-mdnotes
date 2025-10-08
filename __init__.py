@@ -38,6 +38,7 @@ model_base_dir = pathlib.Path(folder_paths.models_dir)
 ckpt_base_dir = model_base_dir / "checkpoints"
 lora_base_dir = model_base_dir / "loras"
 
+current_cdn: str = ""
 
 @lru_cache(maxsize=256)
 def get_bigram(text: str) -> set[str]:
@@ -54,7 +55,11 @@ def get_dice_similiarity(t1: str, t2: str) -> float:
 
 
 @PromptServer.instance.routes.post("/mdnotes/current_model")
-async def get_current_model(request: web.Request):
+async def get_current_model(request: web.Request) -> web.Response:
+    """
+    负责接收前端传来的当前选择的模型的名称，根据模型类型和路径，
+    查找模型目录下最可能的Markdown文件，返回其内容和相对路径。
+    """
     data: ModelInfo = await request.json()
     if data["model_type"] == "ckpt":
         model_path = ckpt_base_dir / pathlib.Path(data["model_path"])
@@ -92,7 +97,10 @@ async def get_current_model(request: web.Request):
 
 
 @PromptServer.instance.routes.post("/mdnotes/save")
-async def save_note(request: web.Request):
+async def save_note(request: web.Request) -> web.Response:
+    """
+    负责接收前端传来的Markdown内容和相对路径，将其保存到模型目录下。
+    """
     data: ContentNPath = await request.json()
     content = data["content"]
     note_path = model_base_dir / data["rel_file_path"]
@@ -102,20 +110,28 @@ async def save_note(request: web.Request):
         f.write(content)
     return web.json_response({"status": "ok"}, status=200)
 
+
 def get_mime_type(thing: str) -> str:
-    return (mimetypes.guess_type(thing)[0] or "application/octet-stream").split(";", 1)[0]
+    return (mimetypes.guess_type(thing)[0] or "application/octet-stream").split(";", 1)[
+        0
+    ]
+
 
 @PromptServer.instance.routes.get("/mdnotes/dist/{thing:.+}")
-async def get_dist(req: web.Request):
+async def get_dist(req: web.Request) -> web.Response:
+    """
+    Vditor专用，从本地或网络上返回其需要的资源文件，以实现带缓存的本地CDN。
+    """
+    global current_cdn
     thing = req.match_info.get("thing")
     if not thing:
-        return web.json_response(None, status=404)
+        return web.json_response("No `thing` specified", status=404)
 
     if not (filepath := BASE_DIR / "dist" / thing).exists():
         filepath.parent.mkdir(parents=True, exist_ok=True)
         print("Downloading {}".format(thing))
         with requests.get(
-            "https://registry.npmmirror.com/vditor/3.11.2/files/dist/{}".format(thing)
+            "{}/dist/{}".format(current_cdn, thing)
         ) as r:
             if r.status_code != 200:
                 return web.json_response(None, status=r.status_code)
@@ -127,3 +143,13 @@ async def get_dist(req: web.Request):
             body=f.read(),
             content_type=get_mime_type(thing),
         )
+
+@PromptServer.instance.routes.post("/mdnotes/setCDN")
+async def set_cdn(req: web.Request) -> web.Response:
+    """
+    负责接收前端传来的当前选择的CDN地址，将其保存到全局变量中。
+    """
+    global current_cdn
+    cdn_url: str = await req.text()
+    current_cdn = cdn_url
+    return web.Response(body="ok".encode("utf-8"))

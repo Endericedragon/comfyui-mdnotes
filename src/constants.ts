@@ -7,7 +7,8 @@ const comfyApp: ComfyApp = app;
 
 const ROUTES = {
     sendCurrentModel: "/mdnotes/current_model",
-    saveContent: "/mdnotes/save"
+    saveContent: "/mdnotes/save",
+    setCDN: "/mdnotes/setCDN"
 };
 
 const EVENTS = {
@@ -18,6 +19,8 @@ const OPTIONS = {
     saveOnClose: "comfyui-mdnotes.savingOptions.saveOnClose",
     editorSwitch: "comfyui-mdnotes.markdownEditor.editorSwitch",
     cdnSwitch: "comfyui-mdnotes.markdownEditor.cdnSwitch",
+    useLocalCDN: "comfyui-mdnotes.markdownEditor.useLocalCDN",
+    vditorTheme: "comfyui-mdnotes.markdownEditor.vditorTheme"
 }
 
 // const VDITOR_VERSION: string = __VDITOR_VERSION__;
@@ -89,4 +92,25 @@ async function postJsonData(app: ComfyApp, route: string, data: any) {
     });
 }
 
-export { CDNs, MD_EDITORS, ROUTES, EVENTS, MODEL_TYPES, OPTIONS, DetailMessage, postJsonData, comfyApp, utils, printTimestamp };
+async function postTextData(app: ComfyApp, route: string, text: string) {
+    return app.api.fetchApi(route, {
+        method: "POST",
+        headers: { "Content-Type": "text/plain" },
+        body: text
+    }).then(resp => {
+        switch (resp.status) {
+            case 200:
+                return resp.text();
+            default:
+                comfyApp.extensionManager.toast.add({
+                    severity: "error",
+                    summary: "MDNotes Error",
+                    detail: `Status code = ${resp.status}`,
+                    life: 3000
+                });
+                return Promise.reject(resp.status);
+        }
+    });
+}
+
+export { CDNs, MD_EDITORS, ROUTES, EVENTS, MODEL_TYPES, OPTIONS, DetailMessage, postJsonData, postTextData, comfyApp, utils, printTimestamp };

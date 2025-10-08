@@ -29,19 +29,39 @@ comfyApp.registerExtension({
             defaultValue: MD_EDITORS.vditor,
             options: [
                 { text: "vditor", value: MD_EDITORS.vditor },
-                { text: "milkdown", value: MD_EDITORS.milkdown }
+                { text: "milkdown/crepe", value: MD_EDITORS.milkdown }
             ]
         },
         {
             id: OPTIONS.cdnSwitch,
-            name: "CDN for vditor",
+            name: "CDN for vditor resources",
             type: "combo",
             defaultValue: CDNs.unpkg,
             options: [
                 { text: "unpkg", value: CDNs.unpkg },
                 { text: "jsDelivr", value: CDNs.jsDelivr },
                 { text: "npmmirror", value: CDNs.npmmirror },
-                { text: "LocalCachedCDN", value: CDNs.localCachedCDN },
+            ],
+            tooltip: "Set the CDN used for fetching resources of vditor."
+        },
+        {
+            id: OPTIONS.useLocalCDN,
+            name: "Cache vditor resources locally?",
+            type: "boolean",
+            defaultValue: false,
+            tooltip: (
+                "Store resources of vditor locally." +
+                "This is recommended since editor could be loaded much faster."
+            )
+        },
+        {
+            id: OPTIONS.vditorTheme,
+            name: "Vditor theme",
+            type: "combo",
+            defaultValue: "dark",
+            options: [
+                "classic",
+                "dark"
             ]
         }
     ],
