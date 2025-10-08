@@ -103,10 +103,7 @@ async def save_note(request: web.Request):
     return web.json_response({"status": "ok"}, status=200)
 
 def get_mime_type(thing: str) -> str:
-    res, _ = mimetypes.guess_type(thing)
-    if not res:
-        return "application/octet-stream"
-    return res.split(";", 1)[0]
+    return (mimetypes.guess_type(thing)[0] or "application/octet-stream").split(";", 1)[0]
 
 @PromptServer.instance.routes.get("/mdnotes/dist/{thing:.+}")
 async def get_dist(req: web.Request):
@@ -117,13 +114,13 @@ async def get_dist(req: web.Request):
     if not (filepath := BASE_DIR / "dist" / thing).exists():
         filepath.parent.mkdir(parents=True, exist_ok=True)
         print("Downloading {}".format(thing))
-        r = requests.get(
+        with requests.get(
             "https://registry.npmmirror.com/vditor/3.11.2/files/dist/{}".format(thing)
-        )
-        if r.status_code != 200:
-            return web.json_response(None, status=r.status_code)
-        with open(filepath, "wb") as f:
-            f.write(r.content)
+        ) as r:
+            if r.status_code != 200:
+                return web.json_response(None, status=r.status_code)
+            with open(filepath, "wb") as f:
+                f.write(r.content)
 
     with open(filepath, "rb") as f:
         return web.Response(
