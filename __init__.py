@@ -2,11 +2,10 @@ import os
 import pathlib
 from functools import lru_cache
 from typing import TypedDict
-import requests
 import mimetypes
 
 import folder_paths
-from aiohttp import web
+from aiohttp import web, ClientSession
 from server import PromptServer
 
 
@@ -97,11 +96,11 @@ async def get_current_model(request: web.Request) -> web.Response:
 
 
 @PromptServer.instance.routes.post("/mdnotes/save")
-async def save_note(request: web.Request) -> web.Response:
+async def save_note(req: web.Request) -> web.Response:
     """
     负责接收前端传来的Markdown内容和相对路径，将其保存到模型目录下。
     """
-    data: ContentNPath = await request.json()
+    data: ContentNPath = await req.json()
     content = data["content"]
     note_path = model_base_dir / data["rel_file_path"]
     if not note_path.parent.exists():
@@ -130,13 +129,13 @@ async def get_dist(req: web.Request) -> web.Response:
     if not (filepath := BASE_DIR / "dist" / thing).exists():
         filepath.parent.mkdir(parents=True, exist_ok=True)
         print("Downloading {}".format(thing))
-        with requests.get(
-            "{}/dist/{}".format(current_cdn, thing)
-        ) as r:
-            if r.status_code != 200:
-                return web.json_response(None, status=r.status_code)
-            with open(filepath, "wb") as f:
-                f.write(r.content)
+        
+        async with ClientSession() as sess:
+            async with sess.get("{}/dist/{}".format(current_cdn, thing)) as r:
+                if r.status != 200:
+                    return web.json_response(None, status=r.status)
+                with open(filepath, "wb") as f:
+                    f.write(await r.content.read())
 
     with open(filepath, "rb") as f:
         return web.Response(

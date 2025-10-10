@@ -4,7 +4,7 @@ import { createApp } from "vue"
 import PrimeVue from "primevue/config";
 
 // shared data types
-import { CDNs, ROUTES, EVENTS, MODEL_TYPES, DetailMessage, postJsonData, comfyApp, utils, OPTIONS, MD_EDITORS } from "./constants.js";
+import { CDNs, ROUTES, EVENTS, MODEL_TYPES, DetailMessage, postJsonData, comfyApp, utils, OPTIONS, MD_EDITOR_NAMES } from "./constants.js";
 import App from "./App.vue"
 
 // extensions/comfyui-mdnotes是固定的，后续内容和/web目录有关
@@ -26,10 +26,10 @@ comfyApp.registerExtension({
             id: OPTIONS.editorSwitch,
             name: "Markdown editor to use",
             type: "combo",
-            defaultValue: MD_EDITORS.vditor,
+            defaultValue: MD_EDITOR_NAMES.vditor,
             options: [
-                { text: "vditor", value: MD_EDITORS.vditor },
-                { text: "milkdown/crepe", value: MD_EDITORS.milkdown }
+                { text: "vditor", value: MD_EDITOR_NAMES.vditor },
+                { text: "milkdown/crepe", value: MD_EDITOR_NAMES.milkdown }
             ]
         },
         {
@@ -53,16 +53,6 @@ comfyApp.registerExtension({
                 "Store resources of vditor locally." +
                 "This is recommended since editor could be loaded much faster."
             )
-        },
-        {
-            id: OPTIONS.vditorTheme,
-            name: "Vditor theme",
-            type: "combo",
-            defaultValue: "dark",
-            options: [
-                "classic",
-                "dark"
-            ]
         }
     ],
     async beforeRegisterNodeDef(nodeType, nodeData, app) {

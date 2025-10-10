@@ -1,4 +1,4 @@
-interface Editor {
+interface EditorTrait {
     // constructor(rootElemId: string, mdContent: string, cdnURL: string): Editor<T>;
     getMarkdownContent(): string;
     getScrollTop(): number;
@@ -6,4 +6,4 @@ interface Editor {
     gc(): void;
 }
 
-export { Editor }
+export { EditorTrait }

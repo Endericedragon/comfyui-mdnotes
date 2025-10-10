@@ -20,7 +20,6 @@ const OPTIONS = {
     editorSwitch: "comfyui-mdnotes.markdownEditor.editorSwitch",
     cdnSwitch: "comfyui-mdnotes.markdownEditor.cdnSwitch",
     useLocalCDN: "comfyui-mdnotes.markdownEditor.useLocalCDN",
-    vditorTheme: "comfyui-mdnotes.markdownEditor.vditorTheme"
 }
 
 // const VDITOR_VERSION: string = __VDITOR_VERSION__;
@@ -31,7 +30,7 @@ const CDNs = {
     localCachedCDN: "mdnotes"
 };
 
-enum MD_EDITORS {
+enum MD_EDITOR_NAMES {
     vditor,
     milkdown,
 };
@@ -113,4 +112,4 @@ async function postTextData(app: ComfyApp, route: string, text: string) {
     });
 }
 
-export { CDNs, MD_EDITORS, ROUTES, EVENTS, MODEL_TYPES, OPTIONS, DetailMessage, postJsonData, postTextData, comfyApp, utils, printTimestamp };
+export { CDNs, MD_EDITOR_NAMES, ROUTES, EVENTS, MODEL_TYPES, OPTIONS, DetailMessage, postJsonData, postTextData, comfyApp, utils, printTimestamp };

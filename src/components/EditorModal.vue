@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ROUTES, EVENTS, OPTIONS, DetailMessage, postJsonData, comfyApp, MD_EDITORS, CDNs, postTextData } from "@/constants.js";
+import { ROUTES, EVENTS, OPTIONS, DetailMessage, postJsonData, comfyApp, MD_EDITOR_NAMES, CDNs, postTextData } from "@/constants.js";
 // Vue 
 import { onMounted, onUnmounted, ref, type Ref, computed } from "vue";
 // bootstrap icon
@@ -7,9 +7,10 @@ import "bootstrap-icons/font/bootstrap-icons.min.css";
 // primevue
 import { Button, Dialog } from "primevue";
 // Our editor implement 
-import { VditorImpl } from "@/impls/vditorImpl";
-import { MilkdownImpl } from "@/impls/milkdownImpl";
-import { Editor } from "@/traits/Editor";
+import {type VditorImpl } from "@/editors/vditorImpl";
+import { type MilkdownImpl } from "@/editors/milkdownImpl";
+import { EditorTrait } from "@/editors/traits";
+import { createEditor, EditorConfig } from "@/editors/editorFactory";
 
 const notePath = ref("");
 const mdContent = ref("");
@@ -31,7 +32,7 @@ const cdnToUse = computed(() => {
 });
 
 // create vditor instance to show/edit markdown notes
-const editorInstance: Ref<Editor | null> = ref(null);
+const editorInstance: Ref<EditorTrait | null> = ref(null);
 // let editorInstance: Ref<Vditor | undefined> = ref();
 // mount vditor instance
 onMounted(() => {
@@ -94,58 +95,40 @@ function handleShow() {
   // 复位所有修改标志位
   unsaveMark.value = false;
   needSaving.value = false;
-  // Setting Vditor
+  // Setting Vditor or Milkdown
+  const editorConfig: EditorConfig = {
+    rootElemId: "mde-point",
+    mdContent: mdContent.value,
+    callbacks: {
+      afterContentChange: (_) => {
+        unsaveMark.value = true;
+        if (comfyApp.extensionManager.setting.get(OPTIONS.saveOnClose)) {
+          needSaving.value = true;
+        }
+      }
+    }
+  };
   switch (comfyApp.extensionManager.setting.get(OPTIONS.editorSwitch)) {
-    case MD_EDITORS.vditor:
-      editorInstance.value = new VditorImpl(
-        "mde-point",
-        mdContent.value,
-        {
-          cdnURL: cdnToUse.value,
-          callbacks: {
-            afterRender: (obj) => {
-              // console.log(comfyApp.extensionManager.setting.get("Comfy.ColorPalette"));
-              if (comfyApp.extensionManager.setting.get(OPTIONS.vditorTheme) === "dark") {
-                obj.editor.setTheme(
-                  "dark",
-                  "dark",
-                  "atom-one-dark"
-                );
-              }
-              // 装入数据
-              obj.editor.setValue(mdContent.value);
-              // 滚动记忆
-              obj.setScrollTop(scrollTopVal.value);
-            },
-            afterContentChange: (_obj) => {
-              unsaveMark.value = true;
-              if (comfyApp.extensionManager.setting.get(OPTIONS.saveOnClose)) {
-                needSaving.value = true;
-              }
-            }
-          }
-        }
-      );
+    case MD_EDITOR_NAMES.vditor:
+      editorConfig.cdnUrl = cdnToUse.value;
+      editorConfig.callbacks.afterRender = (obj: VditorImpl) => {
+        // console.log(comfyApp.extensionManager.setting.get("Comfy.ColorPalette"));
+        obj.editor.setTheme(
+          "dark",
+          "dark",
+          "atom-one-dark"
+        );
+        // 滚动记忆
+        obj.setScrollTop(scrollTopVal.value);
+      };
+      editorInstance.value = createEditor(MD_EDITOR_NAMES.vditor, editorConfig);
       break;
-    case MD_EDITORS.milkdown:
-      editorInstance.value = new MilkdownImpl(
-        "mde-point",
-        mdContent.value,
-        {
-          callbacks: {
-            afterRender: (obj) => {
-              // 滚动记忆
-              obj.setScrollTop(scrollTopVal.value);
-            },
-            afterContentChange: (_obj) => {
-              unsaveMark.value = true;
-              if (comfyApp.extensionManager.setting.get(OPTIONS.saveOnClose)) {
-                needSaving.value = true;
-              }
-            }
-          }
-        }
-      );
+    case MD_EDITOR_NAMES.milkdown:
+      editorConfig.callbacks.afterRender = (obj: MilkdownImpl) => {
+        // 滚动记忆
+        obj.setScrollTop(scrollTopVal.value);
+      };
+      editorInstance.value = createEditor(MD_EDITOR_NAMES.milkdown, editorConfig);
       break;
   }
 }

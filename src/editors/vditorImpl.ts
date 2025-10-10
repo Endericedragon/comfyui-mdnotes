@@ -1,28 +1,33 @@
 import Vditor from "vditor";
 import "vditor/dist/index.css";
-import { Editor } from "@/traits/Editor";
+import { EditorTrait } from "@/editors/traits";
 
 // 会改变编辑器内容的键盘事件
 function canChangeContent(e: KeyboardEvent) {
-    const isCtrlC = (e.key === "c") && e.ctrlKey;
-    const isCtrlA = (e.key === "a") && e.ctrlKey;
-    return !isCtrlC && !isCtrlA && (e.key === "Tab" || e.key === "Backspace" || e.key === "Delete" || e.key.length === 1);
+    if (e.ctrlKey || e.metaKey) {
+        const contentChangingKeysWithCtrl = "vxzy";
+        return contentChangingKeysWithCtrl.includes(e.key.toLowerCase())
+    }
+    const contentChangingKeys = new Set([
+        "tab", "enter", "backspace", "delete"
+    ]);
+    return contentChangingKeys.has(e.key.toLowerCase()) || e.key.length === 1;
 }
 
-class VditorImpl implements Editor {
+class VditorImpl implements EditorTrait {
     editor: Vditor;
 
-    constructor(rootElemId: string, _mdContent: string, unique: {
+    constructor(
+        rootElemId: string,
+        mdContent: string,
         cdnURL: string,
         callbacks: {
             afterRender?: (obj: VditorImpl) => void;
             afterContentChange?: (obj: VditorImpl) => void;
         }
-    }) {
+    ) {
         this.editor = new Vditor(rootElemId, {
-            // cdn: `https://cdn.jsdelivr.net/npm/vditor@${VDITOR_VERSION}`,
-            // cdn: `https://registry.npmmirror.com/vditor/${VDITOR_VERSION}/files`,
-            cdn: unique.cdnURL,
+            cdn: cdnURL,
             toolbarConfig: {
                 pin: true
             },
@@ -31,13 +36,14 @@ class VditorImpl implements Editor {
             },
             // 监听键盘事件，当用户输入时，将需要保存
             keydown: (e) => {
-                if (unique.callbacks.afterContentChange && canChangeContent(e)) {
-                    unique.callbacks.afterContentChange(this);
+                if (callbacks.afterContentChange && canChangeContent(e)) {
+                    callbacks.afterContentChange(this);
                 }
             },
             after: () => {
-                if (unique.callbacks.afterRender) {
-                    unique.callbacks.afterRender(this);
+                this.editor.setValue(mdContent);
+                if (callbacks.afterRender) {
+                    callbacks.afterRender(this);
                 }
             }
         });

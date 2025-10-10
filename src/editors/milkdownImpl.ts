@@ -1,20 +1,22 @@
 import { Crepe } from "@milkdown/crepe";
 import "@milkdown/crepe/theme/common/style.css";
-import "@milkdown/crepe/theme/nord-dark.css";
 
-import { Editor } from "@/traits/Editor";
+import { EditorTrait } from "@/editors/traits";
 
-class MilkdownImpl implements Editor {
+class MilkdownImpl implements EditorTrait {
     rootElemId: string;
     editor: Crepe;
     firstLoad: boolean;
 
-    constructor(rootElemId: string, mdContent: string, unique: { 
+    constructor(
+        rootElemId: string,
+        mdContent: string,
         callbacks: {
             afterRender?: (obj: MilkdownImpl) => void;
             afterContentChange?: (obj: MilkdownImpl) => void;
+
         }
-    }) {
+    ) {
         this.rootElemId = rootElemId;
         this.firstLoad = true;
 
@@ -25,8 +27,8 @@ class MilkdownImpl implements Editor {
 
         this.editor.on((listener) => {
             listener.markdownUpdated(() => {
-                if (!this.firstLoad && unique.callbacks.afterContentChange) {
-                    unique.callbacks.afterContentChange(this);
+                if (!this.firstLoad && callbacks.afterContentChange) {
+                    callbacks.afterContentChange(this);
                 } else {
                     this.firstLoad = false;
                 }
@@ -34,8 +36,8 @@ class MilkdownImpl implements Editor {
         });
 
         this.editor.create().then(() => {
-            if (unique.callbacks.afterRender) {
-                unique.callbacks.afterRender(this);
+            if (callbacks.afterRender) {
+                callbacks.afterRender(this);
             }
             console.log("[mdnotes] Crepe editor created!");
         });
