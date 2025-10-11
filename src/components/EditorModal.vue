@@ -9,7 +9,7 @@ import { Button, Dialog } from "primevue";
 // Our editor implement 
 import {type VditorImpl } from "@/editors/vditorImpl";
 import { type MilkdownImpl } from "@/editors/milkdownImpl";
-import { EditorTrait } from "@/editors/traits";
+import { type EditorTrait } from "@/editors/traits";
 import { createEditor, EditorConfig } from "@/editors/editorFactory";
 
 const notePath = ref("");
