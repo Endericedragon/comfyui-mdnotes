@@ -6,9 +6,9 @@ Find, display and save markdown notes from/to hard drive of checkpoints and lora
 
 ## 概述 - Overview
 
-ComfyUI-MDNotes在Comfy Core、Easy Use的CheckpointLoader等节点上注册了Show checkpoint note与/或Show lora note右键菜单。点击该菜单即会弹出如下对话框，用户可随意读取/修改笔记文件。
+ComfyUI-MDNotes在CheckpointLoader等节点上注册了Show checkpoint note与/或Show lora note右键菜单。在这些节点上右键即可看到这些菜单，点击上述菜单选项即会弹出如下对话框，用户可随意读取/修改笔记文件。
 
-ComfyUI-MDNotes registers new right-click menu items called "Show checkpoint note" and "Show lora note" while the checkpoint or lora selection widget is available. Clicking on these menu items will open a dialog box where users can read and edit the corresponding markdown notes.
+ComfyUI-MDNotes registers new right-click menu items for nodes including CheckpointLoader. Two menu items ("Show checkpoint note" and "Show lora note") are added when right clicking those nodes. Clicking on these menu items will open a dialog box where users can read and edit the corresponding markdown notes.
 
 ![image1](doc/image.png)
 
@@ -18,6 +18,10 @@ ComfyUI-MDNotes registers new right-click menu items called "Show checkpoint not
 - [Vditor](https://b3log.org/vditor/) - 所见即所得的markdown编辑器 (A WYSIWYG markdown editor)
 - [PrimeVue](https://primevue.org/) - ComfyUI原生提供的前端UI组件库 (A front-end UI component library provided by ComfyUI)
 - [Bootstrap Icons](https://icons.getbootstrap.com/) - 超棒的前端图标 库 (A hyper-awesome front-end icon library)
+
+该自定义节点的Python后端会进入模型文件所在的目录，然后寻找与模型名字的相似度最高的markdown文件（相似度算法为Bigram）。若相似度过低，则会打开全空的新Markdown文件，并在用户点击保存后存入模型文件所在目录。
+
+The Python backend of this custom node will search for the markdown file with the highest similarity to the model name (using Bigram similarity algorithm). If the similarity is too low, a new empty markdown file will be opened for the user to edit. The edited content will be saved to the model file directory when the user clicks the "Save" button.
 
 ## 开发配置步骤 - Development Configuration Steps
 
