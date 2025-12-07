@@ -66,7 +66,7 @@ comfy node scaffold
 1. 将解释器设置成ComfyUI所使用的那个Python解释器。
 2. 在 `.vscode/settings.json` 中，设置 `"python.analysis.extraPaths"`和 `"python.autoComplete.extraPaths"`为ComfyUI的根目录，即 `server.py`, `nodes.py`等文件所在的那个目录
 
-此时.py文件中的红线会消失大半，.ts, .vue文件中的红线可能还有，这个就得碰运气了，有时候Code连 `import {...} from 'vue'`也会标红线，此时建议重新运行 `npm i`然后重启Code，有可能就好了。计算机，很神奇吧~
+此时.py文件中的红线会消失大半，.ts, .vue文件中的红线可能还有，这个就得碰运气了，有时候Code连 `import {...} from 'vue'`也会标红线，此时建议：要么重新运行 `npm i`，要么按Ctrl+Shift+P打开面板，然后选择“重启Vue语言服务器”，有可能就好了。计算机，很神奇吧~
 
 至于前端文件中把 `../../../scripts/app.js` 等内容标红，目前尚无解决办法。
 

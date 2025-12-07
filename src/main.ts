@@ -12,7 +12,6 @@ const CSS_PATH = "extensions/comfyui-mdnotes/assets/main.css";
 utils.addStylesheet(CSS_PATH);
 
 
-
 comfyApp.registerExtension({
     name: "endericedragon.comfyui-mdnotes",
     settings: [
@@ -62,9 +61,16 @@ comfyApp.registerExtension({
             // 调用原始方法
             originalMenuOptions?.apply(this, arguments);
 
-            let nodeWithCkpt = this.widgets.find(w => w.name === "ckpt_name");
-            let nodesWithLora =
-                this.widgets.filter(w => w.name.includes("lora") && w.name.includes("name"));
+            // //! 调试用，正式发布时记得注释掉
+            // for (let widget of this.widgets) {
+            //     console.log(widget.name?.toString());
+            // }
+
+            const candidates = this.widgets.filter(w => w.name.includes("name"));
+            const nodeWithCkpt = candidates.find(w => w.name.includes("ckpt"));    // For checkpoints
+            const nodesWithUnet = candidates.find(w => w.name.includes("unet"));   // For Unet such as Z-Image
+            const nodesWithLora = candidates.filter(w => w.name.includes("lora")); // For Loras
+            // IContextValue是保密的类型，因此只能用typeof来使用、标注
             type DeducedContextMenuValue = typeof options[0];
             let newMenuOptions: DeducedContextMenuValue[] = [];
 
@@ -74,7 +80,7 @@ comfyApp.registerExtension({
                     .then((data: DetailMessage) => {
                         let content = data.content;
                         let relFilePath = data.rel_file_path;
-                        // 触发自定义事件，展示编辑器并设置内容
+                        // 触发自定义事件，展示Markdown编辑器窗口并设置内容
                         window.dispatchEvent(new CustomEvent(EVENTS.showEditor, {
                             detail: new DetailMessage(content, relFilePath)
                         }));
@@ -90,6 +96,18 @@ comfyApp.registerExtension({
                     content: "Show note of checkpoint",
                     callback: () => {
                         genCallback(ckptName, MODEL_TYPES.CKPT);
+                    }
+                });
+            }
+            // 若组件包含unet_name，添加自定义菜单项
+            if (nodesWithUnet) {
+                // 获取当前选中的模型名称
+                const unetName = nodesWithUnet.value as string;
+                // 添加自定义菜单项
+                newMenuOptions.push({
+                    content: "Show note of unet",
+                    callback: () => {
+                        genCallback(unetName, MODEL_TYPES.UNET);
                     }
                 });
             }

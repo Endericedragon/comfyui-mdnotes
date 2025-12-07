@@ -36,8 +36,10 @@ custom_node_dir = os.path.dirname(os.path.realpath(__file__))
 model_base_dir = pathlib.Path(folder_paths.models_dir)
 ckpt_base_dir = model_base_dir / "checkpoints"
 lora_base_dir = model_base_dir / "loras"
+unet_base_dir = model_base_dir / "diffusion_models"
 
 current_cdn: str = ""
+
 
 @lru_cache(maxsize=256)
 def get_bigram(text: str) -> set[str]:
@@ -64,6 +66,10 @@ async def get_current_model(request: web.Request) -> web.Response:
         model_path = ckpt_base_dir / pathlib.Path(data["model_path"])
     elif data["model_type"] == "lora":
         model_path = lora_base_dir / pathlib.Path(data["model_path"])
+    elif data["model_type"] == "unet":
+        model_path = unet_base_dir / pathlib.Path(data["model_path"])
+    else:
+        return web.json_response(None, status=400)
     model_dir = model_path.parent
     # 检查model_dir是否存在
     if not model_dir.exists():
@@ -71,27 +77,35 @@ async def get_current_model(request: web.Request) -> web.Response:
     # 计算Dice相似度
     model_name = model_path.stem
     print("[mdnotes] Finding note for model {}".format(model_name))
-    similarities = map(
-        lambda x: (get_dice_similiarity(model_name, x.stem), x),
-        filter(lambda x: x.suffix == ".md", model_dir.iterdir()),
+    # similarities 中的元素是一个元组，结构为(相似度, Markdown文件路径)
+    similarities = list(
+        map(
+            lambda x: (get_dice_similiarity(model_name, x.stem), x),
+            filter(lambda x: x.suffix == ".md", model_dir.iterdir()),
+        )
     )
-    likelihood, most_likely_md_path = max(similarities, key=lambda x: x[0])
+
     resp_json: ContentNPath = {"content": "", "rel_file_path": ""}
-    status_code: int = 200
-    if likelihood >= 0.5:
+    if (
+        not similarities
+        or (max_similarity_item := max(similarities, key=lambda x: x[0]))[0] < 0.5
+    ):
+        # 若模型目录下无Markdown文件或现有文件相似度太低，则返回201，表示需要创建
+        # 和无Markdown文件的情况相同，返回201，表示需要创建
+        print("[mdnotes] No note found for model {}".format(model_name))
+        status_code = 201  # Created
+        resp_json["rel_file_path"] = str(
+            model_dir.relative_to(model_base_dir) / (model_name + ".md")
+        )
+    else:
+        _, most_likely_md_path = max_similarity_item
+        status_code: int = 200
         rel_file_path_str = str(most_likely_md_path.relative_to(model_base_dir))
         print("[mdnotes] Found note: {}".format(rel_file_path_str))
         with open(most_likely_md_path, "r", encoding="utf-8") as f:
             content = f.read()
             resp_json["content"] = content
             resp_json["rel_file_path"] = rel_file_path_str
-    else:
-        print("[mdnotes] No note found for model {}".format(model_name))
-        status_code = 201  # Created
-        resp_json["rel_file_path"] = str(
-            model_dir.relative_to(model_base_dir) / (model_name + ".md")
-        )
-    # print(resp_json)
     return web.json_response(resp_json, status=status_code)
 
 
@@ -129,7 +143,7 @@ async def get_dist(req: web.Request) -> web.Response:
     if not (filepath := BASE_DIR / "dist" / thing).exists():
         filepath.parent.mkdir(parents=True, exist_ok=True)
         print("Downloading {}".format(thing))
-        
+
         async with ClientSession() as sess:
             async with sess.get("{}/dist/{}".format(current_cdn, thing)) as r:
                 if r.status != 200:
@@ -142,6 +156,7 @@ async def get_dist(req: web.Request) -> web.Response:
             body=f.read(),
             content_type=get_mime_type(thing),
         )
+
 
 @PromptServer.instance.routes.post("/mdnotes/setCDN")
 async def set_cdn(req: web.Request) -> web.Response:

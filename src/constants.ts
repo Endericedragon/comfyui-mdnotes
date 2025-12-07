@@ -38,6 +38,7 @@ enum MD_EDITOR_NAMES {
 enum MODEL_TYPES {
     CKPT = "ckpt",
     LORA = "lora",
+    UNET = "unet",
     UNKNOWN = "unknown"
 }
 
