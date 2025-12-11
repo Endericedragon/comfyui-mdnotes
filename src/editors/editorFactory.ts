@@ -1,6 +1,5 @@
 import { EditorTrait } from "./traits";
 import { VditorImpl } from "./vditorImpl";
-import { MilkdownImpl } from "./milkdownImpl";
 import { CDNs, MD_EDITOR_NAMES } from "@/constants";
 
 interface EditorConfig {
@@ -21,12 +20,6 @@ function createEditor(type: MD_EDITOR_NAMES, config: EditorConfig): EditorTrait 
                 config.mdContent,
                 config.cdnUrl || CDNs.unpkg,
                 config.callbacks,
-            );
-        case MD_EDITOR_NAMES.milkdown:
-            return new MilkdownImpl(
-                config.rootElemId,
-                config.mdContent,
-                config.callbacks
             );
     }
 }

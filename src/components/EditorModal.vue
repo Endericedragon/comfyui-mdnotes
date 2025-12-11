@@ -3,13 +3,12 @@ import { ROUTES, EVENTS, OPTIONS, DetailMessage, postJsonData, comfyApp, MD_EDIT
 import { useState } from "@/state";
 // Vue 
 import { onMounted, onUnmounted, ref, type Ref, computed } from "vue";
-// bootstrap icon
-import "bootstrap-icons/font/bootstrap-icons.min.css";
+// // bootstrap icon
+// import "bootstrap-icons/font/bootstrap-icons.min.css";
 // primevue
 import { Button, Dialog } from "primevue";
 // Our editor implement 
 import { type VditorImpl } from "@/editors/vditorImpl";
-import { type MilkdownImpl } from "@/editors/milkdownImpl";
 import { type EditorTrait } from "@/editors/traits";
 import { createEditor, EditorConfig } from "@/editors/editorFactory";
 
@@ -79,7 +78,7 @@ function handleShow() {
   // 复位所有修改标志位
   editorState.unsaveMark.value = false;
   editorState.needSaving.value = false;
-  // Setting Vditor or Milkdown
+  // Setting Vditor or other editor
   const editorConfig: EditorConfig = {
     rootElemId: "mde-point",
     mdContent: editorState.mdContent.value,
@@ -107,13 +106,6 @@ function handleShow() {
       };
       editorInstance.value = createEditor(MD_EDITOR_NAMES.vditor, editorConfig);
       break;
-    case MD_EDITOR_NAMES.milkdown:
-      editorConfig.callbacks.afterRender = (obj: MilkdownImpl) => {
-        // 滚动记忆
-        obj.setScrollTop(editorState.scrollTopVal.value);
-      };
-      editorInstance.value = createEditor(MD_EDITOR_NAMES.milkdown, editorConfig);
-      break;
   }
 }
 // 隐藏对话框后，销毁编辑器实例
@@ -136,10 +128,10 @@ function handleHide() {
     <div id="mde-point"></div>
     <div class="endericedragon-sticky-buttons">
       <Button severity="danger" @click="ButtonControl.cancel">
-        <i class="bi bi-x-circle"></i>
+        Cancel
       </Button>
       <Button severity="success" @click="ButtonControl.ok">
-        <i class="bi bi-check2-circle"></i>
+        Save
       </Button>
     </div>
   </Dialog>

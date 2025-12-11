@@ -32,7 +32,6 @@ const CDNs = {
 
 enum MD_EDITOR_NAMES {
     vditor,
-    milkdown,
 };
 
 enum MODEL_TYPES {

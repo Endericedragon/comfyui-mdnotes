@@ -1,5 +1,8 @@
 {
   "compilerOptions": {
+    "esModuleInterop": true,
+    "resolveJsonModule": true,
+    "module": "nodenext",
     "downlevelIteration": true,
     "paths": {
       "@/*": [

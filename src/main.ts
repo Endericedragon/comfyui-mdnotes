@@ -8,7 +8,7 @@ import { CDNs, ROUTES, EVENTS, MODEL_TYPES, DetailMessage, postJsonData, comfyAp
 import App from "./App.vue"
 
 // extensions/comfyui-mdnotes是固定的，后续内容和/web目录有关
-const CSS_PATH = "extensions/comfyui-mdnotes/assets/main.css";
+const CSS_PATH = "extensions/comfyui-mdnotes/assets/style.css";
 utils.addStylesheet(CSS_PATH);
 
 
@@ -28,7 +28,6 @@ comfyApp.registerExtension({
             defaultValue: MD_EDITOR_NAMES.vditor,
             options: [
                 { text: "vditor", value: MD_EDITOR_NAMES.vditor },
-                { text: "milkdown/crepe", value: MD_EDITOR_NAMES.milkdown }
             ]
         },
         {

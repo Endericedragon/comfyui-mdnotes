@@ -14,10 +14,8 @@
     "build": "vite build"
   },
   "dependencies": {
-    "@milkdown/crepe": "^7.16.0",
     "@primeuix/themes": "^1.2.3",
     "@types/node": "^24.3.1",
-    "bootstrap-icons": "^1.13.1",
     "vditor": "^3.11.2"
   }
 }

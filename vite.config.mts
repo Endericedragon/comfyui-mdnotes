@@ -19,21 +19,21 @@ export default defineConfig({
         },
     },
     build: {
-        lib: {
-            entry: "./src/main.js",
-            formats: ["es"],
-            fileName: "main"
-        },
+        // lib: {
+        //     entry: "./src/main.ts",
+        //     formats: ["es"],
+        //     fileName: "main"
+        // },
         rollupOptions: {
             external: [
                 "../../../scripts/app.js",
                 "../../../scripts/api.js",
                 "../../../scripts/domWidget.js",
                 "../../../scripts/utils.js",
-                "vue",
-                "vue-i18n",
-                /^primevue\/?.*/,
-                /^@primevue\/themes\/?.*/
+                // "vue",
+                // "vue-i18n",
+                // /^primevue\/?.*/,
+                // /^@primevue\/themes\/?.*/
             ],
             output: {
                 dir: outputDirectory,
