@@ -26,10 +26,10 @@ export default defineConfig({
         // },
         rollupOptions: {
             external: [
-                "../../../scripts/app.js",
-                "../../../scripts/api.js",
-                "../../../scripts/domWidget.js",
-                "../../../scripts/utils.js",
+                // "../../../scripts/app.js",
+                // "../../../scripts/api.js",
+                // "../../../scripts/domWidget.js",
+                // "../../../scripts/utils.js",
                 // "vue",
                 // "vue-i18n",
                 // /^primevue\/?.*/,
@@ -38,13 +38,14 @@ export default defineConfig({
             output: {
                 dir: outputDirectory,
                 assetFileNames: "assets/[name].[ext]",
-                entryFileNames: "main.js"
+                entryFileNames: "main.js",
             }
         },
         outDir: outputDirectory,
         sourcemap: false,
         assetsInlineLimit: 0,
-        cssCodeSplit: false
+        cssCodeSplit: false,
+        chunkSizeWarningLimit: 1024,
     },
     define: {
         "__VDITOR_VERSION__": JSON.stringify(VDITOR_VERSION)

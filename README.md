@@ -6,9 +6,9 @@ Find, display and save markdown notes from/to hard drive of checkpoints and lora
 
 ## 概述 - Overview
 
-ComfyUI-MDNotes在CheckpointLoader等节点上注册了Show checkpoint note与/或Show lora note右键菜单。在这些节点上右键即可看到这些菜单，点击上述菜单选项即会弹出如下对话框，用户可随意读取/修改笔记文件。
+ComfyUI-MDNotes在CheckpointLoader等节点上注册了Show note of checkpoint、Show note of lora、Show note of unet 等右键菜单。在这些节点上右键即可看到这些菜单，点击上述菜单选项即会弹出如下对话框，用户可随意读取/修改笔记文件。
 
-ComfyUI-MDNotes registers new right-click menu items for nodes including CheckpointLoader. Two menu items ("Show checkpoint note" and "Show lora note") are added when right clicking those nodes. Clicking on these menu items will open a dialog box where users can read and edit the corresponding markdown notes.
+ComfyUI-MDNotes registers new right-click menu items for nodes including CheckpointLoader. Three menu items ("Show note of checkpoint", "Show note of lora" and "Show note of unet") are added when right clicking those nodes. Clicking on these menu items will open a dialog box where users can read and edit the corresponding markdown notes.
 
 ![image1](doc/image.png)
 
@@ -113,6 +113,14 @@ comfyApp.registerExtension({
 >
 > 1. 添加CSS的方法，就是 `utils.addStylesheet` 函数；其用法和参数在注释里写得很清楚了。
 > 2. （不稳定，存疑）添加其他自定义文件的办法，例如 `.json` 文件，放在项目根目录的 `public` 目录中，这样Vite在编译时就会把他们原封不动地复制到 `web` 目录下。再用 `utils.uploadFile` 即可上传该文件供其他代码使用。
+
+> 更新 [2025.12.12]
+> 
+> 现在引用app和utils的方法有所变化，不再会划红线了，具体而言，现在如此引用两者：
+> ```typescript
+> const app = window.comfyAPI.app.app;
+> const utils = window.comfyAPI.utils;
+> ```
 
 注册右键菜单的方法如下：
 

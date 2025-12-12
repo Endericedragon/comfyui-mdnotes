@@ -1,9 +1,12 @@
 // ComfyUI utils
-import { app } from "../../../scripts/app.js";
-import * as utils from "../../../scripts/utils.js";
+import { Window } from "./types/comfyAPI.js";
+// import { app } from "../../../scripts/app.js";
+// import * as utils from "../../../scripts/utils.js";
 import type { ComfyApp } from "@comfyorg/comfyui-frontend-types"
 
-const comfyApp: ComfyApp = app;
+const cuWin = window as unknown as Window;
+const comfyApp = cuWin.comfyAPI.app.app;
+const utils = cuWin.comfyAPI.utils;
 
 const ROUTES = {
     sendCurrentModel: "/mdnotes/current_model",
