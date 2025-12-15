@@ -3,8 +3,8 @@ import { ROUTES, EVENTS, OPTIONS, DetailMessage, postJsonData, comfyApp, MD_EDIT
 import { useState } from "@/state";
 // Vue 
 import { onMounted, onUnmounted, ref, type Ref, computed } from "vue";
-// // bootstrap icon
-// import "bootstrap-icons/font/bootstrap-icons.min.css";
+// // PrimeVue Icons
+import "primeicons/primeicons.css"
 // primevue
 import { Button, Dialog } from "primevue";
 // Our editor implement 
@@ -128,10 +128,10 @@ function handleHide() {
     <div id="mde-point"></div>
     <div class="endericedragon-sticky-buttons">
       <Button severity="danger" @click="ButtonControl.cancel">
-        Cancel
+        <i class="pi pi-times"></i>
       </Button>
       <Button severity="success" @click="ButtonControl.ok">
-        Save
+        <i class="pi pi-check"></i>
       </Button>
     </div>
   </Dialog>

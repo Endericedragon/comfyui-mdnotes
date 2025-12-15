@@ -2,7 +2,6 @@
 import { createApp } from "vue"
 // primevue
 import PrimeVue from "primevue/config";
-
 // shared data types
 import { CDNs, ROUTES, EVENTS, MODEL_TYPES, DetailMessage, postJsonData, comfyApp, utils, OPTIONS, MD_EDITOR_NAMES } from "./constants.js";
 import App from "./App.vue"

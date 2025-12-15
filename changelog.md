@@ -1,5 +1,11 @@
 # Change Log
 
+## [1.1.2] - 2025-12-15
+
+### Added
+
+- Add PrimeVue Icons to the project. 
+
 ## [1.1.1] - 2025-12-12
 
 ### Added

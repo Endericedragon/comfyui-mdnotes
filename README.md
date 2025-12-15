@@ -17,7 +17,7 @@ ComfyUI-MDNotes registers new right-click menu items for nodes including Checkpo
 - [Vue.js](https://vuejs.org/) - 超棒的JavaScript框架 (A fascinating JavaScript framework)
 - [Vditor](https://b3log.org/vditor/) - 所见即所得的markdown编辑器 (A WYSIWYG markdown editor)
 - [PrimeVue](https://primevue.org/) - ComfyUI原生提供的前端UI组件库 (A front-end UI component library provided by ComfyUI)
-- [Bootstrap Icons](https://icons.getbootstrap.com/) - 超棒的前端图标 库 (A hyper-awesome front-end icon library)
+- [PrimeVue Icons]([https://icons.getbootstrap.com/](https://primevue.org/icons/)) - 超棒的前端图标 库 (A hyper-awesome front-end icon library)
 
 该自定义节点的Python后端会进入模型文件所在的目录，然后寻找与模型名字的相似度最高的markdown文件（相似度算法为Bigram）。若相似度过低，则会打开全空的新Markdown文件，并在用户点击保存后存入模型文件所在目录。
 
