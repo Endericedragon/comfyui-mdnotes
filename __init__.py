@@ -36,7 +36,8 @@ custom_node_dir = os.path.dirname(os.path.realpath(__file__))
 model_base_dir = pathlib.Path(folder_paths.models_dir)
 ckpt_base_dir = model_base_dir / "checkpoints"
 lora_base_dir = model_base_dir / "loras"
-unet_base_dir = model_base_dir / "diffusion_models"
+dfm_base_dir = model_base_dir / "diffusion_models"
+unet_base_dir = model_base_dir / "unet"
 
 current_cdn: str = ""
 
@@ -68,6 +69,8 @@ async def get_current_model(request: web.Request) -> web.Response:
         model_path = lora_base_dir / pathlib.Path(data["model_path"])
     elif data["model_type"] == "unet":
         model_path = unet_base_dir / pathlib.Path(data["model_path"])
+    elif data["model_type"] == "dfm":
+        model_path = dfm_base_dir / pathlib.Path(data["model_path"])
     else:
         return web.json_response(None, status=400)
     model_dir = model_path.parent

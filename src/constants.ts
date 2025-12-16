@@ -40,6 +40,7 @@ enum MD_EDITOR_NAMES {
 enum MODEL_TYPES {
     CKPT = "ckpt",
     LORA = "lora",
+    DIFFUSION_MODEL = "dfm",
     UNET = "unet",
     UNKNOWN = "unknown"
 }
@@ -61,58 +62,65 @@ class DetailMessage {
     }
 }
 
-function printTimestamp(text: string) {
-    const current = new Date();
-    console.log(`[mdnotes] ${current.getHours()}:${current.getMinutes()}:${current.getSeconds()}:${current.getMilliseconds()} - ${text}`);
+class JsonWebData {
+    data: DetailMessage;
+    status_code: number;
+
+    constructor(data: DetailMessage, status_code: number) {
+        this.data = data;
+        this.status_code = status_code;
+    }
+}
+
+class TextWebData {
+    content: string;
+    status_code: number;
+
+    constructor(content: string, status_code: number) {
+        this.content = content;
+        this.status_code = status_code;
+    }
 }
 
 async function postJsonData(app: ComfyApp, route: string, data: any) {
-    return app.api.fetchApi(route, {
+    const resp = await app.api.fetchApi(route, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(data)
-    }).then(resp => {
-        switch (resp.status) {
-            case 201:
-                comfyApp.extensionManager.toast.add({
-                    severity: "warn",
-                    summary: "MDNotes Warning",
-                    detail: "Note not found, ready to create one",
-                    life: 3000
-                });
-            case 200:
-                return resp.json();
-            default:
-                comfyApp.extensionManager.toast.add({
-                    severity: "error",
-                    summary: "MDNotes Error",
-                    detail: `Status code = ${resp.status}`,
-                    life: 3000
-                });
-                return Promise.reject(resp.status);
-        }
     });
+    switch (resp.status) {
+        case 201:
+        case 200:
+            return resp.json().then(json => new JsonWebData(json as DetailMessage, resp.status));
+        default:
+            comfyApp.extensionManager.toast.add({
+                severity: "error",
+                summary: "MDNotes Error",
+                detail: `Status code = ${resp.status}`,
+                life: 3000
+            });
+            return Promise.reject(resp.status);
+    }
 }
 
 async function postTextData(app: ComfyApp, route: string, text: string) {
-    return app.api.fetchApi(route, {
+    const resp = await app.api.fetchApi(route, {
         method: "POST",
         headers: { "Content-Type": "text/plain" },
         body: text
-    }).then(resp => {
-        switch (resp.status) {
-            case 200:
-                return resp.text();
-            default:
-                comfyApp.extensionManager.toast.add({
-                    severity: "error",
-                    summary: "MDNotes Error",
-                    detail: `Status code = ${resp.status}`,
-                    life: 3000
-                });
-                return Promise.reject(resp.status);
-        }
     });
+    switch (resp.status) {
+        case 200:
+            return resp.text().then(text => new TextWebData(text, 200));
+        default:
+            comfyApp.extensionManager.toast.add({
+                severity: "error",
+                summary: "MDNotes Error",
+                detail: `Status code = ${resp.status}`,
+                life: 3000
+            });
+            return Promise.reject(resp.status);
+    }
 }
 
-export { CDNs, MD_EDITOR_NAMES, ROUTES, EVENTS, MODEL_TYPES, OPTIONS, DetailMessage, postJsonData, postTextData, comfyApp, utils, printTimestamp };
+export { CDNs, MD_EDITOR_NAMES, ROUTES, EVENTS, MODEL_TYPES, OPTIONS, DetailMessage, postJsonData, postTextData, comfyApp, utils };

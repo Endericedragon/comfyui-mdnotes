@@ -1,5 +1,11 @@
 # Change Log
 
+## [1.1.3] - 2025-12-16
+
+### Fixed
+
+- Change the return type & value of `postJsonData` and `postTextData`.
+
 ## [1.1.2] - 2025-12-15
 
 ### Added

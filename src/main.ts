@@ -75,9 +75,19 @@ comfyApp.registerExtension({
             function genCallback(modelPath: string, modelType: MODEL_TYPES) {
                 // 发送当前选中的模型
                 postJsonData(comfyApp, ROUTES.sendCurrentModel, { model_type: modelType, model_path: modelPath })
-                    .then((data: DetailMessage) => {
-                        let content = data.content;
-                        let relFilePath = data.rel_file_path;
+                    .then(webJsonData => {
+                        if (webJsonData.status_code === 201) {
+                            comfyApp.extensionManager.toast.add({
+                                severity: "warn",
+                                life: 3000,
+                                summary: "MDNotes Warning",
+                                detail: "Found no note, ready to create one",
+                            });
+                        }
+
+                        const data = webJsonData.data;
+                        const content = data.content;
+                        const relFilePath = data.rel_file_path;
                         // 触发自定义事件，展示Markdown编辑器窗口并设置内容
                         window.dispatchEvent(new CustomEvent(EVENTS.showEditor, {
                             detail: new DetailMessage(content, relFilePath)
