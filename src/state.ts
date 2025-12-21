@@ -14,7 +14,7 @@ export function useState() {
     const cdnToUse = computed(() => {
         if (comfyApp.extensionManager.setting.get(OPTIONS.useLocalCDN)) {
             // 发送当前选定的远程CDN
-            postTextData(comfyApp, ROUTES.setCDN, comfyApp.extensionManager.setting.get(OPTIONS.cdnSwitch)).then();
+            postTextData(comfyApp, ROUTES.setCDN, comfyApp.extensionManager.setting.get(OPTIONS.cdnSwitch));
             return CDNs.localCachedCDN;
         } else {
             return comfyApp.extensionManager.setting.get(OPTIONS.cdnSwitch) as string;

@@ -5,7 +5,7 @@
     "vue-i18n": "^9.14.3"
   },
   "devDependencies": {
-    "@comfyorg/comfyui-frontend-types": "^1.22.1",
+    "@comfyorg/comfyui-frontend-types": "^1.36.0",
     "@vitejs/plugin-vue": "^5.2.3",
     "vite": "^6.3.5",
     "vite-plugin-vue-devtools": "^7.7.2"

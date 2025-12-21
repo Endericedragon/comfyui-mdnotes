@@ -168,5 +168,7 @@ async def set_cdn(req: web.Request) -> web.Response:
     """
     global current_cdn
     cdn_url: str = await req.text()
-    current_cdn = cdn_url
+    if current_cdn != cdn_url:
+        current_cdn = cdn_url
+        print("Current CDN is {}".format(current_cdn))
     return web.Response(body="ok".encode("utf-8"))

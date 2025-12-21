@@ -52,91 +52,80 @@ comfyApp.registerExtension({
             )
         }
     ],
-    async beforeRegisterNodeDef(nodeType, nodeData, app) {
-        let originalMenuOptions = nodeType.prototype.getExtraMenuOptions;
-        nodeType.prototype.getExtraMenuOptions = function (_, options) {
-            // 每次点击右键都会触发这个回调函数
-            // 调用原始方法
-            originalMenuOptions?.apply(this, arguments);
-
-            // //! 调试用，正式发布时记得注释掉
-            // for (let widget of this.widgets) {
-            //     console.log(widget.name?.toString());
-            // }
-
-            const candidates = this.widgets.filter(w => w.name.includes("name"));
-            const nodeWithCkpt = candidates.find(w => w.name.includes("ckpt"));    // For checkpoints
-            const nodesWithUnet = candidates.find(w => w.name.includes("unet"));   // For Unet such as Z-Image
-            const nodesWithLora = candidates.filter(w => w.name.includes("lora")); // For Loras
-            // IContextValue是保密的类型，因此只能用typeof来使用、标注
-            type DeducedContextMenuValue = typeof options[0];
-            let newMenuOptions: DeducedContextMenuValue[] = [];
-
-            function genCallback(modelPath: string, modelType: MODEL_TYPES) {
-                // 发送当前选中的模型
-                postJsonData(comfyApp, ROUTES.sendCurrentModel, { model_type: modelType, model_path: modelPath })
-                    .then(webJsonData => {
-                        if (webJsonData.status_code === 201) {
-                            comfyApp.extensionManager.toast.add({
-                                severity: "warn",
-                                life: 3000,
-                                summary: "MDNotes Warning",
-                                detail: "Found no note, ready to create one",
-                            });
-                        }
-
-                        const data = webJsonData.data;
-                        const content = data.content;
-                        const relFilePath = data.rel_file_path;
-                        // 触发自定义事件，展示Markdown编辑器窗口并设置内容
-                        window.dispatchEvent(new CustomEvent(EVENTS.showEditor, {
-                            detail: new DetailMessage(content, relFilePath)
-                        }));
-                    });
-            }
-
-            // 若组件包含ckpt_name，添加自定义菜单项
-            if (nodeWithCkpt) {
-                // 获取当前选中的模型名称
-                const ckptName = nodeWithCkpt.value as string;
-                // 添加自定义菜单项
-                newMenuOptions.push({
-                    content: "Show note of checkpoint",
-                    callback: () => {
-                        genCallback(ckptName, MODEL_TYPES.CKPT);
-                    }
-                });
-            }
-            // 若组件包含unet_name，添加自定义菜单项
-            if (nodesWithUnet) {
-                // 获取当前选中的模型名称
-                const unetName = nodesWithUnet.value as string;
-                // 添加自定义菜单项
-                newMenuOptions.push({
-                    content: "Show note of unet",
-                    callback: () => {
-                        genCallback(unetName, MODEL_TYPES.UNET);
-                    }
-                });
-            }
-            // 若组件包含lora_name，添加自定义菜单项
-            for (let [idx, each] of nodesWithLora.entries()) {
-                // 获取当前选中的模型名称
-                const loraName = each.value as string;
-                if (loraName === "None") {
-                    continue;
-                }
-                newMenuOptions.push({
-                    content: `Show note of lora${idx + 1}`,
-                    callback: () => {
-                        genCallback(loraName, MODEL_TYPES.LORA);
-                    }
-                });
-            }
-
-            options.unshift(...newMenuOptions);
-            return options; // 让Linting满意
+    getNodeMenuItems(node) {
+        // 每次点击右键都会触发这个回调函数
+        //! 调试用，正式发布时记得注释掉
+        for (let widget of node.widgets) {
+            console.log(widget.name?.toString());
         }
+
+        const candidates = node.widgets.filter(w => w.name.includes("name"));
+        const nodeWithCkpt = candidates.find(w => w.name.includes("ckpt"));    // For checkpoints
+        const nodesWithUnet = candidates.find(w => w.name.includes("unet"));   // For Unet such as Z-Image
+        const nodesWithLora = candidates.filter(w => w.name.includes("lora")); // For Loras
+        let newMenuOptions = [null];
+
+        function genCallback(modelPath: string, modelType: MODEL_TYPES) {
+            // 发送当前选中的模型
+            postJsonData(comfyApp, ROUTES.sendCurrentModel, { model_type: modelType, model_path: modelPath })
+                .then(webJsonData => {
+                    if (webJsonData.status_code === 201) {
+                        comfyApp.extensionManager.toast.add({
+                            severity: "warn",
+                            life: 3000,
+                            summary: "MDNotes Warning",
+                            detail: "Found no note, ready to create one",
+                        });
+                    }
+                    const data = webJsonData.data;
+                    const content = data.content;
+                    const relFilePath = data.rel_file_path;
+                    // 触发自定义事件，展示Markdown编辑器窗口并设置内容
+                    window.dispatchEvent(new CustomEvent(EVENTS.showEditor, {
+                        detail: new DetailMessage(content, relFilePath)
+                    }));
+                });
+        }
+
+        // 若组件包含ckpt_name，添加自定义菜单项
+        if (nodeWithCkpt) {
+            // 获取当前选中的模型名称
+            const ckptName = nodeWithCkpt.value as string;
+            // 添加自定义菜单项
+            newMenuOptions.push({
+                content: "✒️Show note of checkpoint",
+                callback: () => {
+                    genCallback(ckptName, MODEL_TYPES.CKPT);
+                }
+            });
+        }
+        // 若组件包含unet_name，添加自定义菜单项
+        if (nodesWithUnet) {
+            // 获取当前选中的模型名称
+            const unetName = nodesWithUnet.value as string;
+            // 添加自定义菜单项
+            newMenuOptions.push({
+                content: "✒️Show note of unet",
+                callback: () => {
+                    genCallback(unetName, MODEL_TYPES.UNET);
+                }
+            });
+        }
+        // 若组件包含lora_name，添加自定义菜单项
+        for (let [idx, each] of nodesWithLora.entries()) {
+            // 获取当前选中的模型名称
+            const loraName = each.value as string;
+            if (loraName === "None") {
+                continue;
+            }
+            newMenuOptions.push({
+                content: `✒️Show note of lora${idx + 1}`,
+                callback: () => {
+                    genCallback(loraName, MODEL_TYPES.LORA);
+                }
+            });
+        }
+        return newMenuOptions; // 让Linting满意
     },
     async setup() {
         let mountPoint = document.createElement("div");
