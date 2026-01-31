@@ -40,6 +40,7 @@ dfm_base_dir = model_base_dir / "diffusion_models"
 unet_base_dir = model_base_dir / "unet"
 
 current_cdn: str = ""
+similarity_threshold: float = 0.5
 
 
 @lru_cache(maxsize=256)
@@ -62,6 +63,7 @@ async def get_current_model(request: web.Request) -> web.Response:
     负责接收前端传来的当前选择的模型的名称，根据模型类型和路径，
     查找模型目录下最可能的Markdown文件，返回其内容和相对路径。
     """
+    print("Current similarity threshold is {}".format(similarity_threshold))
     data: ModelInfo = await request.json()
     if data["model_type"] == "ckpt":
         model_path = ckpt_base_dir / pathlib.Path(data["model_path"])
@@ -91,7 +93,8 @@ async def get_current_model(request: web.Request) -> web.Response:
     resp_json: ContentNPath = {"content": "", "rel_file_path": ""}
     if (
         not similarities
-        or (max_similarity_item := max(similarities, key=lambda x: x[0]))[0] < 0.5
+        or (max_similarity_item := max(similarities, key=lambda x: x[0]))[0]
+        < similarity_threshold
     ):
         # 若模型目录下无Markdown文件或现有文件相似度太低，则返回201，表示需要创建
         # 和无Markdown文件的情况相同，返回201，表示需要创建
@@ -171,4 +174,16 @@ async def set_cdn(req: web.Request) -> web.Response:
     if current_cdn != cdn_url:
         current_cdn = cdn_url
         print("Current CDN is {}".format(current_cdn))
+    return web.Response(body="ok".encode("utf-8"))
+
+
+@PromptServer.instance.routes.post("/mdnotes/setSimilarityThreshold")
+async def set_similarity_threshold(req: web.Request) -> web.Response:
+    """
+    负责接收前端传来的当前选择的相似度阈值，将其保存到全局变量中。
+    """
+    global similarity_threshold
+    threshold: float = float(await req.text())
+    if similarity_threshold != threshold:
+        similarity_threshold = threshold
     return web.Response(body="ok".encode("utf-8"))

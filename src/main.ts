@@ -3,7 +3,7 @@ import { createApp } from "vue"
 // primevue
 import PrimeVue from "primevue/config";
 // shared data types
-import { CDNs, ROUTES, EVENTS, MODEL_TYPES, DetailMessage, postJsonData, comfyApp, utils, OPTIONS, MD_EDITOR_NAMES } from "./constants.js";
+import { CDNs, ROUTES, EVENTS, MODEL_TYPES, DetailMessage, postJsonData, comfyApp, utils, OPTIONS, MD_EDITOR_NAMES, postTextData } from "./constants.js";
 import App from "./App.vue"
 
 // extensions/comfyui-mdnotes是固定的，后续内容和/web目录有关
@@ -16,13 +16,13 @@ comfyApp.registerExtension({
     settings: [
         {
             id: OPTIONS.saveOnClose,
-            name: "Always save on close?",
+            name: "Save after closing the markdown editor?",
             type: "boolean",
             defaultValue: false
         },
         {
             id: OPTIONS.editorSwitch,
-            name: "Markdown editor to use",
+            name: "Which markdown editor to use?",
             type: "combo",
             defaultValue: MD_EDITOR_NAMES.vditor,
             options: [
@@ -31,7 +31,7 @@ comfyApp.registerExtension({
         },
         {
             id: OPTIONS.cdnSwitch,
-            name: "CDN for vditor resources",
+            name: "Which CDN to use for vditor resources?",
             type: "combo",
             defaultValue: CDNs.unpkg,
             options: [
@@ -50,6 +50,21 @@ comfyApp.registerExtension({
                 "Store resources of vditor locally." +
                 "This is recommended since editor could be loaded much faster."
             )
+        },
+        {
+            id: OPTIONS.similarityThreshold,
+            name: "Similarity threshold for searching markdown file?",
+            type: "slider",
+            attrs: {
+                min: 0.1,
+                max: 1.0,
+                step: 0.1,
+            },
+            defaultValue: 0.5,
+            tooltip: "The threshold to determine whether the name of markdown file and the model are similar.",
+            onChange: (nv, _ov) => {
+                postTextData(comfyApp, ROUTES.setSimilarityThreshold, nv as string);
+            }
         }
     ],
     getNodeMenuItems(node) {

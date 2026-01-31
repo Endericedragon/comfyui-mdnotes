@@ -11,7 +11,8 @@ const utils = cuWin.comfyAPI.utils;
 const ROUTES = {
     sendCurrentModel: "/mdnotes/current_model",
     saveContent: "/mdnotes/save",
-    setCDN: "/mdnotes/setCDN"
+    setCDN: "/mdnotes/setCDN",
+    setSimilarityThreshold: "/mdnotes/setSimilarityThreshold"
 };
 
 const EVENTS = {
@@ -23,6 +24,7 @@ const OPTIONS = {
     editorSwitch: "comfyui-mdnotes.markdownEditor.editorSwitch",
     cdnSwitch: "comfyui-mdnotes.markdownEditor.cdnSwitch",
     useLocalCDN: "comfyui-mdnotes.markdownEditor.useLocalCDN",
+    similarityThreshold: "comfyui-mdnotes.markdownEditor.similarityThreshold",
 }
 
 // const VDITOR_VERSION: string = __VDITOR_VERSION__;

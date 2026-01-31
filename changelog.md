@@ -1,5 +1,11 @@
 # Change Log
 
+## [1.1.5] - 2026-02-01
+
+### Added
+
+Now the similarity threshold is 0.5 by default, and can be modified in the setting menu.
+
 ## [1.1.3] - 2025-12-16
 
 ### Fixed
