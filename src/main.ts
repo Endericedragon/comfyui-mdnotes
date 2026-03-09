@@ -69,10 +69,10 @@ comfyApp.registerExtension({
     ],
     getNodeMenuItems(node) {
         // 每次点击右键都会触发这个回调函数
-        //! 调试用，正式发布时记得注释掉
-        for (let widget of node.widgets) {
-            console.log(widget.name?.toString());
-        }
+        // //! 调试用，正式发布时记得注释掉
+        // for (let widget of node.widgets) {
+        //     console.log(widget.name?.toString());
+        // }
 
         const candidates = node.widgets.filter(w => w.name.includes("name"));
         const nodeWithCkpt = candidates.find(w => w.name.includes("ckpt"));    // For checkpoints

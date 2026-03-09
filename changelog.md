@@ -1,5 +1,11 @@
 # Change Log
 
+## [1.1.6] - 2026-03-09
+
+### Fixed
+
+Remove redundant output in `main.ts`.
+
 ## [1.1.5] - 2026-02-01
 
 ### Added
