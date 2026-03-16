@@ -1,5 +1,11 @@
 # Change Log
 
+## [1.1.7] - 2026-03-16
+
+### Fixed
+
+Solve the error when node has no widget.
+
 ## [1.1.6] - 2026-03-09
 
 ### Fixed

@@ -74,11 +74,15 @@ comfyApp.registerExtension({
         //     console.log(widget.name?.toString());
         // }
 
+        // 对于不包含widget的节点，直接忽略
+        if (node.widgets.length === 0) {
+            return [];
+        }
         const candidates = node.widgets.filter(w => w.name.includes("name"));
         const nodeWithCkpt = candidates.find(w => w.name.includes("ckpt"));    // For checkpoints
         const nodesWithUnet = candidates.find(w => w.name.includes("unet"));   // For Unet such as Z-Image
         const nodesWithLora = candidates.filter(w => w.name.includes("lora")); // For Loras
-        let newMenuOptions = [null];
+        let newMenuOptions = [];
 
         function genCallback(modelPath: string, modelType: MODEL_TYPES) {
             // 发送当前选中的模型
@@ -140,7 +144,7 @@ comfyApp.registerExtension({
                 }
             });
         }
-        return newMenuOptions; // 让Linting满意
+        return newMenuOptions.length? [null, ...newMenuOptions] : [];
     },
     async setup() {
         let mountPoint = document.createElement("div");
