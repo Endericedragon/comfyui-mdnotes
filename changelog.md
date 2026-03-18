@@ -1,5 +1,11 @@
 # Change Log
 
+## [1.1.8] - 2026-03-18
+
+### Fixed
+
+Specified a theme for PrimeVue to avoid CSS issues.
+
 ## [1.1.7] - 2026-03-16
 
 ### Fixed

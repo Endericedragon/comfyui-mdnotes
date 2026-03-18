@@ -2,6 +2,8 @@
 import { createApp } from "vue"
 // primevue
 import PrimeVue from "primevue/config";
+import { definePreset } from "@primeuix/themes"
+import Aura from "@primeuix/themes/aura";
 // shared data types
 import { CDNs, ROUTES, EVENTS, MODEL_TYPES, DetailMessage, postJsonData, comfyApp, utils, OPTIONS, MD_EDITOR_NAMES, postTextData } from "./constants.js";
 import App from "./App.vue"
@@ -9,6 +11,13 @@ import App from "./App.vue"
 // extensions/comfyui-mdnotes是固定的，后续内容和/web目录有关
 const CSS_PATH = "extensions/comfyui-mdnotes/assets/style.css";
 utils.addStylesheet(CSS_PATH);
+
+// Copied from comfy-frontend-package
+const ComfyUIPreset = definePreset(Aura, {
+    semantic: {
+        primary: Aura['primitive'].blue
+    }
+})
 
 
 comfyApp.registerExtension({
@@ -144,14 +153,18 @@ comfyApp.registerExtension({
                 }
             });
         }
-        return newMenuOptions.length? [null, ...newMenuOptions] : [];
+        return newMenuOptions.length ? [null, ...newMenuOptions] : [];
     },
     async setup() {
         let mountPoint = document.createElement("div");
         mountPoint.id = "mdnotes-ui";
         document.body.appendChild(mountPoint);
         createApp(App)
-            .use(PrimeVue)
+            .use(PrimeVue, {
+                theme: {
+                    preset: ComfyUIPreset
+                }
+            })
             .mount(mountPoint);
     }
 });

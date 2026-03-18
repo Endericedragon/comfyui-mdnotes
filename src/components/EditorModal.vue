@@ -1,8 +1,8 @@
 <script setup lang="ts">
-import { ROUTES, EVENTS, OPTIONS, DetailMessage, postJsonData, comfyApp, MD_EDITOR_NAMES, CDNs, postTextData } from "@/constants.js";
+import { ROUTES, EVENTS, OPTIONS, DetailMessage, postJsonData, comfyApp, MD_EDITOR_NAMES } from "@/constants.js";
 import { useState } from "@/state";
 // Vue 
-import { onMounted, onUnmounted, ref, type Ref, computed } from "vue";
+import { onMounted, onUnmounted, ref, type Ref } from "vue";
 // // PrimeVue Icons
 import "primeicons/primeicons.css"
 // primevue
