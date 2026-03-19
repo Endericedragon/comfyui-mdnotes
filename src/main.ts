@@ -87,10 +87,10 @@ comfyApp.registerExtension({
         if (node.widgets.length === 0) {
             return [];
         }
-        const candidates = node.widgets.filter(w => w.name.includes("name"));
+        const candidates = node.widgets.filter(w => !w.hidden && w.value !== "None" && w.name.includes("name"));
         const nodeWithCkpt = candidates.find(w => w.name.includes("ckpt"));    // For checkpoints
         const nodesWithUnet = candidates.find(w => w.name.includes("unet"));   // For Unet such as Z-Image
-        const nodesWithLora = candidates.filter(w => w.name.includes("lora")); // For Loras
+        const nodesWithLora = candidates.filter(w => w.name.includes("lora")); // For Loras For Loras
         let newMenuOptions = [];
 
         function genCallback(modelPath: string, modelType: MODEL_TYPES) {
@@ -143,9 +143,6 @@ comfyApp.registerExtension({
         for (let [idx, each] of nodesWithLora.entries()) {
             // 获取当前选中的模型名称
             const loraName = each.value as string;
-            if (loraName === "None") {
-                continue;
-            }
             newMenuOptions.push({
                 content: `✒️Show note of lora${idx + 1}`,
                 callback: () => {
