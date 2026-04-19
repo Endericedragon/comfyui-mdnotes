@@ -42,7 +42,6 @@ enum MD_EDITOR_NAMES {
 enum MODEL_TYPES {
     CKPT = "ckpt",
     LORA = "lora",
-    DIFFUSION_MODEL = "dfm",
     UNET = "unet",
     UNKNOWN = "unknown"
 }

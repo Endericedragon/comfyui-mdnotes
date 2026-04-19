@@ -1,35 +1,20 @@
+import mimetypes
 import os
 import pathlib
 from functools import lru_cache
-from typing import TypedDict
-import mimetypes
 
 import folder_paths
-from aiohttp import web, ClientSession
+from aiohttp import ClientSession, web
 from server import PromptServer
-
-
-class ModelInfo(TypedDict):
-    model_type: str
-    model_path: str
-
-
-class RouteInfo(TypedDict):
-    sendCurrentModel: str
-    saveContent: str
-
-
-class ContentNPath(TypedDict):
-    content: str
-    rel_file_path: str
+from message_types import ModelInfo, ContentNPath
 
 
 BASE_DIR = pathlib.Path(__file__).parent
 
-__all__ = ["NODE_CLASS_MAPPINGS", "NODE_DISPLAY_NAME_MAPPINGS", "WEB_DIRECTORY"]
-
-NODE_CLASS_MAPPINGS = dict()
-NODE_DISPLAY_NAME_MAPPINGS = dict()
+__all__ = ["WEB_DIRECTORY"]
+# __all__ = ["NODE_CLASS_MAPPINGS", "NODE_DISPLAY_NAME_MAPPINGS", "WEB_DIRECTORY"]
+# NODE_CLASS_MAPPINGS = dict()
+# NODE_DISPLAY_NAME_MAPPINGS = dict()
 WEB_DIRECTORY = "web"
 
 custom_node_dir = os.path.dirname(os.path.realpath(__file__))
@@ -58,7 +43,7 @@ def get_dice_similiarity(t1: str, t2: str) -> float:
 
 
 @PromptServer.instance.routes.post("/mdnotes/current_model")
-async def get_current_model(request: web.Request) -> web.Response:
+async def get_note_by_current_model(request: web.Request) -> web.Response:
     """
     负责接收前端传来的当前选择的模型的名称，根据模型类型和路径，
     查找模型目录下最可能的Markdown文件，返回其内容和相对路径。
@@ -66,13 +51,13 @@ async def get_current_model(request: web.Request) -> web.Response:
     print("Current similarity threshold is {}".format(similarity_threshold))
     data: ModelInfo = await request.json()
     if data["model_type"] == "ckpt":
-        model_path = ckpt_base_dir / pathlib.Path(data["model_path"])
+        model_path = ckpt_base_dir / data["model_path"]
     elif data["model_type"] == "lora":
-        model_path = lora_base_dir / pathlib.Path(data["model_path"])
+        model_path = lora_base_dir / data["model_path"]
     elif data["model_type"] == "unet":
-        model_path = unet_base_dir / pathlib.Path(data["model_path"])
+        model_path = unet_base_dir / data["model_path"]
     elif data["model_type"] == "dfm":
-        model_path = dfm_base_dir / pathlib.Path(data["model_path"])
+        model_path = dfm_base_dir / data["model_path"]
     else:
         return web.json_response(None, status=400)
     model_dir = model_path.parent

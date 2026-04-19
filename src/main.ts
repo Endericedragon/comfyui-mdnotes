@@ -15,10 +15,9 @@ utils.addStylesheet(CSS_PATH);
 // Copied from comfy-frontend-package
 const ComfyUIPreset = definePreset(Aura, {
     semantic: {
-        primary: Aura['primitive'].blue
+        primary: Aura.primitive?.blue || "blue"
     }
 })
-
 
 comfyApp.registerExtension({
     name: "endericedragon.comfyui-mdnotes",
@@ -77,20 +76,14 @@ comfyApp.registerExtension({
         }
     ],
     getNodeMenuItems(node) {
-        // 每次点击右键都会触发这个回调函数
-        // //! 调试用，正式发布时记得注释掉
-        // for (let widget of node.widgets) {
-        //     console.log(widget.name?.toString());
-        // }
-
         // 对于不包含widget的节点，直接忽略
-        if (node.widgets.length === 0) {
+        if (node.widgets?.length === 0) {
             return [];
         }
-        const candidates = node.widgets.filter(w => !w.hidden && w.value !== "None" && w.name.includes("name"));
-        const nodeWithCkpt = candidates.find(w => w.name.includes("ckpt"));    // For checkpoints
-        const nodesWithUnet = candidates.find(w => w.name.includes("unet"));   // For Unet such as Z-Image
-        const nodesWithLora = candidates.filter(w => w.name.includes("lora")); // For Loras For Loras
+        const candidates = node.widgets?.filter(w => !w.hidden && w.value !== "None" && w.name.includes("name"));
+        const nodeWithCkpt = candidates?.find(w => w.name.includes("ckpt"));    // For checkpoints
+        const nodesWithUnet = candidates?.find(w => w.name.includes("unet"));   // For Unet such as Z-Image 
+        const nodesWithLora = candidates?.filter(w => w.name.includes("lora")); // For Loras For Loras
         let newMenuOptions = [];
 
         function genCallback(modelPath: string, modelType: MODEL_TYPES) {
@@ -140,7 +133,7 @@ comfyApp.registerExtension({
             });
         }
         // 若组件包含lora_name，添加自定义菜单项
-        for (let [idx, each] of nodesWithLora.entries()) {
+        for (let [idx, each] of nodesWithLora?.entries() || []) {
             // 获取当前选中的模型名称
             const loraName = each.value as string;
             newMenuOptions.push({
