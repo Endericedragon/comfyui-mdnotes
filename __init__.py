@@ -6,17 +6,14 @@ from functools import lru_cache
 import folder_paths
 from aiohttp import ClientSession, web
 from server import PromptServer
-from message_types import ModelInfo, ContentNPath
-
+from .message_types import ModelInfo, ContentNPath
 
 BASE_DIR = pathlib.Path(__file__).parent
 
-__all__ = ["WEB_DIRECTORY"]
-# __all__ = ["NODE_CLASS_MAPPINGS", "NODE_DISPLAY_NAME_MAPPINGS", "WEB_DIRECTORY"]
-# NODE_CLASS_MAPPINGS = dict()
-# NODE_DISPLAY_NAME_MAPPINGS = dict()
+__all__ = ["NODE_CLASS_MAPPINGS", "NODE_DISPLAY_NAME_MAPPINGS", "WEB_DIRECTORY"]
+NODE_CLASS_MAPPINGS = dict()
+NODE_DISPLAY_NAME_MAPPINGS = dict()
 WEB_DIRECTORY = "web"
-
 custom_node_dir = os.path.dirname(os.path.realpath(__file__))
 model_base_dir = pathlib.Path(folder_paths.models_dir)
 ckpt_base_dir = model_base_dir / "checkpoints"
@@ -50,54 +47,54 @@ async def get_note_by_current_model(request: web.Request) -> web.Response:
     """
     print("Current similarity threshold is {}".format(similarity_threshold))
     data: ModelInfo = await request.json()
+    model_path = data["model_path"]
     if data["model_type"] == "ckpt":
-        model_path = ckpt_base_dir / data["model_path"]
+        model_paths = [ckpt_base_dir / model_path]
     elif data["model_type"] == "lora":
-        model_path = lora_base_dir / data["model_path"]
-    elif data["model_type"] == "unet":
-        model_path = unet_base_dir / data["model_path"]
-    elif data["model_type"] == "dfm":
-        model_path = dfm_base_dir / data["model_path"]
+        model_paths = [lora_base_dir / model_path]
+    elif data["model_type"] in "unet":
+        model_paths = [unet_base_dir / model_path, dfm_base_dir / model_path]
     else:
         return web.json_response(None, status=400)
-    model_dir = model_path.parent
-    # 检查model_dir是否存在
-    if not model_dir.exists():
-        return web.json_response(None, status=404)
     # 计算Dice相似度
-    model_name = model_path.stem
-    print("[mdnotes] Finding note for model {}".format(model_name))
-    # similarities 中的元素是一个元组，结构为(相似度, Markdown文件路径)
-    similarities = list(
-        map(
-            lambda x: (get_dice_similiarity(model_name, x.stem), x),
-            filter(lambda x: x.suffix == ".md", model_dir.iterdir()),
-        )
-    )
+    for model_path in model_paths:
+        if not model_path.exists():
+            continue
+        model_name = model_path.stem
+        model_dir = model_path.parent
 
-    resp_json: ContentNPath = {"content": "", "rel_file_path": ""}
-    if (
-        not similarities
-        or (max_similarity_item := max(similarities, key=lambda x: x[0]))[0]
-        < similarity_threshold
-    ):
-        # 若模型目录下无Markdown文件或现有文件相似度太低，则返回201，表示需要创建
-        # 和无Markdown文件的情况相同，返回201，表示需要创建
-        print("[mdnotes] No note found for model {}".format(model_name))
-        status_code = 201  # Created
-        resp_json["rel_file_path"] = str(
-            model_dir.relative_to(model_base_dir) / (model_name + ".md")
+        print("[mdnotes] Finding note for model {}".format(model_name))
+        # similarities 中的元素是一个元组，结构为(相似度, Markdown文件路径)
+        similarities = list(
+            map(
+                lambda x: (get_dice_similiarity(model_name, x.stem), x),
+                filter(lambda x: x.suffix == ".md", model_dir.iterdir()),
+            )
         )
-    else:
-        _, most_likely_md_path = max_similarity_item
-        status_code: int = 200
-        rel_file_path_str = str(most_likely_md_path.relative_to(model_base_dir))
-        print("[mdnotes] Found note: {}".format(rel_file_path_str))
-        with open(most_likely_md_path, "r", encoding="utf-8") as f:
-            content = f.read()
-            resp_json["content"] = content
-            resp_json["rel_file_path"] = rel_file_path_str
-    return web.json_response(resp_json, status=status_code)
+        resp_json: ContentNPath = {"content": "", "rel_file_path": ""}
+        if (
+            not similarities
+            or (max_similarity_item := max(similarities, key=lambda x: x[0]))[0]
+            < similarity_threshold
+        ):
+            # 若模型目录下无Markdown文件或现有文件相似度太低，则返回201，表示需要创建
+            print("[mdnotes] No note found for model {}".format(model_name))
+            status_code = 201  # Created
+            resp_json["rel_file_path"] = str(
+                model_dir.relative_to(model_base_dir) / (model_name + ".md")
+            )
+        else:
+            _, most_likely_md_path = max_similarity_item
+            status_code: int = 200
+            rel_file_path_str = str(most_likely_md_path.relative_to(model_base_dir))
+            print("[mdnotes] Found note: {}".format(rel_file_path_str))
+            with open(most_likely_md_path, "r", encoding="utf-8") as f:
+                content = f.read()
+                resp_json["content"] = content
+                resp_json["rel_file_path"] = rel_file_path_str
+        return web.json_response(resp_json, status=status_code)
+    # 遍历所有可能目录仍无法找到笔记，返回404
+    return web.json_response(None, status=404)
 
 
 @PromptServer.instance.routes.post("/mdnotes/save")

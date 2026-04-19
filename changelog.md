@@ -1,5 +1,11 @@
 # Change Log
 
+## [1.1.9] - 2026-04-19
+
+### Add
+
+Now unet models could be saved in either `models/diffusion_models` or `models/unet`. This custom node could show notes correctly.
+
 ## [1.1.8] - 2026-03-18
 
 ### Fixed
