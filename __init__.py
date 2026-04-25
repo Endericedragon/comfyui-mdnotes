@@ -1,20 +1,16 @@
 import mimetypes
-import os
 import pathlib
 from functools import lru_cache
+from itertools import chain
 
 import folder_paths
 from aiohttp import ClientSession, web
+from comfy_api.v0_0_2 import ComfyExtension, io
 from server import PromptServer
-from .message_types import ModelInfo, ContentNPath
+
+from .message_types import ContentNPath, ModelInfo
 
 BASE_DIR = pathlib.Path(__file__).parent
-
-__all__ = ["NODE_CLASS_MAPPINGS", "NODE_DISPLAY_NAME_MAPPINGS", "WEB_DIRECTORY"]
-NODE_CLASS_MAPPINGS = dict()
-NODE_DISPLAY_NAME_MAPPINGS = dict()
-WEB_DIRECTORY = "web"
-custom_node_dir = os.path.dirname(os.path.realpath(__file__))
 model_base_dir = pathlib.Path(folder_paths.models_dir)
 ckpt_base_dir = model_base_dir / "checkpoints"
 lora_base_dir = model_base_dir / "loras"
@@ -169,3 +165,90 @@ async def set_similarity_threshold(req: web.Request) -> web.Response:
     if similarity_threshold != threshold:
         similarity_threshold = threshold
     return web.Response(body="ok".encode("utf-8"))
+
+
+class CheckpointNameList(io.ComfyNode):
+    @classmethod
+    def define_schema(cls) -> io.Schema:
+        return io.Schema(
+            "mdnotes_ckpt_name_list",
+            "Checkpoint Name List",
+            "mdnotes",
+            [
+                io.Combo.Input(
+                    "ckpt_name",
+                    folder_paths.get_filename_list(ckpt_base_dir.stem),
+                    "Checkpoint Names",
+                    default=0,
+                )
+            ],
+            [io.AnyType.Output("name_of_selected_model", "Checkpoint Name")],
+        )
+
+    @classmethod
+    def execute(cls, **kwargs) -> io.NodeOutput:
+        return io.NodeOutput(kwargs["ckpt_name"])
+
+
+class LoraNameList(io.ComfyNode):
+    @classmethod
+    def define_schema(cls) -> io.Schema:
+        return io.Schema(
+            "mdnotes_lora_name_list",
+            "Lora Name List",
+            "mdnotes",
+            [
+                io.Combo.Input(
+                    "lora_name",
+                    folder_paths.get_filename_list(lora_base_dir.stem),
+                    "Lora Names",
+                    default=0,
+                )
+            ],
+            [io.AnyType.Output("name_of_selected_model", "Lora Name")],
+        )
+
+    @classmethod
+    def execute(cls, **kwargs) -> io.NodeOutput:
+        return io.NodeOutput(kwargs["lora_name"])
+
+
+class DfmNameList(io.ComfyNode):
+    @classmethod
+    def define_schema(cls) -> io.Schema:
+        return io.Schema(
+            "mdnotes_dfm_name_list",
+            "Diffusion Model Name List",
+            "mdnotes",
+            [
+                io.Combo.Input(
+                    "dfm_name",
+                    folder_paths.get_filename_list(dfm_base_dir.stem)
+                    + folder_paths.get_filename_list(unet_base_dir.stem),
+                    "Diffusion Model Names",
+                    default=0,
+                )
+            ],
+            [io.AnyType.Output("name_of_selected_model", "Diffusion Model Name")],
+        )
+
+    @classmethod
+    def execute(cls, **kwargs) -> io.NodeOutput:
+        return io.NodeOutput(kwargs["dfm_name"])
+
+
+class MdNotesExtension(ComfyExtension):
+
+    async def get_node_list(self) -> list[type[io.ComfyNode]]:
+        return [CheckpointNameList, LoraNameList, DfmNameList]
+
+
+async def comfy_entrypoint() -> ComfyExtension:
+    return MdNotesExtension()
+
+
+__all__ = ["WEB_DIRECTORY"]
+# __all__ = ["NODE_CLASS_MAPPINGS", "NODE_DISPLAY_NAME_MAPPINGS", "WEB_DIRECTORY"]
+# NODE_CLASS_MAPPINGS = dict()
+# NODE_DISPLAY_NAME_MAPPINGS = dict()
+WEB_DIRECTORY = "web"

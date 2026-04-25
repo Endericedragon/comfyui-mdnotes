@@ -1,5 +1,11 @@
 # Change Log
 
+## [1.1.10] - 2026-04-25
+
+### Add
+
+Add three nodes to display names of selected models, including checkpoints, loras, and diffusion models.
+
 ## [1.1.9] - 2026-04-19
 
 ### Add
