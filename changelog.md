@@ -1,5 +1,11 @@
 # Change Log
 
+## [1.1.11] - 2026-04-29
+
+### Fixed
+
+Remove duplicated options in `Diffusion Model Name List` node.
+
 ## [1.1.10] - 2026-04-25
 
 ### Add

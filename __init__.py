@@ -223,8 +223,7 @@ class DfmNameList(io.ComfyNode):
             [
                 io.Combo.Input(
                     "dfm_name",
-                    folder_paths.get_filename_list(dfm_base_dir.stem)
-                    + folder_paths.get_filename_list(unet_base_dir.stem),
+                    folder_paths.get_filename_list(dfm_base_dir.stem),
                     "Diffusion Model Names",
                     default=0,
                 )
