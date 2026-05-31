@@ -82,7 +82,7 @@ comfyApp.registerExtension({
         }
         const candidates = node.widgets?.filter(w => !w.hidden && w.value !== "None" && w.name.includes("name"));
         const nodeWithCkpt = candidates?.find(w => w.name.includes("ckpt"));    // For checkpoints
-        const nodesWithUnet = candidates?.find(w => w.name.includes("unet"));   // For Unet such as Z-Image 
+        const nodesWithUnet = candidates?.find(w => w.name.includes("unet") || w.name.includes("dfm"));   // For Unet such as Z-Image 
         const nodesWithLora = candidates?.filter(w => w.name.includes("lora")); // For Loras For Loras
         let newMenuOptions = [];
 
