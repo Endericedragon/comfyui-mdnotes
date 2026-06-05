@@ -6,11 +6,27 @@ Find, display and save markdown notes from/to hard drive of checkpoints and lora
 
 ## 概述 - Overview
 
-ComfyUI-MDNotes在CheckpointLoader等节点上注册了Show note of checkpoint、Show note of lora、Show note of unet 等右键菜单。在这些节点上右键即可看到这些菜单，点击上述菜单选项即会弹出如下对话框，用户可随意读取/修改笔记文件。
+### 这是啥？ - What is this?
 
-ComfyUI-MDNotes registers new right-click menu items for nodes including CheckpointLoader. Three menu items ("Show note of checkpoint", "Show note of lora" and "Show note of unet") are added when right clicking those nodes. Clicking on these menu items will open a dialog box where users can read and edit the corresponding markdown notes.
+ComfyUI-MDNotes 是用于显示模型markdown笔记的ComfyUI插件。它允许用户为Checkpoint、Unet、Lora模型创建笔记，并随时编辑查看。
+
+ComfyUI-MDNotes is a ComfyUI custom node that allows users to create / view / edit notes for checkpoints, unets, and loras.
+
+### 怎么用？ - How to use it?
+
+在加载模型的节点（例如CheckpointLoader、Load Lora、Unet Loader等）上右键即可看到“Show note of ...”等选项。Right click on model loader nodes (CheckpointLoader, Load Lora, Unet Loader, etc) to see the "Show note of ..." menu items. 
+
+![Right click on nodes](doc/right-click.png)
+
+点击即可新建 / 打开已有的笔记进行编辑与查看。Click these items to create / view / edit notes.
 
 ![image1](doc/image.png)
+
+> 本插件使用词袋模型和Dice相似度自动为模型匹配markdown笔记。其工作原理大致如下：
+> 1. 计算模型文件名和同目录下所有markdown文件的文件名的Dice相似度。
+> 2. 若最大相似度不小于阈值（可在设置中设置该阈值），则取相似度最高的那个markdown文件，打开该文件。
+> 3. 否则，打开全空的新Markdown文件。
+> 4. 用户进行编辑，点击保存按钮后，笔记将保存至模型文件所在目录。
 
 ## 技术栈 - Technology Stack
 
@@ -18,10 +34,6 @@ ComfyUI-MDNotes registers new right-click menu items for nodes including Checkpo
 - [Vditor](https://b3log.org/vditor/) - 所见即所得的markdown编辑器 (A WYSIWYG markdown editor)
 - [PrimeVue](https://primevue.org/) - ComfyUI原生提供的前端UI组件库 (A front-end UI component library provided by ComfyUI)
 - [PrimeVue Icons]([https://icons.getbootstrap.com/](https://primevue.org/icons/)) - 超棒的前端图标 库 (A hyper-awesome front-end icon library)
-
-该自定义节点的Python后端会进入模型文件所在的目录，然后寻找与模型名字的相似度最高的markdown文件（相似度算法为Bigram）。若相似度过低，则会打开全空的新Markdown文件，并在用户点击保存后存入模型文件所在目录。
-
-The Python backend of this custom node will search for the markdown file with the highest similarity to the model name (using Bigram similarity algorithm). If the similarity is too low, a new empty markdown file will be opened for the user to edit. The edited content will be saved to the model file directory when the user clicks the "Save" button.
 
 ## 开发配置步骤 - Development Configuration Steps
 
