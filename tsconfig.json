@@ -3,7 +3,7 @@
     "esModuleInterop": true,
     "resolveJsonModule": true,
     "module": "nodenext",
-    "downlevelIteration": true,
+    // "downlevelIteration": true,
     "paths": {
       "@/*": [
         "./src/*"

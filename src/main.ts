@@ -8,9 +8,9 @@ import Aura from "@primeuix/themes/aura";
 import { CDNs, ROUTES, EVENTS, MODEL_TYPES, DetailMessage, postJsonData, comfyApp, utils, OPTIONS, MD_EDITOR_NAMES, postTextData } from "./constants.js";
 import App from "./App.vue"
 
-// extensions/comfyui-mdnotes是固定的，后续内容和/web目录有关
-const CSS_PATH = "extensions/comfyui-mdnotes/assets/style.css";
-utils.addStylesheet(CSS_PATH);
+// // extensions/comfyui-mdnotes是固定的，后续内容和/web目录有关
+// const CSS_PATH = "extensions/comfyui-mdnotes/assets/style.css";
+// utils.addStylesheet(CSS_PATH);
 
 // Copied from comfy-frontend-package
 const ComfyUIPreset = definePreset(Aura, {

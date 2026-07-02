@@ -2,16 +2,19 @@ import { fileURLToPath, URL } from "node:url"
 import { defineConfig } from "vite"
 import vue from "@vitejs/plugin-vue"
 import vueDevTools from "vite-plugin-vue-devtools"
+import cssInjectedByJsPlugin from 'vite-plugin-css-injected-by-js'
 import pkg from "./package.json" with {type: "json"};
 
-const VDITOR_VERSION = pkg.dependencies["vditor"].match(/\d+\.\d+\.\d/g)[0];
+const vditorVersTemp = pkg.dependencies["vditor"].match(/\d+\.\d+\.\d/g);
+const VDITOR_VERSION = vditorVersTemp ? vditorVersTemp[0] : "0.0.0";
 
 const outputDirectory = "web";
 
 export default defineConfig({
     plugins: [
         vue(),
-        vueDevTools()
+        vueDevTools(),
+        cssInjectedByJsPlugin()
     ],
     resolve: {
         alias: {
@@ -46,6 +49,7 @@ export default defineConfig({
         assetsInlineLimit: 0,
         cssCodeSplit: false,
         chunkSizeWarningLimit: 1024,
+        emptyOutDir: true,
     },
     define: {
         "__VDITOR_VERSION__": JSON.stringify(VDITOR_VERSION)

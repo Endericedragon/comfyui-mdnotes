@@ -55,14 +55,14 @@ class VditorImpl implements EditorTrait {
         // let mountPoint = document.getElementById(this.rootElemId);
         let mountPoint = this.editor.vditor.element;
         let dialogContainer = mountPoint.parentElement;
-        return dialogContainer.scrollTop;
+        return dialogContainer?.scrollTop || 0;
     }
     setScrollTop(x: number) {
         // let mountPoint = document.getElementById(this.rootElemId);
         let mountPoint = this.editor.vditor.element;
         let dialogContainer = mountPoint.parentElement;
         console.log("[mdnotes] Setting scrollTop value to ", x);
-        dialogContainer.scrollTo({
+        dialogContainer?.scrollTo({
             top: x,
             left: 0,
             behavior: "smooth"
