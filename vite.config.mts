@@ -22,22 +22,7 @@ export default defineConfig({
         },
     },
     build: {
-        // lib: {
-        //     entry: "./src/main.ts",
-        //     formats: ["es"],
-        //     fileName: "main"
-        // },
         rollupOptions: {
-            external: [
-                // "../../../scripts/app.js",
-                // "../../../scripts/api.js",
-                // "../../../scripts/domWidget.js",
-                // "../../../scripts/utils.js",
-                // "vue",
-                // "vue-i18n",
-                // /^primevue\/?.*/,
-                // /^@primevue\/themes\/?.*/
-            ],
             output: {
                 dir: outputDirectory,
                 assetFileNames: "assets/[name].[ext]",
@@ -48,7 +33,6 @@ export default defineConfig({
         sourcemap: false,
         assetsInlineLimit: 0,
         cssCodeSplit: false,
-        chunkSizeWarningLimit: 1024,
         emptyOutDir: true,
     },
     define: {

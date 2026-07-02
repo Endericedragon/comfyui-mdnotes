@@ -1,5 +1,12 @@
 # Change Log
 
+
+## [1.1.12] - 2026-04-29
+
+### Add
+
+Use vite-plugin-css-injected-by-js to avoid adding css manually.
+
 ## [1.1.11] - 2026-04-29
 
 ### Fixed
