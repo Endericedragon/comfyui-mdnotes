@@ -1,5 +1,8 @@
 # Change Log
 
+## [1.1.13] - 2026-07-18
+
+Use `difflib.SequenceMatcher` to calculate sequence similarity instead of Dice similarity.
 
 ## [1.1.12] - 2026-04-29
 

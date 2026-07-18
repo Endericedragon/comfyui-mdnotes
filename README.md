@@ -22,8 +22,8 @@ ComfyUI-MDNotes is a ComfyUI custom node that allows users to create / view / ed
 
 ![image1](doc/image.png)
 
-> 本插件使用词袋模型和Dice相似度自动为模型匹配markdown笔记。其工作原理大致如下：
-> 1. 计算模型文件名和同目录下所有markdown文件的文件名的Dice相似度。
+> 本插件使用词袋模型和序列相似度自动为模型匹配markdown笔记。其工作原理大致如下：
+> 1. 计算模型文件名和同目录下所有markdown文件的文件名的序列相似度。
 > 2. 若最大相似度不小于阈值（可在设置中设置该阈值），则取相似度最高的那个markdown文件，打开该文件。
 > 3. 否则，打开全空的新Markdown文件。
 > 4. 用户进行编辑，点击保存按钮后，笔记将保存至模型文件所在目录。

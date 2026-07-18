@@ -1,7 +1,7 @@
 import mimetypes
 import pathlib
-from functools import lru_cache
-from itertools import chain
+from difflib import SequenceMatcher
+from typing import List, Iterable
 
 import folder_paths
 from aiohttp import ClientSession, web
@@ -21,18 +21,14 @@ current_cdn: str = ""
 similarity_threshold: float = 0.5
 
 
-@lru_cache(maxsize=256)
-def get_bigram(text: str) -> set[str]:
-    return set(text[i - 1 : i + 1] for i in range(1, len(text)))
-
-
-def get_dice_similiarity(t1: str, t2: str) -> float:
-    """
-    计算两个字符串的Dice相似度，其中的bigram从缓存中获取，若无则按需计算
-    """
-    b1 = get_bigram(t1)
-    b2 = get_bigram(t2)
-    return 2 * len(b1 & b2) / (len(b1) + len(b2))
+def get_seq_ratios(target: str, candidates: Iterable[str]) -> List[float]:
+    res: List[float] = []
+    matcher = SequenceMatcher(None, target)
+    for candidate in candidates:
+        matcher.set_seq2(candidate)
+        matcher.real_quick_ratio()  # Boost matcher.ratio()
+        res.append(matcher.ratio())
+    return res
 
 
 @PromptServer.instance.routes.post("/mdnotes/current_model")
@@ -52,7 +48,7 @@ async def get_note_by_current_model(request: web.Request) -> web.Response:
         model_paths = [unet_base_dir / model_path, dfm_base_dir / model_path]
     else:
         return web.json_response(None, status=400)
-    # 计算Dice相似度
+    # 计算模型名称与Markdown文件名的序列相似度
     for model_path in model_paths:
         if not model_path.exists():
             continue
@@ -61,12 +57,9 @@ async def get_note_by_current_model(request: web.Request) -> web.Response:
 
         print("[mdnotes] Finding note for model {}".format(model_name))
         # similarities 中的元素是一个元组，结构为(相似度, Markdown文件路径)
-        similarities = list(
-            map(
-                lambda x: (get_dice_similiarity(model_name, x.stem), x),
-                filter(lambda x: x.suffix == ".md", model_dir.iterdir()),
-            )
-        )
+        candidates = [x for x in model_dir.iterdir() if x.suffix == ".md"]
+        seq_ratios = get_seq_ratios(model_name, map(lambda x: x.stem, candidates))
+        similarities = zip(seq_ratios, candidates)
         resp_json: ContentNPath = {"content": "", "rel_file_path": ""}
         if (
             not similarities
