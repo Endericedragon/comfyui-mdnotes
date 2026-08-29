@@ -5,7 +5,7 @@ import PrimeVue from "primevue/config";
 import { definePreset } from "@primeuix/themes"
 import Aura from "@primeuix/themes/aura";
 // shared data types
-import { CDNs, ROUTES, EVENTS, MODEL_TYPES, DetailMessage, postJsonData, comfyApp, utils, OPTIONS, MD_EDITOR_NAMES, postTextData } from "./constants.js";
+import { CDNs, ROUTES, EVENTS, MODEL_TYPES, DetailMessage, postJsonData, comfyApp, OPTIONS, MD_EDITOR_NAMES, postTextData } from "./constants.js";
 import App from "./App.vue"
 
 // // extensions/comfyui-mdnotes是固定的，后续内容和/web目录有关

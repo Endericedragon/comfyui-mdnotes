@@ -125,7 +125,8 @@ function handleHide() {
 <template>
   <Dialog v-model:visible="editorState.isModalShown.value" @show="handleShow" @hide="handleHide"
     @after-hide="handleAfterHide" :header="editorState.dialogTitle.value" close-on-escape>
-    <div id="mde-point"></div>
+    <div id="mde-point">If Vditor couldn't load, please remove the
+      <code>ComfyUI/custom_nodes/comfyui-mdnotes/dist/</code> directory</div>
     <div class="endericedragon-sticky-buttons">
       <Button severity="danger" @click="ButtonControl.cancel">
         <i class="pi pi-times"></i>
