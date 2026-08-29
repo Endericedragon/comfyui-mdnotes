@@ -23,6 +23,7 @@ export default defineConfig({
     },
     build: {
         rollupOptions: {
+            input: fileURLToPath(new URL("./src/main.ts", import.meta.url)),
             output: {
                 dir: outputDirectory,
                 assetFileNames: "assets/[name].[ext]",

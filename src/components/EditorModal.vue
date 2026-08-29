@@ -4,7 +4,7 @@ import { useState } from "@/state";
 // Vue 
 import { onMounted, onUnmounted, ref, type Ref } from "vue";
 // // PrimeVue Icons
-import "primeicons/primeicons.css"
+import "primeicons/primeicons.css";
 // primevue
 import { Button, Dialog } from "primevue";
 // Our editor implement 
@@ -42,7 +42,7 @@ function openNSetContent(e: Event) {
 }
 // 将发生变化的笔记发回后端保存
 function saveNote() {
-  const newContent = editorInstance.value?.getMarkdownContent();
+  const newContent = editorInstance.value?.getMarkdownContent() || "";
   if (newContent !== editorState.mdContent.value) {
     editorState.mdContent.value = newContent;
     postJsonData(
@@ -94,9 +94,9 @@ function handleShow() {
   switch (comfyApp.extensionManager.setting.get(OPTIONS.editorSwitch)) {
     case MD_EDITOR_NAMES.vditor:
       editorConfig.cdnUrl = editorState.cdnToUse.value;
-      editorConfig.callbacks.afterRender = (obj: VditorImpl) => {
+      editorConfig.callbacks.afterRender = (obj: EditorTrait) => {
         // console.log(comfyApp.extensionManager.setting.get("Comfy.ColorPalette"));
-        obj.editor.setTheme(
+        (obj as VditorImpl).editor.setTheme(
           "dark",
           "dark",
           "atom-one-dark"
@@ -118,13 +118,13 @@ function handleAfterHide() {
 }
 // 对话框隐藏时，记录滚动位置
 function handleHide() {
-  editorState.scrollTopVal.value = editorInstance.value?.getScrollTop();
+  editorState.scrollTopVal.value = editorInstance.value?.getScrollTop() || 0.0;
 }
 </script>
 
 <template>
-  <Dialog v-model:visible="editorState.isModalShown.value" @show="handleShow" @hide="handleHide" @after-hide="handleAfterHide"
-    :header="editorState.dialogTitle.value" close-on-escape>
+  <Dialog v-model:visible="editorState.isModalShown.value" @show="handleShow" @hide="handleHide"
+    @after-hide="handleAfterHide" :header="editorState.dialogTitle.value" close-on-escape>
     <div id="mde-point"></div>
     <div class="endericedragon-sticky-buttons">
       <Button severity="danger" @click="ButtonControl.cancel">
