@@ -2,7 +2,9 @@
   "compilerOptions": {
     "esModuleInterop": true,
     "resolveJsonModule": true,
+    "target": "esnext",
     "module": "nodenext",
+    "moduleResolution": "nodenext",
     // "downlevelIteration": true,
     "paths": {
       "@/*": [

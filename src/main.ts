@@ -23,12 +23,14 @@ comfyApp.registerExtension({
     name: "endericedragon.comfyui-mdnotes",
     settings: [
         {
+            // @ts-ignore
             id: OPTIONS.saveOnClose,
             name: "Save after closing the markdown editor?",
             type: "boolean",
             defaultValue: false
         },
         {
+            // @ts-ignore
             id: OPTIONS.editorSwitch,
             name: "Which markdown editor to use?",
             type: "combo",
@@ -38,6 +40,7 @@ comfyApp.registerExtension({
             ]
         },
         {
+            // @ts-ignore
             id: OPTIONS.cdnSwitch,
             name: "Which CDN to use for vditor resources?",
             type: "combo",
@@ -50,6 +53,7 @@ comfyApp.registerExtension({
             tooltip: "Set the CDN used for fetching resources of vditor."
         },
         {
+            // @ts-ignore
             id: OPTIONS.useLocalCDN,
             name: "Cache vditor resources locally?",
             type: "boolean",
@@ -60,6 +64,7 @@ comfyApp.registerExtension({
             )
         },
         {
+            // @ts-ignore
             id: OPTIONS.similarityThreshold,
             name: "Similarity threshold for searching markdown file?",
             type: "slider",
