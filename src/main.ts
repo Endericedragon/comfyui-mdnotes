@@ -7,6 +7,7 @@ import Aura from "@primeuix/themes/aura";
 // shared data types
 import { CDNs, ROUTES, EVENTS, MODEL_TYPES, DetailMessage, postJsonData, comfyApp, OPTIONS, MD_EDITOR_NAMES, postTextData } from "./constants.js";
 import App from "./App.vue"
+import license from "./license.json"
 
 // // extensions/comfyui-mdnotes是固定的，后续内容和/web目录有关
 // const CSS_PATH = "extensions/comfyui-mdnotes/assets/style.css";
@@ -15,6 +16,7 @@ import App from "./App.vue"
 // Copied from comfy-frontend-package
 const ComfyUIPreset = definePreset(Aura, {
     semantic: {
+        /* @ts-ignore */
         primary: Aura.primitive?.blue || "blue"
     }
 })
@@ -158,7 +160,8 @@ comfyApp.registerExtension({
             .use(PrimeVue, {
                 theme: {
                     preset: ComfyUIPreset
-                }
+                },
+                license: license.myLicense
             })
             .mount(mountPoint);
     }
