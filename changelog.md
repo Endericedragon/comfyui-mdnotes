@@ -1,5 +1,11 @@
 # Change Log
 
+## [1.1.14] - 2026-09-13
+
+### Fixed
+
+Fixed the error when no candidate is found.
+
 ## [1.1.13] - 2026-07-18
 
 Use `difflib.SequenceMatcher` to calculate sequence similarity instead of Dice similarity.

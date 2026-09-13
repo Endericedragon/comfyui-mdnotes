@@ -62,7 +62,7 @@ async def get_note_by_current_model(request: web.Request) -> web.Response:
         similarities = zip(seq_ratios, candidates)
         resp_json: ContentNPath = {"content": "", "rel_file_path": ""}
         if (
-            not similarities
+            len(candidates) == 0
             or (max_similarity_item := max(similarities, key=lambda x: x[0]))[0]
             < similarity_threshold
         ):
